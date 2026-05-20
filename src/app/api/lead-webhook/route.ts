@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
       if (process.env.RESEND_API_KEY && process.env.SUPABASE_SERVICE_ROLE_KEY) {
         try {
           const serviceClient = createServiceClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SB_URL!,
             process.env.SUPABASE_SERVICE_ROLE_KEY!
           );
           const adminIds = admins.map((a) => a.id);

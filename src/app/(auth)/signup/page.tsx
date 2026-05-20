@@ -72,7 +72,7 @@ export default function SignUpPage() {
       const message = err instanceof Error ? err.message : "Something went wrong.";
       if (message.toLowerCase().includes("failed to fetch")) {
         setError(
-          "Cannot reach Supabase. Check your internet connection and that NEXT_PUBLIC_SUPABASE_URL is set in .env.local."
+          "Cannot reach Supabase. Check your internet connection and that NEXT_PUBLIC_SB_URL is set in .env.local."
         );
       } else {
         setError(message);
