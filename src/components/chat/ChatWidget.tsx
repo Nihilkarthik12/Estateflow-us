@@ -1,8 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2, ChevronRight, Building2 } from "lucide-react";
-import Link from "next/link";
+import {
+  MessageCircle,
+  X,
+  Send,
+  Loader2,
+  Building2,
+  Mic,
+  MicOff,
+  Volume2,
+  VolumeX,
+  CheckCircle2,
+} from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -14,7 +24,8 @@ interface Props {
   orgId?: string;
 }
 
-const WELCOME = "Hi! I'm the EstateFlow AI assistant. How can I help you today? You can ask me about available properties, pricing, or book a site visit.";
+const WELCOME =
+  "Hi! I'm the EstateFlow AI assistant. Ask me about properties, pricing, or book a site visit. You can also click the mic and speak!";
 
 export default function ChatWidget({ orgId }: Props) {
   const [open, setOpen] = useState(false);
@@ -23,27 +34,113 @@ export default function ChatWidget({ orgId }: Props) {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Voice state
+  const [recording, setRecording] = useState(false);
+  const [speakingIdx, setSpeakingIdx] = useState<number | null>(null);
+  const lastInputWasVoice = useRef(false);
+
+  // Lead capture state
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [leadName, setLeadName] = useState("");
+  const [leadPhone, setLeadPhone] = useState("");
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
+  const [leadSaved, setLeadSaved] = useState(false);
+
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recognitionRef = useRef<any>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const resolvedOrgId = orgId ?? process.env.NEXT_PUBLIC_ORG_ID ?? undefined;
 
+  const speechSupported =
+    typeof window !== "undefined" &&
+    ("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
+
   useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
+    if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
+  }, [messages, loading, showLeadForm]);
 
-  async function sendMessage() {
-    const text = input.trim();
+  // ── Voice input (Web Speech API — free, Chrome built-in) ──────────────────
+
+  function toggleRecording() {
+    if (recording) {
+      recognitionRef.current?.stop();
+      setRecording(false);
+      return;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SR) return;
+
+    const rec = new SR();
+    rec.lang = "en-IN";
+    rec.continuous = false;
+    rec.interimResults = false;
+
+    rec.onstart = () => setRecording(true);
+    rec.onend = () => setRecording(false);
+    rec.onerror = () => setRecording(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    rec.onresult = (e: any) => {
+      const transcript: string = e.results[0][0].transcript;
+      lastInputWasVoice.current = true;
+      sendMessage(transcript);
+    };
+
+    rec.start();
+    recognitionRef.current = rec;
+  }
+
+  // ── Voice output (OpenAI TTS) ─────────────────────────────────────────────
+
+  async function speakText(text: string, idx: number) {
+    try {
+      setSpeakingIdx(idx);
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) { setSpeakingIdx(null); return; }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+
+      if (audioRef.current) {
+        audioRef.current.pause();
+        URL.revokeObjectURL(audioRef.current.src);
+      }
+
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      audio.onended = () => { setSpeakingIdx(null); URL.revokeObjectURL(url); };
+      audio.onerror = () => setSpeakingIdx(null);
+      audio.play();
+    } catch {
+      setSpeakingIdx(null);
+    }
+  }
+
+  function stopSpeaking() {
+    audioRef.current?.pause();
+    setSpeakingIdx(null);
+  }
+
+  // ── Send message ──────────────────────────────────────────────────────────
+
+  async function sendMessage(overrideText?: string) {
+    const text = (overrideText ?? input).trim();
     if (!text || loading) return;
 
-    const userMsg: Message = { role: "user", content: text };
-    setMessages((prev) => [...prev, userMsg]);
+    setMessages((prev) => [...prev, { role: "user", content: text }]);
     setInput("");
     setLoading(true);
 
@@ -58,10 +155,24 @@ export default function ChatWidget({ orgId }: Props) {
         }),
       });
       const data = await res.json();
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: data.reply ?? "Sorry, I couldn't understand that.", action: data.action },
-      ]);
+      const reply = data.reply ?? "Sorry, something went wrong.";
+      const assistantMsg: Message = { role: "assistant", content: reply, action: data.action };
+
+      setMessages((prev) => {
+        const next = [...prev, assistantMsg];
+
+        // Auto-speak if last input was voice
+        if (lastInputWasVoice.current) {
+          lastInputWasVoice.current = false;
+          setTimeout(() => speakText(reply, next.length - 1), 100);
+        }
+
+        return next;
+      });
+
+      if (data.action === "book_visit" && !leadSaved) {
+        setShowLeadForm(true);
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -73,19 +184,55 @@ export default function ChatWidget({ orgId }: Props) {
   }
 
   function handleKey(e: React.KeyboardEvent) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  // ── Lead capture ──────────────────────────────────────────────────────────
+
+  async function submitLead() {
+    if (!leadName.trim() || !leadPhone.trim()) return;
+    setLeadSubmitting(true);
+
+    const conversationSummary = messages
+      .filter((m) => m.role === "user")
+      .map((m) => m.content)
+      .join(" | ");
+
+    try {
+      await fetch("/api/chat-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: leadName.trim(),
+          phone: leadPhone.trim(),
+          conversationSummary,
+          organizationId: resolvedOrgId,
+        }),
+      });
+      setLeadSaved(true);
+      setShowLeadForm(false);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: `Perfect, ${leadName.split(" ")[0]}! Your visit request has been saved. Our team will call you at ${leadPhone} to confirm the timing. See you soon!`,
+        },
+      ]);
+    } catch {
+      // silently fail — don't break the chat experience
+    } finally {
+      setLeadSubmitting(false);
     }
   }
 
+  // ── Render ────────────────────────────────────────────────────────────────
+
   return (
     <>
-      {/* Chat window */}
       {open && (
         <div
           className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] flex flex-col rounded-2xl shadow-2xl border border-[var(--border)] overflow-hidden"
-          style={{ background: "var(--surface)", height: "520px" }}
+          style={{ background: "var(--surface)", height: "540px" }}
         >
           {/* Header */}
           <div
@@ -97,7 +244,7 @@ export default function ChatWidget({ orgId }: Props) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-bold text-white leading-none">EstateFlow AI</p>
-              <p className="text-[11px] text-white/70 mt-0.5">Property Assistant</p>
+              <p className="text-[11px] text-white/70 mt-0.5">Property Assistant · Voice enabled</p>
             </div>
             <button
               onClick={() => setOpen(false)}
@@ -117,20 +264,33 @@ export default function ChatWidget({ orgId }: Props) {
                       ? "text-white rounded-br-sm"
                       : "text-[var(--foreground)] bg-[var(--surface-2)] border border-[var(--border)] rounded-bl-sm"
                   }`}
-                  style={msg.role === "user" ? { background: "linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)" } : undefined}
+                  style={
+                    msg.role === "user"
+                      ? { background: "linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)" }
+                      : undefined
+                  }
                 >
                   {msg.content}
                 </div>
-                {msg.action === "book_visit" && (
-                  <Link
-                    href="/submit-lead"
-                    className="mt-2 flex items-center gap-1.5 text-xs font-medium text-[var(--accent)] bg-[var(--accent-muted)] px-3 py-1.5 rounded-lg hover:bg-[var(--accent)]/20 transition-colors"
+
+                {/* Speak button on AI messages */}
+                {msg.role === "assistant" && (
+                  <button
+                    onClick={() =>
+                      speakingIdx === i ? stopSpeaking() : speakText(msg.content, i)
+                    }
+                    className="mt-1 flex items-center gap-1 text-[10px] text-[var(--foreground-subtle)] hover:text-[var(--accent)] transition-colors"
                   >
-                    Submit Enquiry <ChevronRight size={12} />
-                  </Link>
+                    {speakingIdx === i ? (
+                      <><VolumeX size={11} /> Stop</>
+                    ) : (
+                      <><Volume2 size={11} /> Listen</>
+                    )}
+                  </button>
                 )}
               </div>
             ))}
+
             {loading && (
               <div className="flex items-start">
                 <div className="px-3 py-2 rounded-2xl rounded-bl-sm bg-[var(--surface-2)] border border-[var(--border)]">
@@ -138,29 +298,86 @@ export default function ChatWidget({ orgId }: Props) {
                 </div>
               </div>
             )}
+
+            {/* Inline lead capture form */}
+            {showLeadForm && !leadSaved && (
+              <div className="bg-[var(--surface-2)] border border-[var(--accent)]/30 rounded-2xl p-3 flex flex-col gap-2">
+                <p className="text-xs font-semibold text-[var(--accent)]">Book your site visit</p>
+                <input
+                  value={leadName}
+                  onChange={(e) => setLeadName(e.target.value)}
+                  placeholder="Your name"
+                  className="w-full bg-[var(--surface)] border border-[var(--border)] rounded-lg px-3 py-1.5 text-sm text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] outline-none focus:border-[var(--accent)]"
+                />
+                <input
+                  value={leadPhone}
+                  onChange={(e) => setLeadPhone(e.target.value)}
+                  placeholder="Phone number"
+                  type="tel"
+                  className="w-full bg-[var(--surface)] border border-[var(--border)] rounded-lg px-3 py-1.5 text-sm text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] outline-none focus:border-[var(--accent)]"
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={submitLead}
+                    disabled={leadSubmitting || !leadName.trim() || !leadPhone.trim()}
+                    className="flex-1 py-1.5 rounded-lg text-xs font-semibold text-white disabled:opacity-50 transition-opacity flex items-center justify-center gap-1"
+                    style={{ background: "linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)" }}
+                  >
+                    {leadSubmitting ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle2 size={12} />}
+                    Confirm Visit
+                  </button>
+                  <button
+                    onClick={() => setShowLeadForm(false)}
+                    className="px-3 py-1.5 rounded-lg text-xs text-[var(--foreground-subtle)] hover:text-[var(--foreground)] border border-[var(--border)] transition-colors"
+                  >
+                    Later
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div ref={bottomRef} />
           </div>
 
-          {/* Input */}
+          {/* Input bar */}
           <div className="px-3 pb-3 pt-2 shrink-0 border-t border-[var(--border)]">
             <div className="flex gap-2 items-center bg-[var(--surface-2)] border border-[var(--border-strong)] rounded-xl px-3 py-2">
+              {speechSupported && (
+                <button
+                  onClick={toggleRecording}
+                  title={recording ? "Stop recording" : "Speak your query"}
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors shrink-0 ${
+                    recording
+                      ? "bg-red-500/20 text-red-400 animate-pulse"
+                      : "text-[var(--foreground-subtle)] hover:text-[var(--accent)]"
+                  }`}
+                >
+                  {recording ? <MicOff size={14} /> : <Mic size={14} />}
+                </button>
+              )}
               <input
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKey}
-                placeholder="Ask about properties…"
-                className="flex-1 bg-transparent text-sm text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] outline-none"
+                placeholder={recording ? "Listening…" : "Ask about properties…"}
+                disabled={recording}
+                className="flex-1 bg-transparent text-sm text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] outline-none disabled:opacity-50"
               />
               <button
-                onClick={sendMessage}
+                onClick={() => sendMessage()}
                 disabled={!input.trim() || loading}
-                className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors disabled:opacity-40"
+                className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors disabled:opacity-40 shrink-0"
                 style={{ background: "linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)" }}
               >
                 <Send size={13} className="text-white" />
               </button>
             </div>
+            {recording && (
+              <p className="text-[10px] text-red-400 mt-1 text-center animate-pulse">
+                Recording… speak now
+              </p>
+            )}
           </div>
         </div>
       )}
