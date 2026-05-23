@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import { createClient } from "@/lib/supabase/server";
 import { createClient as createServiceClient } from "@supabase/supabase-js";
 import { sendLeadNotificationEmail } from "@/lib/email";
 
@@ -40,7 +39,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const supabase = await createClient();
+    // Use service-role client so webhook inserts bypass RLS
+    // (route is already protected by webhook_secret)
+    const supabase = createServiceClient(
+      process.env.NEXT_PUBLIC_SB_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
 
     const leadPayload: Record<string, unknown> = {
       organization_id,
