@@ -2,134 +2,210 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 28 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, delay, ease },
+  transition: { duration: 0.65, delay, ease },
 });
 
-const trustedBy = ["Prestige Group", "Brigade", "Sobha", "Mahindra"];
-
-const stats = [
-  { label: "Faster response", value: "+46%" },
-  { label: "Lead coverage", value: "99.8%" },
-  { label: "Automation ROI", value: "3x" },
-  { label: "Agent adoption", value: "92%" },
+const tags = ["₹90L budget", "3BHK", "Near metro", "Serious buyer"];
+const properties = [
+  { name: "Prestige Eden Garden", price: "₹87L", match: "98%" },
+  { name: "Brigade Utopia", price: "₹91L", match: "94%" },
+  { name: "Sobha City", price: "₹88L", match: "91%" },
+];
+const pipeline = [
+  { stage: "New", count: 12, color: "var(--accent)" },
+  { stage: "Contacted", count: 7, color: "#818cf8" },
+  { stage: "Site Visit", count: 4, color: "var(--warning)" },
+  { stage: "Closed", count: 2, color: "var(--success)" },
 ];
 
 export default function Hero() {
   return (
-    <section className="relative pt-24 sm:pt-28 pb-24 sm:pb-32">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(100%,960px)] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(91,110,245,0.2)_0%,transparent_70%)]" />
+    <section className="relative pt-28 sm:pt-32 pb-20 sm:pb-28 overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(91,110,245,0.22)_0%,transparent_65%)]" />
+        <div className="absolute top-20 right-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse,rgba(34,211,238,0.07)_0%,transparent_70%)]" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] items-center">
+        <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] items-center">
+
+          {/* Left — copy */}
           <div className="max-w-2xl">
-            <motion.div {...fadeUp(0)} className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-[0.18em] uppercase text-[var(--accent-light)] bg-white/[0.05] border border-white/[0.08] mb-7">
-              <Sparkles size={14} className="text-[var(--accent)]" />
-              Built for Indian brokerages & property teams
+            <motion.div
+              {...fadeUp(0)}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-[0.16em] uppercase text-[var(--accent-light)] bg-[var(--accent-muted)] border border-[var(--border-accent)] mb-8"
+            >
+              <Sparkles size={13} className="text-[var(--accent)]" />
+              AI-powered real estate CRM for India
             </motion.div>
 
             <motion.h1
-              {...fadeUp(0.05)}
-              className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-[-0.03em] text-[var(--foreground)]"
+              {...fadeUp(0.06)}
+              className="text-[2.75rem] sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] tracking-[-0.035em] text-[var(--foreground)]"
             >
-              Sell faster with the AI CRM that turns WhatsApp leads into closed deals.
+              Turn every WhatsApp lead into a{" "}
+              <span className="gradient-text">closed deal</span>, automatically.
             </motion.h1>
 
             <motion.p
-              {...fadeUp(0.1)}
-              className="mt-6 text-base sm:text-lg leading-relaxed text-[var(--foreground-muted)] max-w-2xl"
+              {...fadeUp(0.12)}
+              className="mt-5 text-base sm:text-lg leading-relaxed text-[var(--foreground-muted)] max-w-xl"
             >
-              EstateFlow captures every inquiry, extracts buyer intent, matches properties and automates follow-up workflows — so your team stays focused on showings, offers and closings.
+              EstateFlow captures every enquiry, scores buyer intent with AI,
+              matches properties and sends follow-ups — before your competitor
+              even picks up the phone.
             </motion.p>
 
             <motion.div
-              {...fadeUp(0.15)}
-              className="mt-10 flex flex-col sm:flex-row items-center gap-3"
+              {...fadeUp(0.17)}
+              className="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
             >
-              <Link href="/signup" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 select-none text-sm px-6 py-3 bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:scale-[0.98] shadow-[0_0_20px_var(--accent-glow)] hover:shadow-[0_0_28px_var(--accent-glow)] sm:min-w-[200px]">
-                Start free trial
-                <ArrowRight size={16} />
+              <Link
+                href="/signup"
+                className="inline-flex items-center justify-center gap-2 font-semibold rounded-xl text-sm px-7 py-3.5 bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:scale-[0.98] transition-all shadow-[0_0_24px_var(--accent-glow)] hover:shadow-[0_0_32px_var(--accent-glow)]"
+              >
+                Start free — no card needed
+                <ArrowRight size={15} />
               </Link>
-              <Link href="#workflow" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 select-none text-sm px-6 py-3 bg-[var(--surface-2)] text-[var(--foreground)] border border-[var(--border-strong)] hover:bg-[var(--surface-3)] hover:border-[var(--border-accent)] active:scale-[0.98] sm:min-w-[200px]">
-                See the workflow
+              <Link
+                href="#workflow"
+                className="inline-flex items-center justify-center gap-2 font-medium rounded-xl text-sm px-6 py-3.5 border border-[var(--border-strong)] text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-white/[0.04] transition-all"
+              >
+                See how it works
               </Link>
             </motion.div>
 
-            <motion.div {...fadeUp(0.2)} className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {stats.map((item) => (
-                <div key={item.label} className="rounded-3xl border border-white/[0.08] bg-white/[0.04] px-5 py-4">
-                  <p className="text-3xl font-semibold text-[var(--foreground)]">{item.value}</p>
-                  <p className="mt-2 text-sm text-[var(--foreground-muted)]">{item.label}</p>
+            {/* Stats row */}
+            <motion.div
+              {...fadeUp(0.22)}
+              className="mt-10 flex flex-wrap gap-x-8 gap-y-4"
+            >
+              {[
+                { value: "3×", label: "more leads converted" },
+                { value: "< 2s", label: "AI analysis time" },
+                { value: "99.8%", label: "uptime guaranteed" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <p className="text-2xl font-bold text-[var(--foreground)] leading-none">{s.value}</p>
+                  <p className="text-xs text-[var(--foreground-muted)] mt-1">{s.label}</p>
                 </div>
               ))}
             </motion.div>
           </div>
 
-          <motion.div
-            {...fadeUp(0.25)}
-            className="rounded-[2rem] border border-white/[0.08] bg-[var(--surface)] shadow-[0_40px_80px_-32px_rgba(0,0,0,0.75)] overflow-hidden"
-          >
-            <div className="bg-[var(--surface-2)] p-4 border-b border-white/[0.08] flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-[var(--foreground-subtle)]">EstateFlow dashboard</p>
-                <p className="text-sm font-semibold text-[var(--foreground)]">Live activity, lead scoring, and property matches</p>
-              </div>
-              <span className="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)] bg-[var(--accent-muted)]">Beta</span>
-            </div>
-            <div className="p-5 sm:p-6 space-y-4">
-              <div className="rounded-3xl bg-[var(--surface-3)] p-5 border border-white/[0.06]">
-                <div className="flex items-center justify-between gap-3 text-sm text-[var(--foreground-muted)] mb-4">
-                  <span>Incoming lead</span>
-                  <span className="font-semibold text-[var(--foreground)]">High intent</span>
+          {/* Right — live dashboard mockup */}
+          <motion.div {...fadeUp(0.28)} className="relative">
+            {/* Glow behind card */}
+            <div className="absolute -inset-4 bg-[radial-gradient(ellipse,rgba(91,110,245,0.15)_0%,transparent_70%)] pointer-events-none" />
+
+            <div className="relative rounded-[1.75rem] border border-white/[0.1] bg-[var(--surface)] shadow-[0_40px_80px_-16px_rgba(0,0,0,0.8)] overflow-hidden">
+              {/* Browser chrome */}
+              <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.07] bg-[var(--surface-2)]">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500/60" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/60" />
                 </div>
-                <div className="rounded-3xl bg-[rgba(16,185,129,0.1)] p-4 text-[var(--success)] text-sm font-semibold">
-                  WhatsApp enquiry • ₹1.1Cr • South Bangalore • 2BHK resale
+                <div className="flex-1 mx-2 h-5 rounded-md bg-[var(--surface-3)] flex items-center justify-center">
+                  <span className="text-[9px] text-[var(--foreground-subtle)]">estateflow.app / dashboard / leads</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-3xl border border-white/[0.06] bg-[var(--surface-3)] p-4">
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--foreground-subtle)] mb-1">Lead score</p>
-                  <p className="text-2xl font-semibold text-[var(--foreground)]">92</p>
+              <div className="p-4 space-y-3">
+                {/* New lead alert */}
+                <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-[var(--success-muted)] border border-[rgba(16,185,129,0.2)]">
+                  <span className="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse shrink-0" />
+                  <span className="text-xs font-medium text-[var(--success)]">New lead · AI analyzed in 1.2s</span>
+                  <span className="ml-auto text-[10px] text-[var(--foreground-subtle)]">Just now</span>
                 </div>
-                <div className="rounded-3xl border border-white/[0.06] bg-[var(--surface-3)] p-4">
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-[var(--foreground-subtle)] mb-1">Matched properties</p>
-                  <p className="text-2xl font-semibold text-[var(--foreground)]">4</p>
-                </div>
-              </div>
 
-              <div className="rounded-3xl bg-[var(--surface-3)] p-5 border border-white/[0.06] text-[var(--foreground-muted)]">
-                <p className="text-sm font-semibold text-[var(--foreground)] mb-2">Suggested next steps</p>
-                <ul className="list-disc pl-5 space-y-2 text-sm">
-                  <li>Call the lead within 15 minutes</li>
-                  <li>Send property brochure and site visit link</li>
-                  <li>Assign to senior sales agent</li>
-                </ul>
+                {/* Lead card */}
+                <div className="rounded-2xl bg-[var(--surface-2)] border border-white/[0.07] p-4">
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--cyan)] flex items-center justify-center text-xs font-bold text-white shrink-0">A</div>
+                      <div>
+                        <p className="text-sm font-semibold text-[var(--foreground)]">Arjun Mehta</p>
+                        <p className="text-[11px] text-[var(--foreground-muted)]">+91 98765 43210 · Chennai</p>
+                      </div>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/20 shrink-0">
+                      🔴 HIGH
+                    </span>
+                  </div>
+
+                  {/* AI tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {tags.map((tag) => (
+                      <span key={tag} className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[var(--accent-muted)] text-[var(--accent-light)] border border-[var(--border-accent)]">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Score bar */}
+                  <div className="flex items-center gap-3">
+                    <p className="text-[10px] text-[var(--foreground-subtle)] shrink-0">Lead score</p>
+                    <div className="flex-1 h-1.5 rounded-full bg-[var(--surface-3)] overflow-hidden">
+                      <div className="h-full w-[88%] rounded-full bg-gradient-to-r from-[var(--accent)] to-[var(--cyan)]" />
+                    </div>
+                    <span className="text-xs font-bold text-[var(--foreground)] tabular-nums shrink-0">88/100</span>
+                  </div>
+                </div>
+
+                {/* Matched properties */}
+                <div className="rounded-2xl bg-[var(--surface-2)] border border-white/[0.07] p-3.5">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <p className="text-xs font-semibold text-[var(--foreground)]">Matched properties</p>
+                    <span className="text-xs font-bold text-[var(--accent)]">{properties.length} found</span>
+                  </div>
+                  <div className="space-y-2">
+                    {properties.map((p) => (
+                      <div key={p.name} className="flex items-center justify-between">
+                        <span className="text-[11px] text-[var(--foreground-muted)] truncate">{p.name}</span>
+                        <div className="flex items-center gap-2.5 shrink-0 ml-2">
+                          <span className="text-[11px] text-[var(--foreground-subtle)]">{p.price}</span>
+                          <span className="text-[11px] font-bold text-[var(--success)]">{p.match}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Pipeline mini */}
+                <div className="rounded-2xl bg-[var(--surface-2)] border border-white/[0.07] p-3.5">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <p className="text-xs font-semibold text-[var(--foreground)]">Live pipeline</p>
+                    <div className="flex items-center gap-1 text-[var(--success)]">
+                      <TrendingUp size={11} />
+                      <span className="text-[10px] font-semibold">+18% this week</span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {pipeline.map((p) => (
+                      <div key={p.stage} className="text-center">
+                        <p className="text-lg font-bold text-[var(--foreground)]" style={{ color: p.color }}>{p.count}</p>
+                        <p className="text-[9px] text-[var(--foreground-subtle)] mt-0.5">{p.stage}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA button */}
+                <button className="w-full py-2.5 rounded-xl text-xs font-semibold bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors">
+                  Send AI follow-up →
+                </button>
               </div>
             </div>
           </motion.div>
         </div>
-
-        <motion.div {...fadeUp(0.3)} className="mt-16 text-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--foreground-subtle)] mb-4">
-            Trusted by growth-focused real estate teams across India
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-            {trustedBy.map((name) => (
-              <span key={name} className="text-sm font-semibold text-[var(--foreground-muted)]/90">
-                {name}
-              </span>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
