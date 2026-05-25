@@ -45,7 +45,7 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 overflow-hidden relative"
+            className="lg:col-span-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 overflow-hidden relative card-glow"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(ellipse,rgba(91,110,245,0.08)_0%,transparent_70%)] pointer-events-none" />
             <div className="flex items-center gap-3 mb-5">

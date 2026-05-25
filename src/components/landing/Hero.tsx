@@ -1,8 +1,27 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+
+function CountUp({ end, suffix = "", duration = 1800 }: { end: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const step = end / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) { setCount(end); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, end, duration]);
+  return <span ref={ref}>{count}{suffix}</span>;
+}
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const fadeUp = (delay = 0) => ({
@@ -69,7 +88,7 @@ export default function Hero() {
             >
               <Link
                 href="/signup"
-                className="inline-flex items-center justify-center gap-2 font-semibold rounded-xl text-sm px-7 py-3.5 bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:scale-[0.98] transition-all shadow-[0_0_24px_var(--accent-glow)] hover:shadow-[0_0_32px_var(--accent-glow)]"
+                className="glow-border inline-flex items-center justify-center gap-2 font-semibold rounded-xl text-sm px-7 py-3.5 bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] active:scale-[0.98] transition-all shadow-[0_0_24px_var(--accent-glow)] hover:shadow-[0_0_40px_var(--accent-glow)]"
               >
                 Start free — no card needed
                 <ArrowRight size={15} />
@@ -88,12 +107,12 @@ export default function Hero() {
               className="mt-10 flex flex-wrap gap-x-8 gap-y-4"
             >
               {[
-                { value: "3×", label: "more leads converted" },
-                { value: "< 2s", label: "AI analysis time" },
-                { value: "99.8%", label: "uptime guaranteed" },
-              ].map((s) => (
-                <div key={s.label}>
-                  <p className="text-2xl font-bold text-[var(--foreground)] leading-none">{s.value}</p>
+                { display: <><CountUp end={3} suffix="×" /></>, label: "more leads converted" },
+                { display: <>{"< 2s"}</>, label: "AI analysis time" },
+                { display: <><CountUp end={99} suffix=".8%" /></>, label: "uptime guaranteed" },
+              ].map((s, i) => (
+                <div key={i}>
+                  <p className="text-2xl font-bold text-[var(--foreground)] leading-none">{s.display}</p>
                   <p className="text-xs text-[var(--foreground-muted)] mt-1">{s.label}</p>
                 </div>
               ))}

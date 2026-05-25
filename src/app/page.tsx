@@ -2,6 +2,8 @@ import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
 import AIWorkflow from "@/components/landing/AIWorkflow";
+import Testimonials from "@/components/landing/Testimonials";
+import Comparison from "@/components/landing/Comparison";
 import FAQ from "@/components/landing/FAQ";
 import Contact from "@/components/landing/Contact";
 import Footer from "@/components/landing/Footer";
@@ -10,16 +12,33 @@ import VapiAgent from "@/components/chat/VapiAgent";
 
 export default function LandingPage() {
   return (
-    <div className="landing-mesh min-h-screen overflow-x-hidden">
-      <Navbar />
-      <main>
-        <Hero />
-        <Features />
-        <AIWorkflow />
-        <FAQ />
-        <Contact />
-      </main>
-      <Footer />
+    <div className="landing-mesh min-h-screen overflow-x-hidden relative">
+      {/* Animated background orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden>
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+        <div className="orb orb-3" />
+        <div className="orb orb-4" />
+      </div>
+
+      {/* Dot grid overlay */}
+      <div className="fixed inset-0 dot-grid pointer-events-none z-0 opacity-100" aria-hidden />
+
+      {/* Content */}
+      <div className="relative z-10">
+        <Navbar />
+        <main>
+          <Hero />
+          <Features />
+          <AIWorkflow />
+          <Testimonials />
+          <Comparison />
+          <FAQ />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+
       <ChatWidget />
       <VapiAgent />
     </div>
