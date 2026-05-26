@@ -72,7 +72,7 @@ export default function Hero() {
             transition={{ duration: 1.1, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             style={{
               fontFamily: "var(--font-playfair), Georgia, serif",
-              fontSize: "clamp(3.5rem, 13vw, 11rem)",
+              fontSize: "clamp(2.6rem, 11vw, 11rem)",
               fontWeight: 700,
               lineHeight: 0.88,
               letterSpacing: "-0.02em",
@@ -91,7 +91,7 @@ export default function Hero() {
               fontFamily: "var(--font-playfair), Georgia, serif",
               fontStyle: "italic",
               fontWeight: 400,
-              fontSize: "clamp(3.5rem, 13vw, 11rem)",
+              fontSize: "clamp(2.6rem, 11vw, 11rem)",
               lineHeight: 0.88,
               letterSpacing: "-0.02em",
               color: "rgba(255,255,255,0.9)",
@@ -108,7 +108,7 @@ export default function Hero() {
             style={{
               fontFamily: "var(--font-playfair), Georgia, serif",
               fontWeight: 700,
-              fontSize: "clamp(3.5rem, 13vw, 11rem)",
+              fontSize: "clamp(2.6rem, 11vw, 11rem)",
               lineHeight: 0.88,
               letterSpacing: "-0.02em",
               color: "white",

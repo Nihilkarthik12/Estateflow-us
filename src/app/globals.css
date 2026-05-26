@@ -38,6 +38,10 @@
   --gold-border: rgba(201,169,110,0.25);
   --gold-glow:   rgba(201,169,110,0.2);
 
+  /* ── Gold CSS shorthand vars ── */
+  --gold-muted:  rgba(201,169,110,0.12);
+  --gold-border: rgba(201,169,110,0.3);
+
   /* ── Aliases ── */
   --accent:       #c9a96e;
   --accent-muted: rgba(201,169,110,0.12);

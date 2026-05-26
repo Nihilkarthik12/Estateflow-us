@@ -68,7 +68,7 @@ export default function StatsBar() {
           </motion.p>
 
           {/* Giant scattered stats — like Elyse: 60% · 30 · 150k · 24/7 */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-16 sm:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 sm:gap-8">
             {stats.map((s, i) => (
               <motion.div
                 key={s.label}
@@ -76,7 +76,7 @@ export default function StatsBar() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.7, ease }}
-                className={i % 2 === 1 ? "md:mt-16" : ""}
+                className={i % 2 === 1 ? "md:mt-16 mt-0" : ""}
               >
                 <p
                   style={{

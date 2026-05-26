@@ -59,7 +59,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         <span className={`text-sm font-semibold transition-colors leading-relaxed ${open ? "text-[var(--foreground)]" : "text-[var(--foreground-muted)] group-hover:text-[var(--foreground)]"}`}>
           {q}
         </span>
-        <span className={`shrink-0 w-7 h-7 rounded-lg flex items-center justify-center border transition-all ${open ? "bg-[var(--accent-muted)] border-[var(--border-accent)] text-[var(--accent-light)]" : "bg-[var(--surface-2)] border-[var(--border)] text-[var(--foreground-subtle)]"}`}>
+        <span className={`shrink-0 w-7 h-7 rounded-lg flex items-center justify-center border transition-all ${open ? "bg-[var(--gold-muted)] border-[var(--gold-border)] text-[var(--gold)]" : "bg-[var(--surface-2)] border-[var(--border)] text-[var(--foreground-subtle)]"}`}>
           {open ? <Minus size={13} /> : <Plus size={13} />}
         </span>
       </button>
@@ -84,26 +84,35 @@ export default function FAQ() {
   const half = Math.ceil(faqs.length / 2);
 
   return (
-    <section id="faq" className="landing-section px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-14"
-        >
-          <p className="section-label mb-4">FAQ</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight text-[var(--foreground)]">
-            Everything you need to know
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-[var(--foreground-muted)] max-w-xl mx-auto">
-            Still have questions? Email us at{" "}
-            <a href="mailto:nihilkaarthikeyan@gmail.com" className="text-[var(--accent)] hover:underline">
-              nihilkaarthikeyan@gmail.com
+    <section id="faq" className="section-rule landing-section px-6 sm:px-12">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="mb-14 sm:mb-20">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="section-label mb-5"
+          >
+            (FAQ)
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+            className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
+          >
+            Everything you need<br />
+            <em className="font-normal" style={{ fontStyle: "italic" }}>to know</em>
+          </motion.h2>
+          <p className="mt-5 text-sm text-[var(--foreground-muted)]">
+            Still have questions?{" "}
+            <a href="mailto:nihilkaarthikeyan@gmail.com" className="text-[var(--gold)] hover:underline">
+              Email us →
             </a>
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-12">
           <div className="border-t border-[var(--border)]">
