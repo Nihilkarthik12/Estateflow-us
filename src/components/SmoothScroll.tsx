@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,70 +8,99 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
-  const lenisRef = useRef<Lenis | null>(null);
-
   useEffect(() => {
-    // Init Lenis
+    // ── 1. Init Lenis smooth scroll ────────────────────────────
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: 1.6,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
+      touchMultiplier: 1.8,
       infinite: false,
     });
-    lenisRef.current = lenis;
 
-    // Connect Lenis to GSAP ScrollTrigger
+    // Bridge Lenis → GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
-
-    const ticker = gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+    const ticker = gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
 
-    // ── Cinematic scroll animations ───────────────────────────
-
-    // Hero mockup parallax
-    gsap.to(".hero-mockup", {
-      yPercent: 12,
+    // ── 2. Hero photo parallax ─────────────────────────────────
+    // The background image moves at 30% scroll speed — creates depth
+    gsap.to(".hero-bg-img", {
+      yPercent: 18,
       ease: "none",
       scrollTrigger: {
-        trigger: ".hero-mockup",
+        trigger: ".hero-section",
         start: "top top",
         end: "bottom top",
-        scrub: 1.5,
+        scrub: 1,
       },
     });
 
-    // Floating notification cards parallax (different speeds)
-    gsap.to(".float-card-left", {
-      y: -60,
+    // Hero text slides up as page scrolls
+    gsap.to(".hero-headline", {
+      yPercent: -12,
+      opacity: 0.4,
       ease: "none",
       scrollTrigger: {
-        trigger: ".hero-mockup",
-        start: "top top",
-        end: "bottom top",
-        scrub: 2,
-      },
-    });
-
-    gsap.to(".float-card-right", {
-      y: -40,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".hero-mockup",
-        start: "top top",
+        trigger: ".hero-section",
+        start: "20% top",
         end: "bottom top",
         scrub: 1.2,
       },
     });
 
-    // Section headings — cinematic reveal
-    gsap.utils.toArray<HTMLElement>(".cinematic-reveal").forEach((el) => {
+    // ── 3. Stats section — photo parallax ────────────────────────
+    gsap.to(".stats-bg-img", {
+      yPercent: 15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".stats-section",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
+      },
+    });
+
+    // Stats numbers — dramatic scale-in from below
+    gsap.utils.toArray<HTMLElement>(".stat-number-item").forEach((el, i) => {
       gsap.fromTo(el,
-        { opacity: 0, y: 48, filter: "blur(8px)" },
+        { opacity: 0, y: 80, scale: 0.8 },
         {
-          opacity: 1, y: 0, filter: "blur(0px)",
+          opacity: 1, y: 0, scale: 1,
           duration: 1,
+          delay: i * 0.12,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+
+    // ── 4. Pain section — image reveal ──────────────────────────
+    gsap.fromTo(".pain-img",
+      { scale: 1.08, filter: "blur(6px)" },
+      {
+        scale: 1, filter: "blur(0px)",
+        duration: 1.4,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".pain-img",
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+
+    // Pain cards — slide in from right staggered
+    gsap.utils.toArray<HTMLElement>(".pain-card-item").forEach((el, i) => {
+      gsap.fromTo(el,
+        { opacity: 0, x: 50 },
+        {
+          opacity: 1, x: 0,
+          duration: 0.8,
+          delay: i * 0.15,
           ease: "power3.out",
           scrollTrigger: {
             trigger: el,
@@ -82,15 +111,15 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       );
     });
 
-    // Bento cards stagger
-    gsap.utils.toArray<HTMLElement>(".bento-card").forEach((el, i) => {
+    // ── 5. Feature cards — stagger reveal ───────────────────────
+    gsap.utils.toArray<HTMLElement>(".feature-card-item").forEach((el, i) => {
       gsap.fromTo(el,
-        { opacity: 0, y: 40, scale: 0.96 },
+        { opacity: 0, y: 40, filter: "blur(4px)" },
         {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.7,
-          delay: i * 0.06,
-          ease: "power2.out",
+          opacity: 1, y: 0, filter: "blur(0px)",
+          duration: 0.9,
+          delay: (i % 3) * 0.08,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: el,
             start: "top 88%",
@@ -100,52 +129,83 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       );
     });
 
-    // Stats count-up visual (just animate the card scale)
-    gsap.utils.toArray<HTMLElement>(".stat-card").forEach((el, i) => {
+    // ── 6. Testimonial cards — blur-lift reveal ──────────────────
+    gsap.utils.toArray<HTMLElement>(".testimonial-item").forEach((el, i) => {
       gsap.fromTo(el,
-        { opacity: 0, y: 32, scale: 0.9 },
+        { opacity: 0, y: 60, filter: "blur(8px)" },
         {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.6,
-          delay: i * 0.1,
-          ease: "back.out(1.7)",
+          opacity: 1, y: 0, filter: "blur(0px)",
+          duration: 1.1,
+          delay: i * 0.18,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: el,
-            start: "top 88%",
+            start: "top 85%",
             toggleActions: "play none none none",
           },
         }
       );
     });
 
-    // Pain cards — slide in from sides alternating
-    gsap.utils.toArray<HTMLElement>(".pain-card").forEach((el, i) => {
+    // ── 7. Section headlines — word split reveal ─────────────────
+    gsap.utils.toArray<HTMLElement>(".cinematic-reveal").forEach((el) => {
       gsap.fromTo(el,
-        { opacity: 0, x: i % 2 === 0 ? -40 : 40 },
+        { opacity: 0, y: 48, filter: "blur(10px)" },
         {
-          opacity: 1, x: 0,
-          duration: 0.7,
-          delay: i * 0.1,
-          ease: "power2.out",
+          opacity: 1, y: 0, filter: "blur(0px)",
+          duration: 1.1,
+          ease: "power4.out",
           scrollTrigger: {
             trigger: el,
-            start: "top 87%",
+            start: "top 85%",
             toggleActions: "play none none none",
           },
         }
       );
     });
 
-    // Background orbs — subtle scroll parallax
-    gsap.to(".orb-1", {
-      y: 200,
+    // ── 8. Contact section — forest panel slides in ───────────────
+    gsap.fromTo(".forest-panel-animate",
+      { opacity: 0, x: 60 },
+      {
+        opacity: 1, x: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".forest-panel-animate",
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+
+    // ── 9. Contact photo parallax ────────────────────────────────
+    gsap.to(".contact-bg-img", {
+      yPercent: 12,
       ease: "none",
-      scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 3 },
+      scrollTrigger: {
+        trigger: ".contact-section",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
+      },
     });
-    gsap.to(".orb-2", {
-      y: -150,
-      ease: "none",
-      scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 2 },
+
+    // ── 10. Horizontal rule lines — width expand ─────────────────
+    gsap.utils.toArray<HTMLElement>(".rule-expand").forEach((el) => {
+      gsap.fromTo(el,
+        { scaleX: 0, transformOrigin: "left center" },
+        {
+          scaleX: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     });
 
     return () => {

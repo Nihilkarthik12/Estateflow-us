@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+const TESTIMONIALS_BG = "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1920&q=80";
 
 const testimonials = [
   {
@@ -33,8 +36,19 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="section-rule landing-section px-6 sm:px-12">
-      <div className="max-w-[1400px] mx-auto">
+    <section id="testimonials" className="section-rule landing-section px-6 sm:px-12 relative">
+      {/* Subtle ambient property image — city skyline or rooftop */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <Image
+          src={TESTIMONIALS_BG}
+          alt=""
+          fill
+          className="object-cover object-center opacity-[0.05]"
+          sizes="100vw"
+          aria-hidden
+        />
+      </div>
+      <div className="max-w-[1400px] mx-auto relative z-10">
 
         {/* Header */}
         <div className="mb-16 sm:mb-20">
@@ -52,7 +66,7 @@ export default function Testimonials() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease }}
             style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
+            className="cinematic-reveal font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
           >
             Agents across India<br />
             <em className="font-normal" style={{ fontStyle: "italic" }}>are winning more deals</em>
@@ -68,7 +82,7 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6, ease }}
-              className="bg-[var(--background)] hover:bg-[var(--surface)] transition-colors duration-300 p-8 sm:p-10 flex flex-col gap-6"
+              className="testimonial-item bg-[var(--background)] hover:bg-[var(--surface)] transition-colors duration-300 p-8 sm:p-10 flex flex-col gap-6"
             >
               {/* Large quote mark — serif italic gold */}
               <div className="font-serif text-6xl leading-none text-[rgba(201,169,110,0.25)]"

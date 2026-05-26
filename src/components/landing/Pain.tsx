@@ -56,7 +56,7 @@ export default function Pain() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease }}
             style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
+            className="cinematic-reveal font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
           >
             Your agency is silently<br />
             <em className="font-normal" style={{ fontStyle: "italic", color: "#f87171" }}>losing ₹10L+ every month</em>
@@ -87,7 +87,7 @@ export default function Pain() {
               src={INTERIOR_IMG}
               alt="Luxury interior"
               fill
-              className="object-cover object-center"
+              className="pain-img object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             {/* Dark overlay */}
@@ -111,7 +111,7 @@ export default function Pain() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.6, ease }}
-                className={`bg-[var(--background)] hover:bg-[var(--surface)] transition-colors duration-300 p-8 sm:p-10 flex flex-col gap-4
+                className={`pain-card-item bg-[var(--background)] hover:bg-[var(--surface)] transition-colors duration-300 p-8 sm:p-10 flex flex-col gap-4
                   ${i < 2 ? "border-b border-[rgba(255,255,255,0.06)]" : ""}`}
               >
                 <div className="flex items-start justify-between gap-4">

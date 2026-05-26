@@ -11,7 +11,7 @@ const HERO_IMG = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?a
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-end overflow-hidden">
+    <section className="hero-section relative min-h-screen flex flex-col justify-end overflow-hidden">
 
       {/* ── Full-bleed property photo — like Elyse ── */}
       <div className="absolute inset-0">
@@ -20,7 +20,7 @@ export default function Hero() {
           alt="Luxury property"
           fill
           priority
-          className="object-cover object-center"
+          className="hero-bg-img object-cover object-center"
           sizes="100vw"
         />
         {/* Dark overlay — so text is readable */}
@@ -65,6 +65,7 @@ export default function Hero() {
         </motion.p>
 
         {/* Giant serif headline — clips over the photo */}
+        <div className="hero-headline">
         <div className="overflow-hidden">
           <motion.h1
             initial={{ y: "100%" }}
@@ -117,6 +118,7 @@ export default function Hero() {
             Again.
           </motion.h1>
         </div>
+        </div>{/* end hero-headline */}
 
         {/* CTAs */}
         <motion.div

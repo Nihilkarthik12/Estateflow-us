@@ -38,7 +38,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function StatsBar() {
   return (
-    <section className="section-rule relative overflow-hidden">
+    <section className="stats-section section-rule relative overflow-hidden">
 
       {/* Full-bleed property photo as section background */}
       <div className="absolute inset-0">
@@ -46,7 +46,7 @@ export default function StatsBar() {
           src={STATS_IMG}
           alt="Luxury real estate"
           fill
-          className="object-cover object-center"
+          className="stats-bg-img object-cover object-center"
           sizes="100vw"
         />
         {/* Heavy dark overlay — text must be legible */}
@@ -76,7 +76,7 @@ export default function StatsBar() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.7, ease }}
-                className={i % 2 === 1 ? "md:mt-16 mt-0" : ""}
+                className={`stat-number-item ${i % 2 === 1 ? "md:mt-16 mt-0" : ""}`}
               >
                 <p
                   style={{

@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+const FEATURES_BG = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80";
 
 const features = [
   {
@@ -57,8 +60,19 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="features" className="section-rule landing-section px-6 sm:px-12">
-      <div className="max-w-[1400px] mx-auto">
+    <section id="features" className="section-rule landing-section px-6 sm:px-12 relative">
+      {/* Subtle ambient property image in background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <Image
+          src={FEATURES_BG}
+          alt=""
+          fill
+          className="object-cover object-center opacity-[0.04]"
+          sizes="100vw"
+          aria-hidden
+        />
+      </div>
+      <div className="max-w-[1400px] mx-auto relative z-10">
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 mb-16 sm:mb-20">
@@ -77,7 +91,7 @@ export default function Features() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease }}
               style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-              className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
+              className="cinematic-reveal font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
             >
               Every tool an agent needs<br />
               <em className="font-normal" style={{ fontStyle: "italic" }}>to win more deals</em>
@@ -103,7 +117,7 @@ export default function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.07, duration: 0.6, ease }}
-              className="bg-[var(--background)] p-8 sm:p-10 flex flex-col gap-6 group hover:bg-[var(--surface)] transition-colors duration-300"
+              className="feature-card-item bg-[var(--background)] p-8 sm:p-10 flex flex-col gap-6 group hover:bg-[var(--surface)] transition-colors duration-300"
             >
               {/* Number — italic like Elyse */}
               <span className="font-serif italic text-5xl font-400 text-[rgba(255,255,255,0.12)] group-hover:text-[rgba(201,169,110,0.3)] transition-colors"

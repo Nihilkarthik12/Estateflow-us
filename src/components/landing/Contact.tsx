@@ -20,7 +20,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section-rule">
+    <section id="contact" className="contact-section section-rule">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-12 mb-8">
         <motion.p
           initial={{ opacity: 0 }}
@@ -47,7 +47,7 @@ export default function Contact() {
             src={CONTACT_IMG}
             alt="Luxury property"
             fill
-            className="object-cover object-center"
+            className="contact-bg-img object-cover object-center"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[rgba(13,15,14,0.3)] to-[rgba(13,15,14,0.5)]" />
@@ -77,7 +77,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1, ease }}
-          className="forest-panel p-10 sm:p-16"
+          className="forest-panel forest-panel-animate p-10 sm:p-16"
         >
           {sent ? (
             <div className="flex flex-col items-center justify-center h-full text-center py-16">
