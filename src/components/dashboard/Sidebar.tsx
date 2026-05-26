@@ -136,6 +136,24 @@ export default function Sidebar() {
           })}
         </nav>
 
+        {/* Property showcase */}
+        <div className="mx-3 mb-2 rounded-xl overflow-hidden relative" style={{ height: "76px" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=70"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.18) 100%)" }} />
+          <div className="absolute bottom-2.5 left-3 right-3 flex items-end justify-between">
+            <p className="text-[9px] font-bold text-white/70 uppercase tracking-[0.15em]">AI-Powered CRM</p>
+            <div className="flex items-center gap-1">
+              <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[8px] text-emerald-400 font-bold">LIVE</span>
+            </div>
+          </div>
+        </div>
+
         <div className="px-3 pb-4 flex flex-col gap-1 border-t border-[var(--border)] pt-3">
           <button
             onClick={signOut}

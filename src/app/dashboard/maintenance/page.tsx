@@ -26,6 +26,15 @@ const categoryIcons: Record<string, string> = {
   plumbing: "🔧", electrical: "⚡", carpentry: "🪚", cleaning: "🧹", security: "🔒", general: "📋",
 };
 
+const categoryColors: Record<string, string> = {
+  plumbing: "#3b82f6", electrical: "#eab308", carpentry: "#d97706",
+  cleaning: "#14b8a6", security: "#ef4444", general: "#6b7280",
+};
+
+const priorityBorderColor: Record<string, string> = {
+  high: "#ef4444", medium: "#f59e0b", low: "#6b7280",
+};
+
 const STATUS_OPTIONS: { label: string; value: TicketStatus | "" }[] = [
   { label: "All Status", value: "" },
   { label: "Open", value: "open" },
@@ -183,9 +192,16 @@ export default function MaintenancePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
                 className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 hover:border-[var(--accent)]/30 transition-colors group"
+                style={{ borderLeft: `3px solid ${priorityBorderColor[ticket.priority] ?? "#6b7280"}` }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-xl bg-[var(--surface-2)] flex items-center justify-center text-lg shrink-0">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0"
+                    style={{
+                      background: `${categoryColors[ticket.category] ?? "#6b7280"}18`,
+                      border: `1px solid ${categoryColors[ticket.category] ?? "#6b7280"}30`,
+                    }}
+                  >
                     {categoryIcons[ticket.category] ?? "📋"}
                   </div>
 

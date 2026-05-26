@@ -93,6 +93,35 @@ export default function AnalyticsPage() {
 
       <div className="flex-1 p-6 flex flex-col gap-5 overflow-y-auto">
 
+        {/* Analytics banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden rounded-2xl border border-[var(--border)]"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1920&q=60"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.18]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface)] via-[var(--surface)]/80 to-transparent pointer-events-none" />
+          <div className="relative flex items-center justify-between px-6 py-5">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] mb-1" style={{ color: "var(--accent)" }}>Real-Time Metrics</p>
+              <p className="text-lg font-bold text-[var(--foreground)] leading-tight">Pipeline Performance</p>
+              <p className="text-xs text-[var(--foreground-muted)] mt-0.5">Live data from all your lead channels</p>
+            </div>
+            <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs font-semibold text-emerald-400">Live</span>
+              </div>
+              <span className="text-[10px] text-[var(--foreground-subtle)]">Updates in real time</span>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Stats row */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}

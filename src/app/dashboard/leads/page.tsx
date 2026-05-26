@@ -238,16 +238,24 @@ export default function LeadsPage() {
                     className="grid grid-cols-[1.5fr_2fr_auto_auto_auto_auto] gap-3 items-center px-5 py-3.5 hover:bg-[var(--surface-2)] transition-colors group"
                   >
                     {/* Lead info */}
-                    <div>
-                      <Link href={`/dashboard/leads/${lead.id}`} className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--accent)] transition-colors block truncate">
-                        {lead.name ?? "Unknown"}
-                      </Link>
-                      {lead.phone && (
-                        <div className="flex items-center gap-1 text-xs text-[var(--foreground-muted)] mt-0.5">
-                          <Phone size={10} />
-                          <span>{lead.phone}</span>
-                        </div>
-                      )}
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div
+                        className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0"
+                        style={{ background: `linear-gradient(135deg, ${stageColor[lead.status as LeadStage]}cc, ${stageColor[lead.status as LeadStage]}44)` }}
+                      >
+                        {(lead.name ?? "?")[0].toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <Link href={`/dashboard/leads/${lead.id}`} className="text-sm font-medium text-[var(--foreground)] hover:text-[var(--accent)] transition-colors block truncate">
+                          {lead.name ?? "Unknown"}
+                        </Link>
+                        {lead.phone && (
+                          <div className="flex items-center gap-1 text-xs text-[var(--foreground-muted)] mt-0.5">
+                            <Phone size={10} />
+                            <span>{lead.phone}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     {/* Requirement */}

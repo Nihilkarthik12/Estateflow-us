@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Plus, Search, Phone, Mail, Home, Loader2, Pencil, Trash2, UserSquare2, CheckCircle2, Clock, AlertCircle } from "lucide-react";
+import { Plus, Search, Phone, Mail, Home, Loader2, Pencil, Trash2, UserSquare2, CheckCircle2, Clock } from "lucide-react";
+
+const TENANT_IMGS = [
+  "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=600&q=70",
+  "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=70",
+  "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=70",
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=70",
+];
 import { createClient } from "@/lib/supabase/client";
 import TopBar from "@/components/dashboard/TopBar";
 import Button from "@/components/ui/Button";
@@ -115,23 +122,35 @@ export default function TenantsPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04 }}
-                className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 hover:border-[var(--accent)]/40 transition-colors group"
+                className="bg-[var(--surface)] border border-[var(--border)] rounded-xl overflow-hidden hover:border-[var(--accent)]/40 transition-colors group"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--accent-muted)] flex items-center justify-center text-[var(--accent)] font-bold text-sm shrink-0">
-                      {tenant.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <Link href={`/dashboard/tenants/${tenant.id}`}>
-                        <p className="text-sm font-semibold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">{tenant.name}</p>
-                      </Link>
-                      {tenant.unit_number && (
-                        <p className="text-xs text-[var(--foreground-muted)]">Unit {tenant.unit_number}</p>
-                      )}
-                    </div>
+                {/* Property image strip */}
+                <div className="relative h-24 overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={TENANT_IMGS[i % TENANT_IMGS.length]}
+                    alt=""
+                    className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--surface)]" />
+                  <div className="absolute top-2.5 right-2.5">
+                    <Badge variant={statusVariant[tenant.status]}>{tenant.status}</Badge>
                   </div>
-                  <Badge variant={statusVariant[tenant.status]}>{tenant.status}</Badge>
+                </div>
+
+                <div className="p-4 -mt-1">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--accent-muted)] flex items-center justify-center text-[var(--accent)] font-bold text-sm shrink-0">
+                    {tenant.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <Link href={`/dashboard/tenants/${tenant.id}`}>
+                      <p className="text-sm font-semibold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">{tenant.name}</p>
+                    </Link>
+                    {tenant.unit_number && (
+                      <p className="text-xs text-[var(--foreground-muted)]">Unit {tenant.unit_number}</p>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5 mb-3">
@@ -164,6 +183,7 @@ export default function TenantsPage() {
                     <Trash2 size={12} />
                   </Button>
                 </div>
+                </div>{/* end p-4 */}
               </motion.div>
             ))}
           </div>
