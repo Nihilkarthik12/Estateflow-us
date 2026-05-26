@@ -34,7 +34,7 @@ export default function BookVisitPage() {
     const res = await fetch("/api/public/book-visit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, organization_id: process.env.NEXT_PUBLIC_ORG_ID }),
+      body: JSON.stringify({ ...form }),
     });
     const data = await res.json();
     setLoading(false);

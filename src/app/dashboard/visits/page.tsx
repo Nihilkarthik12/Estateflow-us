@@ -80,10 +80,7 @@ export default function VisitsPage() {
     setFormLoading(true);
     setFormError("");
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    const { data: profile } = await supabase.from("profiles").select("organization_id").eq("id", user?.id ?? "").single();
     const { error } = await supabase.from("visits").insert({
-      organization_id: profile?.organization_id,
       visitor_name: form.visitor_name,
       visitor_phone: form.visitor_phone,
       visitor_email: form.visitor_email || null,

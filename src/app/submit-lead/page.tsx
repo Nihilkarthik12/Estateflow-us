@@ -32,12 +32,6 @@ export default function SubmitLeadPage() {
       return;
     }
 
-    const orgId = process.env.NEXT_PUBLIC_ORG_ID;
-    if (!orgId) {
-      setError("Configuration error. Please contact the agency.");
-      return;
-    }
-
     setLoading(true);
     const n8nUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
     const endpoint = n8nUrl || "/api/lead-webhook";
@@ -47,7 +41,6 @@ export default function SubmitLeadPage() {
       body: JSON.stringify({
         ...form,
         source: "web_form",
-        organization_id: orgId,
         webhook_secret: "estateflow-secret-2024",
       }),
     });

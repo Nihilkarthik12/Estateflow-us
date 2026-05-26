@@ -122,12 +122,9 @@ export default function LeadDetailPage() {
   useEffect(() => {
     async function load() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      const [{ data: leadData }, { data: convData }, { data: profileData }, { data: membersData }] = await Promise.all([
+      const [{ data: leadData }, { data: convData }] = await Promise.all([
         supabase.from("leads").select("*").eq("id", id).single(),
         supabase.from("conversations").select("*").eq("lead_id", id).order("created_at"),
-        user ? supabase.from("profiles").select("organization_id").eq("id", user.id).single() : Promise.resolve({ data: null }),
-        Promise.resolve({ data: null }),
       ]);
       setLead(leadData as Lead);
       setMessages((convData as Message[]) ?? []);
@@ -136,14 +133,8 @@ export default function LeadDetailPage() {
         const local = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
         setVisitDate(local);
       }
-      if (profileData?.organization_id) {
-        const { data: members } = await supabase
-          .from("profiles")
-          .select("id, full_name")
-          .eq("organization_id", profileData.organization_id);
-        setTeamMembers((members ?? []) as { id: string; full_name?: string }[]);
-        void membersData;
-      }
+      // Single user — no team members to load
+      setTeamMembers([]);
       setLoadingLead(false);
     }
     load();

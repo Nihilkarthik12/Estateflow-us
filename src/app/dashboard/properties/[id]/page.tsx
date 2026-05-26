@@ -513,10 +513,7 @@ export default function PropertyDetailPage() {
                       onClick={async () => {
                         setBookLoading(true);
                         const supabase = (await import("@/lib/supabase/client")).createClient();
-                        const { data: { user } } = await supabase.auth.getUser();
-                        const { data: profile } = await supabase.from("profiles").select("organization_id").eq("id", user?.id ?? "").single();
                         await supabase.from("visits").insert({
-                          organization_id: profile?.organization_id,
                           property_id: property.id,
                           visitor_name: bookForm.name,
                           visitor_phone: bookForm.phone,
