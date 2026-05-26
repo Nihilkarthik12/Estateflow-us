@@ -7,7 +7,7 @@ const AUTH_BG = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?au
 const features = [
   { icon: Zap, text: "AI-powered lead analysis in seconds" },
   { icon: BarChart3, text: "Smart pipeline & conversion tracking" },
-  { icon: Shield, text: "Multi-tenant, enterprise-grade security" },
+  { icon: Shield, text: "Your data, fully private and secure" },
 ];
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
