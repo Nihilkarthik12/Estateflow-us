@@ -16,6 +16,7 @@ import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import TenantFormModal from "@/components/tenants/TenantFormModal";
+import ProfileFix from "@/components/ProfileFix";
 import { useTenants } from "@/lib/hooks/useTenants";
 import type { Tenant, TenantStatus } from "@/types";
 import Link from "next/link";
@@ -25,13 +26,14 @@ const statusVariant: Record<TenantStatus, "success" | "warning" | "default"> = {
 };
 
 export default function TenantsPage() {
-  const { tenants, loading, addTenant, updateTenant, deleteTenant } = useTenants();
+  const { tenants, loading, error, addTenant, updateTenant, deleteTenant } = useTenants();
   const [search, setSearch] = useState("");
   const [formOpen, setFormOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<Tenant | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Tenant | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [properties, setProperties] = useState<{ id: string; title: string }[]>([]);
+  const [profileError, setProfileError] = useState(false);
 
   useEffect(() => {
     createClient().from("properties").select("id, title").eq("status", "available")
@@ -57,10 +59,26 @@ export default function TenantsPage() {
     setDeleteTarget(null);
   }
 
+  // Enhanced addTenant wrapper to catch profile errors
+  async function handleAddTenant(data: Omit<Tenant, "id" | "created_at" | "organization_id">) {
+    const result = await addTenant(data);
+    if (result.error === "Profile not found") {
+      setProfileError(true);
+    }
+    return result;
+  }
+
   return (
     <div className="flex flex-col flex-1">
       <TopBar title="Tenants" subtitle="Manage your rental tenants" />
       <div className="flex-1 overflow-y-auto p-6">
+
+        {/* Profile Fix Component */}
+        {(profileError || error === "Profile not found") && (
+          <div className="mb-6">
+            <ProfileFix />
+          </div>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
@@ -193,7 +211,7 @@ export default function TenantsPage() {
       <TenantFormModal
         open={formOpen}
         onClose={() => setFormOpen(false)}
-        onSubmit={editTarget ? (d) => updateTenant(editTarget.id, d) : addTenant}
+        onSubmit={editTarget ? (d) => updateTenant(editTarget.id, d) : handleAddTenant}
         initial={editTarget}
         properties={properties}
       />

@@ -25,11 +25,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: orgError.message }, { status: 500 });
     }
 
-    // Update profile using service role (bypasses RLS)
+    // Insert or update profile using service role (bypasses RLS)
     const { error: profileError } = await supabaseAdmin
       .from("profiles")
-      .update({ organization_id: org.id, role: "admin", full_name: fullName })
-      .eq("id", userId);
+      .upsert({
+        id: userId,
+        organization_id: org.id,
+        role: "admin",
+        full_name: fullName
+      });
 
     if (profileError) {
       return NextResponse.json({ error: profileError.message }, { status: 500 });
