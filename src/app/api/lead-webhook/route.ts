@@ -120,6 +120,30 @@ export async function POST(req: NextRequest) {
       direction: "outbound",
     });
 
+    // Auto property matching — run in background, don't block response
+    if (lead.id) {
+      (async () => {
+        try {
+          let propQuery = supabase
+            .from("properties")
+            .select("id, title, price, location, city, bedrooms, property_type, images")
+            .eq("organization_id", organization_id)
+            .eq("status", "available")
+            .limit(20);
+          if (extractedLocation) {
+            const keyword = extractedLocation.split(",")[0].trim();
+            propQuery = propQuery.or(`location.ilike.%${keyword}%,city.ilike.%${keyword}%`);
+          }
+          const { data: props } = await propQuery;
+          if (props && props.length > 0) {
+            const top3 = props.slice(0, 3);
+            const matchMsg = `🏠 Top matching properties for your requirement:\n${top3.map((p, i) => `${i + 1}. ${p.title} — ₹${Number(p.price).toLocaleString("en-IN")} (${p.city ?? p.location})`).join("\n")}`;
+            await supabase.from("conversations").insert({ lead_id: lead.id, message: matchMsg, direction: "outbound" });
+          }
+        } catch { /* silent */ }
+      })();
+    }
+
     // Notify admins (in-app + email)
     const { data: admins } = await supabase
       .from("profiles")

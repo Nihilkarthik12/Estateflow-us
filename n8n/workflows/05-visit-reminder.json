@@ -1,0 +1,97 @@
+{
+  "name": "05 - Visit Reminder (1 Day Before)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 8 * * *" }] }
+      },
+      "id": "schedule",
+      "name": "Daily 8AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.ESTATEFLOW_URL }}/api/n8n/visits-tomorrow",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "x-n8n-secret", "value": "={{ $env.N8N_SECRET }}" }]
+        },
+        "options": {}
+      },
+      "id": "get-visits",
+      "name": "Get Tomorrows Visits",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true },
+          "conditions": [{ "id": "has-visits", "leftValue": "={{ $json.count }}", "rightValue": 0, "operator": { "type": "number", "operation": "gt" } }],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "has-visits-check",
+      "name": "Any Visits Tomorrow?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": { "fieldToSplitOut": "visits", "options": {} },
+      "id": "split",
+      "name": "Split Visits",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const v = $input.first().json;\nconst name = v.visitor_name?.split(' ')[0] || 'there';\nconst phone = v.visitor_phone?.replace('+', '') || '';\nconst time = v.visit_time || '10:00';\nconst property = v.properties?.title || 'the property';\nconst location = v.properties?.city || v.properties?.location || '';\n\nconst message = `Hi ${name}! 🔔 Reminder: Your site visit is TOMORROW.\\n\\n🏠 ${property}${location ? ' — ' + location : ''}\\n⏰ Time: ${time}\\n\\nPlease be on time. Our agent will meet you at the property.\\n\\nNeed to reschedule? Reply here or call us.`;\n\nreturn [{ json: { ...v, message, phone } }];"
+      },
+      "id": "build-reminder",
+      "name": "Build Reminder Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ $json.phone }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [{ "name": "messageText", "value": "={{ $json.message }}" }]
+        },
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "id": "send-reminder",
+      "name": "Send Reminder",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 200]
+    }
+  ],
+  "connections": {
+    "Daily 8AM": { "main": [[{ "node": "Get Tomorrows Visits", "type": "main", "index": 0 }]] },
+    "Get Tomorrows Visits": { "main": [[{ "node": "Any Visits Tomorrow?", "type": "main", "index": 0 }]] },
+    "Any Visits Tomorrow?": { "main": [[{ "node": "Split Visits", "type": "main", "index": 0 }], []] },
+    "Split Visits": { "main": [[{ "node": "Build Reminder Message", "type": "main", "index": 0 }]] },
+    "Build Reminder Message": { "main": [[{ "node": "Send Reminder", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "description": "Runs every morning at 8 AM. Sends WhatsApp reminder to every visitor whose site visit is scheduled for tomorrow." }
+}

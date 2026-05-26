@@ -1,0 +1,65 @@
+{
+  "name": "04 - Visit Booking Confirmation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "visit-confirmation",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "visit-webhook",
+      "name": "Visit Booked Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "visit-confirmation"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst name = data.visitor_name?.split(' ')[0] || 'there';\nconst phone = data.visitor_phone?.replace('+', '') || '';\nconst date = new Date(data.visit_date).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });\nconst time = data.visit_time || '10:00';\nconst property = data.visit?.properties?.title || 'the property';\n\nconst message = `Hi ${name}! ✅ Your site visit has been confirmed.\\n\\n🏠 Property: ${property}\\n📅 Date: ${date}\\n⏰ Time: ${time}\\n\\nOur agent will meet you at the property. Please carry a valid ID.\\n\\nIf you need to reschedule, reply to this message or call us.\\n\\nSee you soon! 🙂`;\n\nreturn [{ json: { ...data, message, phone } }];"
+      },
+      "id": "build-confirmation",
+      "name": "Build Confirmation Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ $json.phone }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [{ "name": "messageText", "value": "={{ $json.message }}" }]
+        },
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "id": "send-confirmation",
+      "name": "Send WhatsApp Confirmation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Visit Booked Webhook": {
+      "main": [[{ "node": "Build Confirmation Message", "type": "main", "index": 0 }]]
+    },
+    "Build Confirmation Message": {
+      "main": [[{ "node": "Send WhatsApp Confirmation", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": {
+    "description": "Triggered instantly when a visit is booked. Sends WhatsApp confirmation with date, time and property details."
+  }
+}
