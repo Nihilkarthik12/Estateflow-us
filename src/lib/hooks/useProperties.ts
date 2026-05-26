@@ -58,24 +58,15 @@ export function useProperties() {
     fetchProperties();
   }, [fetchProperties]);
 
-  async function addProperty(payload: Omit<Property, "id" | "created_at" | "organization_id">) {
+  async function addProperty(payload: Omit<Property, "id" | "created_at" | "created_by">) {
     const supabase = createClient();
 
-    // Get org_id from profile
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: "Not authenticated" };
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("organization_id")
-      .eq("id", user.id)
-      .single();
-
-    if (!profile?.organization_id) return { error: "No organization found" };
-
     const { data, error } = await supabase
       .from("properties")
-      .insert({ ...payload, organization_id: profile.organization_id, created_by: user.id })
+      .insert({ ...payload, created_by: user.id })
       .select()
       .single();
 

@@ -23,7 +23,6 @@ export async function POST(req: NextRequest) {
       email,
       raw_message,
       source = "web_form",
-      organization_id,
       webhook_secret,
     } = body;
 
@@ -32,9 +31,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!raw_message || !organization_id) {
+    if (!raw_message) {
       return NextResponse.json(
-        { error: "raw_message and organization_id are required" },
+        { error: "raw_message is required" },
         { status: 400 }
       );
     }
@@ -47,7 +46,6 @@ export async function POST(req: NextRequest) {
     );
 
     const leadPayload: Record<string, unknown> = {
-      organization_id,
       name: name ?? "Unknown",
       phone: phone ?? null,
       email: email ?? null,
@@ -127,7 +125,6 @@ export async function POST(req: NextRequest) {
           let propQuery = supabase
             .from("properties")
             .select("id, title, price, location, city, bedrooms, property_type, images")
-            .eq("organization_id", organization_id)
             .eq("status", "available")
             .limit(20);
           if (extractedLocation) {
@@ -144,18 +141,15 @@ export async function POST(req: NextRequest) {
       })();
     }
 
-    // Notify admins (in-app + email)
-    const { data: admins } = await supabase
+    // Notify all users (since this is single-user, get all users)
+    const { data: users } = await supabase
       .from("profiles")
-      .select("id")
-      .eq("organization_id", organization_id)
-      .eq("role", "admin");
+      .select("id");
 
-    if (admins && admins.length > 0) {
+    if (users && users.length > 0) {
       const urgencyFlag = leadPayload.urgency === "high" ? " 🔴 HIGH URGENCY" : "";
-      const notifications = admins.map((admin) => ({
-        user_id: admin.id,
-        organization_id,
+      const notifications = users.map((user) => ({
+        user_id: user.id,
         message: `New lead received: ${leadPayload.name}${urgencyFlag} — "${raw_message.slice(0, 80)}${raw_message.length > 80 ? "…" : ""}"`,
         type: "lead",
         link: `/dashboard/leads/${lead.id}`,
@@ -171,16 +165,16 @@ export async function POST(req: NextRequest) {
             process.env.NEXT_PUBLIC_SB_URL!,
             process.env.SUPABASE_SERVICE_ROLE_KEY!
           );
-          const adminIds = admins.map((a) => a.id);
+          const userIds = users.map((u) => u.id);
           const { data: authUsers } = await serviceClient.auth.admin.listUsers();
-          const adminEmails = authUsers?.users
-            .filter((u) => adminIds.includes(u.id) && u.email)
+          const userEmails = authUsers?.users
+            .filter((u) => userIds.includes(u.id) && u.email)
             .map((u) => u.email as string) ?? [];
 
           await Promise.all(
-            adminEmails.map((adminEmail) =>
+            userEmails.map((userEmail) =>
               sendLeadNotificationEmail(
-                adminEmail,
+                userEmail,
                 String(leadPayload.name),
                 extractedSummary ?? raw_message.slice(0, 120),
                 lead.id

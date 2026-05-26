@@ -37,7 +37,7 @@ function isActive(pathname: string, href: string, exact: boolean) {
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { profile, org, signOut } = useAuth();
+  const { profile, signOut } = useAuth();
   const { mobileOpen, setMobileOpen } = useDashboard();
 
   const initials = profile?.full_name
@@ -81,11 +81,9 @@ export default function Sidebar() {
             <p className="text-sm font-bold text-[var(--foreground)] leading-none">
               Estate<span className="gradient-text">Flow</span>
             </p>
-            {org && (
-              <p className="text-[10px] text-[var(--foreground-subtle)] truncate mt-0.5">
-                {org.name}
-              </p>
-            )}
+            <p className="text-[10px] text-[var(--foreground-subtle)] truncate mt-0.5">
+              Personal Real Estate CRM
+            </p>
           </div>
           <button
             onClick={() => setMobileOpen(false)}
@@ -178,8 +176,8 @@ export default function Sidebar() {
               <p className="text-xs font-semibold text-[var(--foreground)] truncate leading-none">
                 {profile?.full_name ?? "Loading…"}
               </p>
-              <p className="text-[10px] text-[var(--foreground-muted)] capitalize mt-0.5">
-                {profile?.role ?? ""}
+              <p className="text-[10px] text-[var(--foreground-muted)] mt-0.5">
+                Owner
               </p>
             </div>
           </div>

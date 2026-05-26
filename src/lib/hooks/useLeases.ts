@@ -20,13 +20,12 @@ export function useLeases(tenantId?: string) {
 
   useEffect(() => { fetchLeases(); }, [fetchLeases]);
 
-  async function addLease(payload: Omit<Lease, "id" | "created_at" | "organization_id">) {
+  async function addLease(payload: Omit<Lease, "id" | "created_at">) {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: "Not authenticated" };
-    const { data: profile } = await supabase.from("profiles").select("organization_id").eq("id", user.id).single();
-    if (!profile) return { error: "Profile not found" };
-    const { data, error: err } = await supabase.from("leases").insert({ ...payload, organization_id: profile.organization_id }).select().single();
+
+    const { data, error: err } = await supabase.from("leases").insert(payload).select().single();
     if (!err && data) setLeases((prev) => [data as Lease, ...prev]);
     return { data, error: err?.message };
   }

@@ -4,14 +4,11 @@ import { createClient as createServiceClient } from "@supabase/supabase-js";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { visitor_name, visitor_phone, visitor_email, property_id, visit_date, visit_time, organization_id } = body;
+    const { visitor_name, visitor_phone, visitor_email, property_id, visit_date, visit_time } = body;
 
     if (!visitor_name || !visitor_phone || !visit_date) {
       return NextResponse.json({ error: "Name, phone and date are required." }, { status: 400 });
     }
-
-    const orgId = organization_id ?? process.env.NEXT_PUBLIC_ORG_ID;
-    if (!orgId) return NextResponse.json({ error: "Organization not configured." }, { status: 400 });
 
     const supabase = createServiceClient(
       process.env.NEXT_PUBLIC_SB_URL!,
@@ -21,7 +18,6 @@ export async function POST(req: NextRequest) {
     const { data: visit, error } = await supabase
       .from("visits")
       .insert({
-        organization_id: orgId,
         property_id: property_id || null,
         visitor_name,
         visitor_phone,
@@ -35,20 +31,17 @@ export async function POST(req: NextRequest) {
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    // Notify admins in-app
-    const { data: admins } = await supabase
+    // Notify all users (since single-user system)
+    const { data: users } = await supabase
       .from("profiles")
-      .select("id")
-      .eq("organization_id", orgId)
-      .eq("role", "admin");
+      .select("id");
 
-    if (admins && admins.length > 0) {
+    if (users && users.length > 0) {
       await supabase.from("notifications").insert(
-        admins.map((a) => ({
-          user_id: a.id,
-          organization_id: orgId,
+        users.map((u) => ({
+          user_id: u.id,
           message: `New site visit booked: ${visitor_name} (${visitor_phone}) on ${visit_date} at ${visit_time}`,
-          type: "visit",
+          type: "info",
           link: `/dashboard/visits`,
           read: false,
         }))

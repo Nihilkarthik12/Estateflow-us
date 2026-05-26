@@ -1,5 +1,3 @@
-export type UserRole = "admin" | "agent";
-
 export type PropertyStatus = "available" | "sold" | "reserved" | "upcoming";
 
 export type LeadUrgency = "high" | "medium" | "low";
@@ -15,23 +13,14 @@ export type LeadStage =
   | "closed"
   | "lost";
 
-export interface Organization {
-  id: string;
-  name: string;
-  created_at: string;
-}
-
 export interface User {
   id: string;
-  organization_id: string;
-  role: UserRole;
   email: string;
   created_at: string;
 }
 
 export interface Property {
   id: string;
-  organization_id: string;
   title: string;
   price: number;
   location: string;
@@ -54,7 +43,6 @@ export interface Property {
 
 export interface Lead {
   id: string;
-  organization_id: string;
   raw_message?: string;
   name: string;
   phone?: string;
@@ -94,7 +82,6 @@ export type VisitorStatus = "pending" | "approved" | "rejected";
 
 export interface Tenant {
   id: string;
-  organization_id: string;
   property_id?: string;
   name: string;
   phone?: string;
@@ -106,7 +93,6 @@ export interface Tenant {
 
 export interface Lease {
   id: string;
-  organization_id: string;
   tenant_id: string;
   property_id?: string;
   start_date: string;
@@ -119,7 +105,6 @@ export interface Lease {
 
 export interface MaintenanceTicket {
   id: string;
-  organization_id: string;
   tenant_id?: string;
   property_id?: string;
   title: string;
@@ -135,7 +120,6 @@ export interface MaintenanceTicket {
 
 export interface Visitor {
   id: string;
-  organization_id: string;
   tenant_id?: string;
   visitor_name: string;
   visitor_phone?: string;
@@ -145,10 +129,23 @@ export interface Visitor {
   created_at: string;
 }
 
+export interface Visit {
+  id: string;
+  property_id?: string;
+  lead_id?: string;
+  visitor_name: string;
+  visitor_phone: string;
+  visitor_email?: string;
+  visit_date: string;
+  visit_time: string;
+  status: "scheduled" | "completed" | "cancelled" | "no_show";
+  notes?: string;
+  created_at: string;
+}
+
 export interface Notification {
   id: string;
   user_id: string;
-  organization_id: string;
   message: string;
   type: "info" | "lead" | "follow_up" | "ai";
   read: boolean;

@@ -55,23 +55,15 @@ export function useLeads() {
     fetchLeads();
   }, [fetchLeads]);
 
-  async function addLead(payload: Omit<Lead, "id" | "created_at" | "organization_id" | "ai_analyzed">) {
+  async function addLead(payload: Omit<Lead, "id" | "created_at" | "ai_analyzed">) {
     const supabase = createClient();
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: "Not authenticated" };
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("organization_id")
-      .eq("id", user.id)
-      .single();
-
-    if (!profile?.organization_id) return { error: "No organization found" };
-
     const { data, error } = await supabase
       .from("leads")
-      .insert({ ...payload, organization_id: profile.organization_id })
+      .insert(payload)
       .select()
       .single();
 

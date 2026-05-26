@@ -23,13 +23,12 @@ export function useMaintenance(tenantId?: string) {
 
   useEffect(() => { fetchTickets(); }, [fetchTickets]);
 
-  async function addTicket(payload: Omit<MaintenanceTicket, "id" | "created_at" | "organization_id" | "updated_at">) {
+  async function addTicket(payload: Omit<MaintenanceTicket, "id" | "created_at" | "updated_at">) {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: "Not authenticated" };
-    const { data: profile } = await supabase.from("profiles").select("organization_id").eq("id", user.id).single();
-    if (!profile) return { error: "Profile not found" };
-    const { data, error: err } = await supabase.from("maintenance_tickets").insert({ ...payload, organization_id: profile.organization_id }).select().single();
+
+    const { data, error: err } = await supabase.from("maintenance_tickets").insert(payload).select().single();
     if (!err && data) setTickets((prev) => [data as MaintenanceTicket, ...prev]);
     return { data, error: err?.message };
   }
