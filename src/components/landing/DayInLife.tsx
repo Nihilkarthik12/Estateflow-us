@@ -232,8 +232,8 @@ export default function DayInLife() {
               </p>
             </div>
             <div className="text-center sm:text-right">
-              <p className="text-3xl font-extrabold gradient-text">₹11L+</p>
-              <p className="text-xs text-[var(--foreground-muted)] mt-1">Extra commission in pipeline<br/>per agent, per month</p>
+              <p className="text-5xl sm:text-6xl font-extrabold gradient-text" style={{ fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>₹11L+</p>
+              <p className="text-xs text-[var(--foreground-muted)] mt-2">Extra commission in pipeline<br/>per agent, per month</p>
             </div>
           </div>
         </motion.div>

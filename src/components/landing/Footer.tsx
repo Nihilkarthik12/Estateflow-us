@@ -1,10 +1,27 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail } from "lucide-react";
+
+const FOOTER_BG = "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1920&q=80";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[rgba(255,255,255,0.07)] px-6 sm:px-12 pt-16 pb-10 bg-[var(--background)]">
-      <div className="max-w-[1400px] mx-auto">
+    <footer className="border-t border-[rgba(255,255,255,0.07)] px-6 sm:px-12 pt-16 pb-10 bg-[var(--background)] relative overflow-hidden">
+      {/* City skyline ambient background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <Image
+          src={FOOTER_BG}
+          alt=""
+          fill
+          className="object-cover object-bottom opacity-[0.07]"
+          sizes="100vw"
+          aria-hidden
+        />
+        {/* Gradient to fade image at top so it doesn't bleed into content above */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)] via-transparent to-transparent" />
+      </div>
+
+      <div className="max-w-[1400px] mx-auto relative z-10">
 
         {/* Elyse-style footer — 3 columns with parenthesized labels */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-14">

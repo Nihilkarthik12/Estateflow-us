@@ -90,8 +90,8 @@ export default function Pain() {
               className="pain-img object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
-            {/* Dark overlay */}
-            <div className="absolute inset-0 bg-[rgba(13,15,14,0.4)]" />
+            {/* Gradient overlay — lighter at top to show the image, darker at bottom for text */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[rgba(13,15,14,0.15)] via-[rgba(13,15,14,0.25)] to-[rgba(13,15,14,0.7)]" />
             {/* Corner label */}
             <div className="absolute bottom-6 left-6">
               <p className="section-label text-white/60">(The Status Quo)</p>
@@ -120,11 +120,11 @@ export default function Pain() {
                     ({p.num})
                   </span>
                   <div className="text-right">
-                    <p className="font-serif text-3xl font-bold text-[#f87171]"
-                      style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
+                    <p className="font-serif text-4xl sm:text-5xl font-bold text-[#f87171]"
+                      style={{ fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>
                       {p.stat}
                     </p>
-                    <p className="text-[10px] text-[var(--foreground-subtle)] mt-0.5 max-w-[140px] text-right leading-snug">{p.statLabel}</p>
+                    <p className="text-[10px] text-[var(--foreground-subtle)] mt-1.5 max-w-[140px] text-right leading-snug">{p.statLabel}</p>
                   </div>
                 </div>
 

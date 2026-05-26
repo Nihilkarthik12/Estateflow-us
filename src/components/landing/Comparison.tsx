@@ -1,7 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { X, Check } from "lucide-react";
+
+const COMPARISON_BG = "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1920&q=80";
 
 const rows = [
   { label: "Lead response time",    before: "2–3 hours (if lucky)",        after: "Under 90 seconds, automated" },
@@ -17,8 +20,19 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Comparison() {
   return (
-    <section className="section-rule landing-section px-6 sm:px-12">
-      <div className="max-w-[1400px] mx-auto">
+    <section className="section-rule landing-section px-6 sm:px-12 relative">
+      {/* Luxury property ambient background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <Image
+          src={COMPARISON_BG}
+          alt=""
+          fill
+          className="object-cover object-center opacity-[0.06]"
+          sizes="100vw"
+          aria-hidden
+        />
+      </div>
+      <div className="max-w-[1400px] mx-auto relative z-10">
 
         {/* Header */}
         <div className="mb-14 sm:mb-20">

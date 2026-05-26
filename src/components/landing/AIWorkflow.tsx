@@ -1,7 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { MessageSquare, Brain, Database, Bell, Rocket, LucideIcon } from "lucide-react";
+
+const WORKFLOW_IMG = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80";
 import SectionHeader from "./SectionHeader";
 
 const steps: {
@@ -95,10 +98,21 @@ export default function AIWorkflow() {
               Fully automated · Zero manual input needed
             </div>
 
-            {/* Time badge */}
-            <div className="mt-8 p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)]">
-              <p className="text-3xl font-bold text-[var(--foreground)]">2.4s</p>
-              <p className="text-sm text-[var(--foreground-muted)] mt-1">Average time from lead to agent-ready profile</p>
+            {/* Time badge — property image background */}
+            <div className="mt-8 rounded-2xl overflow-hidden relative border border-[var(--border)]" style={{ minHeight: "130px" }}>
+              <Image
+                src={WORKFLOW_IMG}
+                alt=""
+                fill
+                className="object-cover object-center opacity-[0.35]"
+                sizes="400px"
+                aria-hidden
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--surface)]/80 to-black/50" />
+              <div className="relative p-5">
+                <p className="text-4xl font-bold text-[var(--foreground)]" style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>2.4s</p>
+                <p className="text-sm text-[var(--foreground-muted)] mt-1.5 max-w-[200px] leading-relaxed">Average time from lead to agent-ready profile</p>
+              </div>
             </div>
           </div>
 

@@ -15,6 +15,7 @@ const features = [
     body: "Every buyer who messages on WhatsApp is automatically captured, replied to within 4 seconds, and logged in your CRM — even at midnight. You wake up to warm, qualified leads.",
     stat: "< 4s",
     statLabel: "First reply time",
+    img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80",
   },
   {
     num: "02",
@@ -23,6 +24,7 @@ const features = [
     body: "EstateFlow reads every enquiry and scores buyer intent from 1–100. Budget, urgency, location, property type — extracted instantly. Your agent knows exactly who to call first.",
     stat: "94",
     statLabel: "Avg. score accuracy",
+    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
   },
   {
     num: "03",
@@ -31,6 +33,7 @@ const features = [
     body: "80% of deals close after 5+ follow-ups. EstateFlow sends all 5 — via WhatsApp — at the perfect intervals. Your lead never goes cold again while you're in a site visit.",
     stat: "5×",
     statLabel: "Follow-up touchpoints",
+    img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
   },
   {
     num: "04",
@@ -39,6 +42,7 @@ const features = [
     body: "AI instantly matches every buyer to your best listings based on their stated and inferred preferences. Your agent walks into every meeting already knowing which 3 properties to show.",
     stat: "98%",
     statLabel: "Match accuracy",
+    img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
   },
   {
     num: "05",
@@ -47,6 +51,7 @@ const features = [
     body: "A 24/7 AI voice agent answers every call to your office number, qualifies the buyer, extracts requirements, and books site visits — while you're in a meeting or asleep.",
     stat: "24/7",
     statLabel: "Always on",
+    img: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80",
   },
   {
     num: "06",
@@ -55,13 +60,14 @@ const features = [
     body: "See your full pipeline at a glance — leads by stage, agent performance, conversion rates, deal size. Know exactly where your next ₹1Cr is coming from before end of month.",
     stat: "₹2.4Cr",
     statLabel: "Avg. monthly pipeline",
+    img: "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
 export default function Features() {
   return (
     <section id="features" className="section-rule landing-section px-6 sm:px-12 relative">
-      {/* Subtle ambient property image in background */}
+      {/* Ambient property image in background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <Image
           src={FEATURES_BG}
@@ -108,7 +114,7 @@ export default function Features() {
           </motion.p>
         </div>
 
-        {/* Numbered feature grid — like Elyse beliefs cards */}
+        {/* Feature grid — image header cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[rgba(255,255,255,0.06)]">
           {features.map((f, i) => (
             <motion.div
@@ -117,35 +123,50 @@ export default function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.07, duration: 0.6, ease }}
-              className="feature-card-item bg-[var(--background)] p-8 sm:p-10 flex flex-col gap-6 group hover:bg-[var(--surface)] transition-colors duration-300"
+              className="feature-card-item bg-[var(--background)] flex flex-col group hover:bg-[var(--surface)] transition-colors duration-300 overflow-hidden"
             >
-              {/* Number — italic like Elyse */}
-              <span className="font-serif italic text-5xl font-400 text-[rgba(255,255,255,0.12)] group-hover:text-[rgba(201,169,110,0.3)] transition-colors"
-                style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontStyle: "italic", fontWeight: 400 }}>
-                ({f.num})
-              </span>
+              {/* Property image header */}
+              <div className="relative h-40 overflow-hidden shrink-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={f.img}
+                  alt=""
+                  className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
+                />
+                {/* Gradient fade to card background */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[var(--background)]" />
+                {/* Number overlaid on image */}
+                <span
+                  className="absolute bottom-3 left-8 font-serif italic text-5xl text-white/25 group-hover:text-[rgba(201,169,110,0.45)] transition-colors duration-300"
+                  style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontStyle: "italic", fontWeight: 400 }}
+                >
+                  ({f.num})
+                </span>
+              </div>
 
-              {/* Title — mixed roman + italic */}
-              <div>
-                <h3 className="font-serif text-xl font-bold text-[var(--foreground)] leading-tight"
-                  style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
+              {/* Content */}
+              <div className="px-8 sm:px-10 pb-8 sm:pb-10 pt-4 flex flex-col gap-5 flex-1">
+                <h3
+                  className="font-serif text-xl font-bold text-[var(--foreground)] leading-tight"
+                  style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+                >
                   {f.title}{" "}
                   <em className="font-normal" style={{ fontStyle: "italic" }}>{f.titleItalic}</em>
                 </h3>
-              </div>
 
-              {/* Body */}
-              <p className="text-sm text-[var(--foreground-muted)] leading-relaxed flex-1">
-                {f.body}
-              </p>
-
-              {/* Stat */}
-              <div className="pt-4 border-t border-[rgba(255,255,255,0.07)]">
-                <p className="font-serif text-2xl font-bold text-[var(--gold)]"
-                  style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
-                  {f.stat}
+                <p className="text-sm text-[var(--foreground-muted)] leading-relaxed flex-1">
+                  {f.body}
                 </p>
-                <p className="text-[11px] text-[var(--foreground-subtle)] uppercase tracking-[0.1em] mt-1">{f.statLabel}</p>
+
+                <div className="pt-4 border-t border-[rgba(255,255,255,0.07)]">
+                  <p
+                    className="font-serif text-3xl font-bold text-[var(--gold)]"
+                    style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+                  >
+                    {f.stat}
+                  </p>
+                  <p className="text-[11px] text-[var(--foreground-subtle)] uppercase tracking-[0.1em] mt-1">{f.statLabel}</p>
+                </div>
               </div>
             </motion.div>
           ))}
