@@ -135,12 +135,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                   background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
                 }}
               >
-                A
+                M
               </div>
               <div>
-                <p className="text-xs font-semibold text-[var(--foreground)]">Arjun Mehta</p>
+                <p className="text-xs font-semibold text-[var(--foreground)]">Michael Carter</p>
                 <p className="text-[10px] text-[var(--foreground-subtle)]">
-                  MD, Prestige Properties, Mumbai
+                  Broker/Owner, Carter Realty Group, New York
                 </p>
               </div>
             </div>

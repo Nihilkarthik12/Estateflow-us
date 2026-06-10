@@ -9,7 +9,7 @@ import SectionHeader from "./SectionHeader";
 const plans = [
   {
     name: "Starter",
-    price: "₹2,999",
+    price: "$49",
     period: "/month",
     description: "For lean brokerages and growing lead volumes.",
     features: [
@@ -24,9 +24,9 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "₹7,999",
+    price: "$149",
     period: "/month",
-    description: "For high-volume teams that need automation and WhatsApp integration.",
+    description: "For high-volume teams that need automation and text/email integration.",
     features: [
       "Unlimited leads",
       "Unlimited properties",
@@ -34,7 +34,7 @@ const plans = [
       "10 agents",
       "Workflow automation",
       "Advanced analytics",
-      "WhatsApp capture",
+      "Text & email capture",
       "Priority support",
     ],
     cta: "Start free trial",
@@ -64,8 +64,8 @@ export default function Pricing() {
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           label="Pricing"
-          title="Transparent pricing that scales with your agency"
-          description="Choose the plan that fits your team. Every plan includes AI lead capture, WhatsApp integration and automated follow-ups."
+          title="Transparent pricing that scales with your brokerage"
+          description="Choose the plan that fits your team. Every plan includes AI lead capture, text & email integration and automated follow-ups."
           align="center"
           className="mx-auto"
         />

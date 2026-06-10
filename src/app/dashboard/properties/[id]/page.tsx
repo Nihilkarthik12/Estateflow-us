@@ -25,9 +25,9 @@ const statusBadge: Record<PropertyStatus, "success" | "warning" | "default" | "d
 };
 
 function formatPrice(price: number) {
-  if (price >= 10000000) return `₹${(price / 10000000).toFixed(2)} Cr`;
-  if (price >= 100000) return `₹${(price / 100000).toFixed(0)} L`;
-  return `₹${price.toLocaleString("en-IN")}`;
+  if (price >= 1_000_000) return `$${(price / 1_000_000).toFixed(1)}M`;
+  if (price >= 1_000) return `$${(price / 1_000).toFixed(0)}K`;
+  return `$${price.toLocaleString("en-US")}`;
 }
 
 export default function PropertyDetailPage() {
@@ -42,7 +42,7 @@ export default function PropertyDetailPage() {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showEMI, setShowEMI] = useState(false);
-  const [emiForm, setEmiForm] = useState({ downPct: 20, rate: 8.5, years: 20 });
+  const [emiForm, setEmiForm] = useState({ downPct: 20, rate: 7, years: 30 });
   const [bookOpen, setBookOpen] = useState(false);
   const [bookForm, setBookForm] = useState({ name: "", phone: "", email: "", date: "", time: "10:00" });
   const [bookLoading, setBookLoading] = useState(false);
@@ -301,7 +301,7 @@ export default function PropertyDetailPage() {
               </div>
               <iframe
                 title="Property location"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(`${property.location}, ${property.city ?? ""}, India`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(`${property.location}, ${property.city ?? ""}, USA`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
                 className="w-full h-56 border-0"
                 loading="lazy"
               />
@@ -363,7 +363,7 @@ export default function PropertyDetailPage() {
               Match to Lead
             </Button>
             <Button size="lg" variant="secondary" className="w-full" onClick={() => setBookOpen(true)}>
-              <CalendarCheck size={15} /> Book Site Visit
+              <CalendarCheck size={15} /> Book Showing
             </Button>
             <Button variant="secondary" size="sm" className="w-full" onClick={() => setEditOpen(true)}>
               <Pencil size={13} /> Edit Property
@@ -377,7 +377,7 @@ export default function PropertyDetailPage() {
               >
                 <div className="flex items-center gap-2">
                   <Calculator size={14} className="text-[var(--accent)]" />
-                  EMI Calculator
+                  Mortgage Calculator
                 </div>
                 {showEMI ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
               </button>
@@ -388,14 +388,14 @@ export default function PropertyDetailPage() {
                 const emi = r > 0 ? (loan * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1) : loan / n;
                 const totalPay = emi * n;
                 const totalInt = totalPay - loan;
-                const fmt = (v: number) => `₹${Math.round(v).toLocaleString("en-IN")}`;
+                const fmt = (v: number) => `$${Math.round(v).toLocaleString("en-US")}`;
                 return (
                   <div className="px-4 pb-4 flex flex-col gap-3 border-t border-[var(--border)]">
                     <div className="pt-3 flex flex-col gap-3">
                       {[
                         { label: `Down Payment (${emiForm.downPct}%)`, key: "downPct" as const, min: 5, max: 90, step: 5, suffix: "%" },
-                        { label: `Interest Rate (${emiForm.rate}%)`, key: "rate" as const, min: 5, max: 20, step: 0.5, suffix: "%" },
-                        { label: `Tenure (${emiForm.years} yrs)`, key: "years" as const, min: 1, max: 30, step: 1, suffix: "yr" },
+                        { label: `Interest Rate (${emiForm.rate}%)`, key: "rate" as const, min: 2, max: 12, step: 0.25, suffix: "%" },
+                        { label: `Term (${emiForm.years} yrs)`, key: "years" as const, min: 10, max: 30, step: 5, suffix: "yr" },
                       ].map(({ label, key, min, max, step }) => (
                         <div key={key}>
                           <div className="flex justify-between mb-1">
@@ -416,7 +416,7 @@ export default function PropertyDetailPage() {
                         <span className="font-semibold text-[var(--foreground)]">{fmt(loan)}</span>
                       </div>
                       <div className="flex justify-between text-xs">
-                        <span className="text-[var(--foreground-muted)]">Monthly EMI</span>
+                        <span className="text-[var(--foreground-muted)]">Monthly Payment</span>
                         <span className="font-bold text-[var(--accent)] text-base">{fmt(emi)}</span>
                       </div>
                       <div className="flex justify-between text-xs">
@@ -462,7 +462,7 @@ export default function PropertyDetailPage() {
               <>
                 <div className="flex items-center justify-between mb-5">
                   <div>
-                    <h2 className="text-base font-bold text-[var(--foreground)]">Book Site Visit</h2>
+                    <h2 className="text-base font-bold text-[var(--foreground)]">Book Showing</h2>
                     <p className="text-xs text-[var(--foreground-muted)] mt-0.5 truncate max-w-[260px]">{property.title}</p>
                   </div>
                   <button onClick={() => setBookOpen(false)} className="w-7 h-7 flex items-center justify-center rounded-lg text-[var(--foreground-muted)] hover:bg-[var(--surface-2)] transition-colors">
@@ -471,9 +471,9 @@ export default function PropertyDetailPage() {
                 </div>
                 <div className="flex flex-col gap-4">
                   {[
-                    { label: "Visitor Name *", key: "name", type: "text", placeholder: "Rahul Sharma" },
-                    { label: "Phone *", key: "phone", type: "tel", placeholder: "+91 98765 43210" },
-                    { label: "Email", key: "email", type: "email", placeholder: "rahul@email.com" },
+                    { label: "Visitor Name *", key: "name", type: "text", placeholder: "James Wilson" },
+                    { label: "Phone *", key: "phone", type: "tel", placeholder: "(555) 123-4567" },
+                    { label: "Email", key: "email", type: "email", placeholder: "james@email.com" },
                   ].map(({ label, key, type, placeholder }) => (
                     <div key={key}>
                       <label className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider block mb-1.5">{label}</label>

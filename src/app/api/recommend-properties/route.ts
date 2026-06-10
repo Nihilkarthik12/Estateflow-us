@@ -60,9 +60,9 @@ export async function POST(req: NextRequest) {
         if (propType.includes(leadType) || leadType.includes(propType)) {
           score += 2; reasons.push("Property type match");
         }
-        const bhkMatch = leadType.match(/(\d)bhk/)?.[1];
-        if (bhkMatch && p.bedrooms === parseInt(bhkMatch)) {
-          score += 2; reasons.push(`${bhkMatch}BHK match`);
+        const bedMatch = leadType.match(/(\d)\s*(?:bed|bd|br|bhk)/)?.[1];
+        if (bedMatch && p.bedrooms === parseInt(bedMatch)) {
+          score += 2; reasons.push(`${bedMatch} bed match`);
         }
       }
       return { ...p, score, match_reasons: reasons };
@@ -83,11 +83,11 @@ export async function POST(req: NextRequest) {
 }
 
 function parseBudgetToNumber(budget: string): number | null {
-  const b = budget.toLowerCase().replace(/[₹,\s]/g, "");
-  const croreMatch = b.match(/([\d.]+)\s*(?:cr|crore)/);
-  if (croreMatch) return parseFloat(croreMatch[1]) * 1e7;
-  const lakhMatch = b.match(/([\d.]+)\s*(?:l|lakh|lakhs)/);
-  if (lakhMatch) return parseFloat(lakhMatch[1]) * 1e5;
+  const b = budget.toLowerCase().replace(/[$,\s]/g, "");
+  const millionMatch = b.match(/([\d.]+)\s*(?:m|mm|million)/);
+  if (millionMatch) return parseFloat(millionMatch[1]) * 1e6;
+  const thousandMatch = b.match(/([\d.]+)\s*(?:k|thousand)/);
+  if (thousandMatch) return parseFloat(thousandMatch[1]) * 1e3;
   const num = parseFloat(b);
   return isNaN(num) ? null : num;
 }

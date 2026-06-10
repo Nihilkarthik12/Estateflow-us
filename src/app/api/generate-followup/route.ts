@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
       new: "New Lead",
       contacted: "Recently Contacted",
       qualified: "Qualified",
-      site_visit: "Site Visit Scheduled",
-      negotiation: "In Negotiation",
+      site_visit: "Showing Scheduled",
+      negotiation: "Under Contract",
     };
 
     const context = [

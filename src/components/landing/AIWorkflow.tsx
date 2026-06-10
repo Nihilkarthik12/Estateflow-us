@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { MessageSquare, Brain, Database, Bell, Rocket, LucideIcon } from "lucide-react";
 
-const WORKFLOW_IMG = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80";
+const WORKFLOW_IMG = "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=80";
 import SectionHeader from "./SectionHeader";
 
 const steps: {
@@ -21,7 +21,7 @@ const steps: {
     time: "0s",
     visual: (
       <div className="px-3 py-2 rounded-xl bg-[var(--surface-3)] border border-white/[0.06] text-xs text-[var(--foreground-muted)]">
-        💬 &quot;Looking for 3BHK in Chennai under ₹90L near metro, need it within 3 months&quot;
+        💬 &quot;Looking for a 3-bed in Austin under $650K near downtown, need to close within 3 months&quot;
       </div>
     ),
   },
@@ -32,7 +32,7 @@ const steps: {
     time: "1.2s",
     visual: (
       <div className="flex flex-wrap gap-1.5">
-        {["₹90L", "3BHK", "Chennai", "Near metro", "High urgency", "Serious buyer"].map((tag) => (
+        {["$650K", "3 Bed", "Austin, TX", "Near downtown", "High urgency", "Serious buyer"].map((tag) => (
           <span key={tag} className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[var(--accent-muted)] text-[var(--accent-light)] border border-[var(--border-accent)]">
             {tag}
           </span>
@@ -47,7 +47,7 @@ const steps: {
     time: "1.8s",
     visual: (
       <div className="space-y-1.5">
-        {[{ n: "Prestige Eden Garden", p: "₹87L", m: "98%" }, { n: "Brigade Utopia", p: "₹91L", m: "94%" }].map((p) => (
+        {[{ n: "2412 Oak Ridge Dr", p: "$639K", m: "98%" }, { n: "188 Lakeview Terrace", p: "$648K", m: "94%" }].map((p) => (
           <div key={p.n} className="flex items-center justify-between text-[10px] px-2.5 py-1.5 rounded-lg bg-[var(--surface-3)] border border-white/[0.05]">
             <span className="text-[var(--foreground-muted)]">{p.n} · {p.p}</span>
             <span className="font-bold text-[var(--success)]">{p.m} match</span>
@@ -64,7 +64,7 @@ const steps: {
     visual: (
       <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-[var(--success-muted)] border border-[rgba(16,185,129,0.2)]">
         <span className="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse" />
-        <span className="text-xs font-medium text-[var(--success)]">Lead created · Score 88 · Assigned to Ravi</span>
+        <span className="text-xs font-medium text-[var(--success)]">Lead created · Score 88 · Assigned to Sarah</span>
       </div>
     ),
   },
@@ -75,7 +75,7 @@ const steps: {
     time: "2.4s",
     visual: (
       <div className="px-3 py-2 rounded-xl bg-[var(--surface-3)] border border-white/[0.06] text-[11px] text-[var(--foreground-muted)] leading-relaxed">
-        🔴 <strong className="text-[var(--foreground)]">High intent lead — Arjun Mehta</strong><br />
+        🔴 <strong className="text-[var(--foreground)]">High intent lead — Michael Carter</strong><br />
         Call within 15 min · 3 properties ready to share
       </div>
     ),

@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
       await supabase.from("notifications").insert(
         users.map((u) => ({
           user_id: u.id,
-          message: `New site visit booked: ${visitor_name} (${visitor_phone}) on ${visit_date} at ${visit_time}`,
+          message: `New showing booked: ${visitor_name} (${visitor_phone}) on ${visit_date} at ${visit_time}`,
           type: "info",
           link: `/dashboard/visits`,
           read: false,

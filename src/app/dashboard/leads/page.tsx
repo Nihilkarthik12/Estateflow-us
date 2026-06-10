@@ -25,7 +25,7 @@ const urgencyVariant: Record<LeadUrgency, "danger" | "warning" | "default"> = {
 
 const stageLabel: Record<LeadStage, string> = {
   new: "New", contacted: "Contacted", qualified: "Qualified",
-  site_visit: "Site Visit", negotiation: "Negotiation", closed: "Closed", lost: "Lost",
+  site_visit: "Showing", negotiation: "Under Contract", closed: "Closed", lost: "Lost",
 };
 
 const stageColor: Record<LeadStage, string> = {
@@ -49,8 +49,8 @@ const stageOptions = [
   { label: "New", value: "new" },
   { label: "Contacted", value: "contacted" },
   { label: "Qualified", value: "qualified" },
-  { label: "Site Visit", value: "site_visit" },
-  { label: "Negotiation", value: "negotiation" },
+  { label: "Showing", value: "site_visit" },
+  { label: "Under Contract", value: "negotiation" },
   { label: "Closed", value: "closed" },
   { label: "Lost", value: "lost" },
 ];

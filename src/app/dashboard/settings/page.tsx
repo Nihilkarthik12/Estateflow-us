@@ -93,8 +93,8 @@ export default function SettingsPage() {
               <CardContent>
                 <div className="flex flex-col gap-3">
                   {[
-                    { label: "Public Lead Capture Form", href: "/submit-lead", desc: "Share this URL to capture leads from your website or WhatsApp bio" },
-                    { label: "Book a Site Visit (Public)", href: "/book-visit", desc: "Share this URL so customers can book property visits themselves" },
+                    { label: "Public Lead Capture Form", href: "/submit-lead", desc: "Share this URL to capture leads from your website or social bio" },
+                    { label: "Book a Showing (Public)", href: "/book-visit", desc: "Share this URL so buyers can book property showings themselves" },
                     { label: "Tenant Portal", href: "/tenant-portal", desc: "Share this URL with tenants — they can view lease, raise maintenance requests" },
                     { label: "Property Listings (Public)", href: "/listings", desc: "Public page showing all available properties with filters" },
                     { label: "n8n Automation Setup Guide", href: "https://github.com", desc: "See n8n/SETUP.md in your project for step-by-step automation setup" },

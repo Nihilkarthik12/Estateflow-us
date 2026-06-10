@@ -33,7 +33,7 @@ const stageColor: Record<string, string> = {
 
 const stageLabel: Record<string, string> = {
   new: "New", contacted: "Contacted", qualified: "Qualified",
-  site_visit: "Site Visit", negotiation: "Negotiation",
+  site_visit: "Showing", negotiation: "Under Contract",
   closed: "Closed", lost: "Lost",
 };
 

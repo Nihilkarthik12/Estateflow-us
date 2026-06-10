@@ -1,8 +1,8 @@
 const items = [
   "📞 24/7 Voice AI agent",
   "⚡ Lead scored in under 2s",
-  "🤖 AI reads every enquiry automatically",
-  "📱 WhatsApp lead capture",
+  "🤖 AI reads every inquiry automatically",
+  "📱 Text & email lead capture",
   "🎯 AI intent scoring 0–100",
   "📊 6-stage pipeline tracking",
   "🏠 Smart property matching",

@@ -99,10 +99,10 @@ Your webhook endpoints remain the same, but they no longer require `organization
 POST /api/lead-webhook
 {
   "name": "John Doe",
-  "phone": "+91 98765 43210", 
+  "phone": "(512) 555-0142",
   "email": "john@example.com",
-  "raw_message": "Looking for 3BHK in Chennai under 90L",
-  "source": "whatsapp",
+  "raw_message": "Looking for a 3-bed in Austin under $650K",
+  "source": "sms",
   "webhook_secret": "your_secret"
 }
 ```
@@ -112,7 +112,7 @@ POST /api/lead-webhook
 POST /api/public/book-visit
 {
   "visitor_name": "Jane Smith",
-  "visitor_phone": "+91 87654 32109",
+  "visitor_phone": "(512) 555-0188",
   "visitor_email": "jane@example.com",
   "property_id": "uuid-of-property",
   "visit_date": "2026-06-01",

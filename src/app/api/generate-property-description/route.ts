@@ -20,10 +20,10 @@ export async function POST(req: NextRequest) {
       `Title: ${title}`,
       property_type ? `Type: ${property_type}` : null,
       `Location: ${city ?? location}`,
-      price ? `Price: ₹${Number(price).toLocaleString("en-IN")}` : null,
+      price ? `Price: $${Number(price).toLocaleString("en-US")}` : null,
       bedrooms ? `Bedrooms: ${bedrooms}` : null,
       bathrooms ? `Bathrooms: ${bathrooms}` : null,
-      area ? `Area: ${area} sqft` : null,
+      area ? `Area: ${area} sq ft` : null,
       furnishing ? `Furnishing: ${furnishing}` : null,
       amenities?.length ? `Amenities: ${amenities.join(", ")}` : null,
     ]

@@ -5,9 +5,9 @@ import { BedDouble, Bath, Maximize2, MapPin, Search } from "lucide-react";
 import ChatWidget from "@/components/chat/ChatWidget";
 
 function formatPrice(price: number) {
-  if (price >= 1e7) return `₹${(price / 1e7).toFixed(price % 1e7 === 0 ? 0 : 2)} Cr`;
-  if (price >= 1e5) return `₹${(price / 1e5).toFixed(price % 1e5 === 0 ? 0 : 1)}L`;
-  return `₹${price.toLocaleString("en-IN")}`;
+  if (price >= 1e6) return `$${(price / 1e6).toFixed(price % 1e6 === 0 ? 0 : 1)}M`;
+  if (price >= 1e3) return `$${(price / 1e3).toFixed(0)}K`;
+  return `$${price.toLocaleString("en-US")}`;
 }
 
 const typeLabel: Record<string, string> = {
@@ -51,7 +51,7 @@ export default async function ListingsPage({ searchParams }: { searchParams: Pro
             href="/submit-lead"
             className="bg-[var(--accent)] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
           >
-            Submit Enquiry
+            Submit Inquiry
           </Link>
         </div>
       </header>
@@ -73,7 +73,7 @@ export default async function ListingsPage({ searchParams }: { searchParams: Pro
               <input
                 name="city"
                 defaultValue={params.city ?? ""}
-                placeholder="Chennai, Bangalore…"
+                placeholder="Austin, Miami…"
                 className="bg-[var(--surface-2)] border border-[var(--border-strong)] text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors"
               />
             </div>
@@ -105,7 +105,7 @@ export default async function ListingsPage({ searchParams }: { searchParams: Pro
               </select>
             </div>
             <div className="flex flex-col gap-1 min-w-[140px]">
-              <label className="text-xs text-[var(--foreground-muted)] font-medium">Max Price (₹)</label>
+              <label className="text-xs text-[var(--foreground-muted)] font-medium">Max Price ($)</label>
               <input
                 name="max_price"
                 type="number"
@@ -193,7 +193,7 @@ export default async function ListingsPage({ searchParams }: { searchParams: Pro
                       href={`/submit-lead?property=${encodeURIComponent(property.title)}`}
                       className="text-xs font-semibold bg-[var(--accent)] text-white px-3 py-1.5 rounded-lg hover:opacity-90 transition-opacity"
                     >
-                      Enquire Now
+                      Inquire Now
                     </Link>
                   </div>
                 </div>

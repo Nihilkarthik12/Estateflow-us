@@ -7,11 +7,11 @@ import Image from "next/image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// Free Unsplash luxury property photo — like Elyse contact section
-const CONTACT_IMG = "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80";
+// American brownstone / luxury home — contact section
+const CONTACT_IMG = "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=1200&q=80";
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", agency: "", phone: "" });
+  const [form, setForm] = useState({ name: "", email: "", brokerage: "", phone: "" });
   const [sent, setSent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,7 +61,7 @@ export default function Contact() {
               <em className="font-normal" style={{ fontStyle: "italic" }}>Work Less Hours.</em>
             </h2>
             <p className="mt-4 text-sm text-white/70 leading-relaxed max-w-xs">
-              Schedule a private demo and see how EstateFlow transforms your agency&apos;s lead-to-close process.
+              Schedule a private demo and see how EstateFlow transforms your brokerage&apos;s lead-to-close process.
             </p>
             <div className="mt-6 flex flex-wrap gap-4 text-[11px] text-white/50 uppercase tracking-[0.1em]">
               <span>✓ No card required</span>
@@ -102,10 +102,10 @@ export default function Contact() {
 
               <form onSubmit={handleSubmit} className="space-y-8">
                 {[
-                  { field: "name",   label: "Full Name",   type: "text",  placeholder: "Rajesh Menon",          required: true },
-                  { field: "email",  label: "Email",       type: "email", placeholder: "rajesh@agency.com",      required: true },
-                  { field: "phone",  label: "Phone",       type: "tel",   placeholder: "+91 98765 43210",        required: true },
-                  { field: "agency", label: "Agency Name", type: "text",  placeholder: "Prestige Homes",         required: false },
+                  { field: "name",      label: "Full Name",      type: "text",  placeholder: "Michael Carter",        required: true },
+                  { field: "email",     label: "Email",          type: "email", placeholder: "michael@brokerage.com", required: true },
+                  { field: "phone",     label: "Phone",          type: "tel",   placeholder: "(555) 123-4567",        required: true },
+                  { field: "brokerage", label: "Brokerage Name", type: "text",  placeholder: "Carter Realty Group",   required: false },
                 ].map(({ field, label, type, placeholder, required }) => (
                   <div key={field}>
                     <label className="input-label">{label}</label>

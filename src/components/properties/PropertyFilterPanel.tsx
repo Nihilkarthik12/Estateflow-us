@@ -76,7 +76,7 @@ export default function PropertyFilterPanel({ open, onClose, filters, onChange, 
             <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5">
               <Input
                 label="City"
-                placeholder="Chennai, Bangalore…"
+                placeholder="Austin, Miami…"
                 value={filters.city}
                 onChange={set("city")}
               />
@@ -116,9 +116,9 @@ export default function PropertyFilterPanel({ open, onClose, filters, onChange, 
               </div>
 
               <Input
-                label="Max Price (₹)"
+                label="Max Price ($)"
                 type="number"
-                placeholder="e.g. 10000000"
+                placeholder="e.g. 1000000"
                 value={filters.max_price || ""}
                 onChange={(e) => onChange({ ...filters, max_price: e.target.value ? Number(e.target.value) : "" })}
               />

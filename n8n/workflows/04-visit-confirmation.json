@@ -17,7 +17,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const data = $input.first().json;\nconst name = data.visitor_name?.split(' ')[0] || 'there';\nconst phone = data.visitor_phone?.replace('+', '') || '';\nconst date = new Date(data.visit_date).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });\nconst time = data.visit_time || '10:00';\nconst property = data.visit?.properties?.title || 'the property';\n\nconst message = `Hi ${name}! ✅ Your site visit has been confirmed.\\n\\n🏠 Property: ${property}\\n📅 Date: ${date}\\n⏰ Time: ${time}\\n\\nOur agent will meet you at the property. Please carry a valid ID.\\n\\nIf you need to reschedule, reply to this message or call us.\\n\\nSee you soon! 🙂`;\n\nreturn [{ json: { ...data, message, phone } }];"
+        "jsCode": "const data = $input.first().json;\nconst name = data.visitor_name?.split(' ')[0] || 'there';\nconst phone = data.visitor_phone?.replace('+', '') || '';\nconst date = new Date(data.visit_date).toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' });\nconst time = data.visit_time || '10:00';\nconst property = data.visit?.properties?.title || 'the property';\n\nconst message = `Hi ${name}! ✅ Your showing has been confirmed.\\n\\n🏠 Property: ${property}\\n📅 Date: ${date}\\n⏰ Time: ${time}\\n\\nOur agent will meet you at the property. Please bring a valid ID.\\n\\nIf you need to reschedule, reply to this message or call us.\\n\\nSee you soon! 🙂`;\n\nreturn [{ json: { ...data, message, phone } }];"
       },
       "id": "build-confirmation",
       "name": "Build Confirmation Message",

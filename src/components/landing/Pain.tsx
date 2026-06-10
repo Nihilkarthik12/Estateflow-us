@@ -13,15 +13,15 @@ const pains = [
     num: "01",
     title: "You respond in 3 hours.",
     titleItalic: "They signed elsewhere in 2.",
-    body: "A buyer WhatsApped at 11pm asking about a 3BHK. Your agent saw it at 9am. The lead had already signed with the competitor who replied at 11:04pm — with an AI.",
+    body: "A buyer texted at 11pm asking about a 3-bed listing. Your agent saw it at 9am. The lead had already signed with the competitor who replied at 11:04pm — with an AI.",
     stat: "78%",
     statLabel: "of leads go to the first agent who responds",
   },
   {
     num: "02",
     title: "3 hours a day",
-    titleItalic: "copying WhatsApp into Excel.",
-    body: "Name, phone, budget, location — manually typed into Excel, then into your CRM, then into a follow-up message. Every single lead. That's 750+ hours a year per agent. Wasted.",
+    titleItalic: "copying texts into spreadsheets.",
+    body: "Name, phone, budget, location — manually typed into a spreadsheet, then into your CRM, then into a follow-up message. Every single lead. That's 750+ hours a year per agent. Wasted.",
     stat: "750+",
     statLabel: "hours per year lost to manual data entry",
   },
@@ -58,8 +58,8 @@ export default function Pain() {
             style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
             className="cinematic-reveal font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
           >
-            Your agency is silently<br />
-            <em className="font-normal" style={{ fontStyle: "italic", color: "#f87171" }}>losing ₹10L+ every month</em>
+            Your brokerage is silently<br />
+            <em className="font-normal" style={{ fontStyle: "italic", color: "#f87171" }}>losing $50K+ every month</em>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}

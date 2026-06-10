@@ -21,7 +21,7 @@ interface Message {
 }
 
 const WELCOME =
-  "Hi! I'm the EstateFlow AI assistant. Ask me about properties, pricing, or book a site visit. You can also click the mic and speak!";
+  "Hi! I'm the EstateFlow AI assistant. Ask me about properties, pricing, or book a showing. You can also click the mic and speak!";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -75,7 +75,7 @@ export default function ChatWidget() {
     if (!SR) return;
 
     const rec = new SR();
-    rec.lang = "en-IN";
+    rec.lang = "en-US";
     rec.continuous = false;
     rec.interimResults = false;
 
@@ -294,7 +294,7 @@ export default function ChatWidget() {
             {/* Inline lead capture form */}
             {showLeadForm && !leadSaved && (
               <div className="bg-[var(--surface-2)] border border-[var(--accent)]/30 rounded-2xl p-3 flex flex-col gap-2">
-                <p className="text-xs font-semibold text-[var(--accent)]">Book your site visit</p>
+                <p className="text-xs font-semibold text-[var(--accent)]">Book your showing</p>
                 <input
                   value={leadName}
                   onChange={(e) => setLeadName(e.target.value)}

@@ -4,23 +4,24 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { X, CheckCircle2, MessageCircle, Brain, Bell, Calendar, TrendingUp } from "lucide-react";
 
-const DAYINLIFE_BG = "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=1920&q=80";
+// US city skyline — ambient background
+const DAYINLIFE_BG = "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=1920&q=80";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const timeline = [
   {
     time: "7:02 AM",
-    event: "Buyer WhatsApps at midnight",
-    detail: '"Hi, looking for 3BHK ready to move in Chennai, budget ₹90L. Urgent."',
+    event: "Buyer texts at midnight",
+    detail: '"Hi, looking for a 3-bed move-in ready in Austin, budget $650K. Urgent."',
     without: {
-      text: "You see it at 9:30 AM. Buyer already signed with competitor at 8 AM.",
-      sub: "Lead lost. ₹1.8L commission gone.",
+      text: "You see it at 9:30 AM. Buyer already signed with a competitor at 8 AM.",
+      sub: "Lead lost. $18K commission gone.",
       color: "#ef4444",
     },
     with: {
       text: "AI replied in 4 seconds. Scored 94/100. 2 matching properties sent. Follow-up queued.",
-      sub: "You wake up to a warm lead ready for site visit.",
+      sub: "You wake up to a warm lead ready for a showing.",
       color: "#16a34a",
     },
     icon: MessageCircle,
@@ -28,16 +29,16 @@ const timeline = [
   },
   {
     time: "9:00 AM",
-    event: "3 more enquiries come in",
-    detail: "Rohit — 2BHK · Priya — Villa · Sneha — Plot. All from different sources.",
+    event: "3 more inquiries come in",
+    detail: "Jason — 2-bed condo · Emily — single-family · David — lot. All from different sources.",
     without: {
-      text: "Agent manually copies each into Excel. 45 minutes wasted. 1 enquiry missed.",
-      sub: "₹0 revenue from 45 minutes of data entry.",
+      text: "Agent manually copies each into a spreadsheet. 45 minutes wasted. 1 inquiry missed.",
+      sub: "$0 revenue from 45 minutes of data entry.",
       color: "#ef4444",
     },
     with: {
-      text: "All 3 auto-imported, scored, and prioritised. Rohit at top: 87/100, call him first.",
-      sub: "Agent spends 45 min on calls instead. 2 site visits booked.",
+      text: "All 3 auto-imported, scored, and prioritized. Jason at top: 87/100, call him first.",
+      sub: "Agent spends 45 min on calls instead. 2 showings booked.",
       color: "#16a34a",
     },
     icon: Brain,
@@ -53,8 +54,8 @@ const timeline = [
       color: "#ef4444",
     },
     with: {
-      text: "EstateFlow sends follow-up 2, 3, 4, 5 automatically at the right intervals via WhatsApp.",
-      sub: "Lead re-engages. Site visit scheduled. Deal progressing.",
+      text: "EstateFlow sends follow-up 2, 3, 4, 5 automatically at the right intervals via text and email.",
+      sub: "Lead re-engages. Showing scheduled. Deal progressing.",
       color: "#16a34a",
     },
     icon: Bell,
@@ -62,16 +63,16 @@ const timeline = [
   },
   {
     time: "4:00 PM",
-    event: "Site visit is today",
-    detail: "Buyer walks in. You need to know their exact requirements to close.",
+    event: "Showing is today",
+    detail: "Buyer arrives. You need to know their exact requirements to close.",
     without: {
-      text: "Scrambling through WhatsApp chats for budget, requirements. Looks unprepared.",
+      text: "Scrambling through text threads for budget and requirements. Looks unprepared.",
       sub: "Buyer loses confidence. Deal falls through.",
       color: "#ef4444",
     },
     with: {
-      text: "AI brief ready: budget ₹90L, prefers top floor, kids' school nearby, loan pre-approved.",
-      sub: "You walk in confident. Buyer impressed. Deal moves to negotiation.",
+      text: "AI brief ready: budget $650K, prefers top floor, near good schools, mortgage pre-approved.",
+      sub: "You walk in confident. Buyer impressed. Deal moves to an offer.",
       color: "#16a34a",
     },
     icon: Calendar,
@@ -82,13 +83,13 @@ const timeline = [
     event: "End of day — count your deals",
     detail: "What did today actually produce?",
     without: {
-      text: "3 hours on data entry. 2 leads gone cold. 0 new site visits. 1 deal lost at 7 AM.",
-      sub: "Revenue opportunity lost: ₹3.2L+ in commission.",
+      text: "3 hours on data entry. 2 leads gone cold. 0 new showings. 1 deal lost at 7 AM.",
+      sub: "Revenue opportunity lost: $22K+ in commission.",
       color: "#ef4444",
     },
     with: {
-      text: "4 site visits booked. 2 deals progressing. 1 offer accepted. AI running follow-ups overnight.",
-      sub: "Revenue in pipeline: ₹11L+ commission. You leave at 6 PM.",
+      text: "4 showings booked. 2 deals progressing. 1 offer accepted. AI running follow-ups overnight.",
+      sub: "Revenue in pipeline: $60K+ commission. You leave at 6 PM.",
       color: "#16a34a",
     },
     icon: TrendingUp,
@@ -227,12 +228,12 @@ export default function DayInLife() {
                 The difference isn&apos;t talent. It&apos;s the system.
               </p>
               <p className="text-sm text-[var(--foreground-muted)]">
-                Top agents in India aren&apos;t working harder — they&apos;re working smarter. EstateFlow is the
+                Top agents in the US aren&apos;t working harder — they&apos;re working smarter. EstateFlow is the
                 unfair advantage your competitors don&apos;t want you to have.
               </p>
             </div>
             <div className="text-center sm:text-right">
-              <p className="text-5xl sm:text-6xl font-extrabold gradient-text" style={{ fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>₹11L+</p>
+              <p className="text-5xl sm:text-6xl font-extrabold gradient-text" style={{ fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>$60K+</p>
               <p className="text-xs text-[var(--foreground-muted)] mt-2">Extra commission in pipeline<br/>per agent, per month</p>
             </div>
           </div>

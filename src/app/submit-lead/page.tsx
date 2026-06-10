@@ -111,14 +111,14 @@ export default function SubmitLeadPage() {
                   label="Full Name *"
                   value={form.name}
                   onChange={set("name")}
-                  placeholder="Rahul Sharma"
+                  placeholder="James Wilson"
                   required
                 />
                 <Input
                   label="Phone *"
                   value={form.phone}
                   onChange={set("phone")}
-                  placeholder="+91 98765 43210"
+                  placeholder="(555) 123-4567"
                   required
                 />
               </div>
@@ -128,7 +128,7 @@ export default function SubmitLeadPage() {
                 type="email"
                 value={form.email}
                 onChange={set("email")}
-                placeholder="rahul@email.com"
+                placeholder="james@email.com"
               />
 
               <Textarea
@@ -136,7 +136,7 @@ export default function SubmitLeadPage() {
                 value={form.raw_message}
                 onChange={set("raw_message")}
                 rows={4}
-                placeholder="E.g. Looking for a 3BHK apartment in Chennai under ₹90 lakhs..."
+                placeholder="E.g. Looking for a 3-bed single-family in Austin under $650K..."
                 required
                 hint="Be as specific as possible — location, budget, property type, timeline."
               />

@@ -33,15 +33,16 @@ const stageOptions = [
   { label: "New", value: "new" },
   { label: "Contacted", value: "contacted" },
   { label: "Qualified", value: "qualified" },
-  { label: "Site Visit", value: "site_visit" },
-  { label: "Negotiation", value: "negotiation" },
+  { label: "Showing", value: "site_visit" },
+  { label: "Under Contract", value: "negotiation" },
   { label: "Closed", value: "closed" },
   { label: "Lost", value: "lost" },
 ];
 
 const sourceOptions = [
   { label: "Web Form", value: "web_form" },
-  { label: "WhatsApp", value: "whatsapp" },
+  { label: "Text / SMS", value: "sms" },
+  { label: "Zillow / Realtor.com", value: "portal" },
   { label: "Referral", value: "referral" },
   { label: "Manual", value: "manual" },
 ];
@@ -102,10 +103,10 @@ export default function LeadFormModal({ open, onClose, onSubmit, initial }: Lead
         <section>
           <p className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider mb-3">Contact Info</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input label="Full Name" placeholder="Rahul Sharma" value={form.name} onChange={set("name")} required />
-            <Input label="Phone" placeholder="+91 98765 43210" value={form.phone} onChange={set("phone")} required />
+            <Input label="Full Name" placeholder="James Wilson" value={form.name} onChange={set("name")} required />
+            <Input label="Phone" placeholder="(555) 123-4567" value={form.phone} onChange={set("phone")} required />
             <div className="md:col-span-2">
-              <Input label="Email (optional)" type="email" placeholder="rahul@email.com" value={form.email} onChange={set("email")} />
+              <Input label="Email (optional)" type="email" placeholder="james@email.com" value={form.email} onChange={set("email")} />
             </div>
           </div>
         </section>
@@ -118,17 +119,17 @@ export default function LeadFormModal({ open, onClose, onSubmit, initial }: Lead
               <label className="text-sm font-medium text-[var(--foreground-muted)]">Raw Message / Requirement</label>
               <textarea
                 rows={3}
-                placeholder="Need a 3BHK apartment in Chennai under 90 lakhs near metro station."
+                placeholder="Need a 3-bed single-family in Austin under $650K near good schools."
                 value={form.raw_message}
                 onChange={set("raw_message")}
                 className="w-full bg-[var(--surface-2)] border border-[var(--border-strong)] text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] transition-colors resize-none"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <Input label="Budget" placeholder="₹90L" value={form.budget} onChange={set("budget")} />
-              <Input label="Preferred Location" placeholder="Chennai" value={form.location} onChange={set("location")} />
+              <Input label="Budget" placeholder="$750K" value={form.budget} onChange={set("budget")} />
+              <Input label="Preferred Location" placeholder="Austin, TX" value={form.location} onChange={set("location")} />
             </div>
-            <Input label="Property Type" placeholder="3BHK Apartment" value={form.property_type} onChange={set("property_type")} />
+            <Input label="Property Type" placeholder="3 Bed Single-Family" value={form.property_type} onChange={set("property_type")} />
           </div>
         </section>
 

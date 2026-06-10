@@ -2,7 +2,7 @@
 
 **AI-Powered Real Estate Operations SaaS Platform**
 
-A full-stack, multi-tenant SaaS platform that helps real estate agencies manage leads, analyze buyer intent with AI, automate follow-ups, and track their sales pipeline — all from a single premium dashboard.
+A full-stack SaaS platform that helps US real estate brokerages manage leads, analyze buyer intent with AI, automate follow-ups, and track their sales pipeline — all from a single premium dashboard.
 
 ---
 
@@ -33,7 +33,7 @@ A full-stack, multi-tenant SaaS platform that helps real estate agencies manage 
 - **Workflow 1**: Webhook → AI analysis → store lead → notify admins
 - **Workflow 2**: Daily cron → detect stale leads → create follow-up notifications
 - **Workflow 3**: On-demand AI follow-up message drafting
-- Public lead capture form at `/submit-lead` — share on your website or WhatsApp
+- Public lead capture form at `/submit-lead` — share on your website or social bio
 
 ### Analytics Dashboard
 - Real-time charts: Lead volume (area), pipeline funnel (bar), source breakdown (donut)
@@ -45,10 +45,10 @@ A full-stack, multi-tenant SaaS platform that helps real estate agencies manage 
 - Types: new lead, follow-up reminder, AI, info
 - Links directly to the relevant lead
 
-### Multi-Tenant Architecture
-- Every agency is an isolated organization
+### Single-Brokerage Architecture
+- Built for one brokerage — no multi-tenant complexity
 - Row Level Security (RLS) on every Supabase table
-- Organization ID enforced on every query
+- All authenticated team members share the same workspace
 
 ---
 
@@ -99,8 +99,8 @@ src/
 └── types/index.ts
 
 supabase/
-├── schema.sql             # Complete DB schema with RLS + triggers
-└── seed.sql               # Demo data (10 properties + 10 leads)
+├── schema-single-user.sql # Complete DB schema with RLS + triggers
+└── seed-single-user.sql   # US demo data (10 properties + 10 leads)
 
 n8n/
 ├── workflows/             # Import-ready n8n workflow JSONs
@@ -121,24 +121,20 @@ npm install
 
 ### 2. Create Supabase project
 
-1. Go to [supabase.com](https://supabase.com) and create a new project
-2. In **SQL Editor → New Query**, paste and run `supabase/schema.sql`
+1. Go to [supabase.com](https://supabase.com) and create a new project (pick a US region)
+2. In **SQL Editor → New Query**, paste and run `supabase/schema-single-user.sql`
 3. In **Storage → New Bucket**, create a bucket named `property-images` and set it to **Public**
-4. In **Settings → API**, copy your Project URL and anon key
+4. In **Settings → API**, copy your Project URL, anon key, and service_role key
 
 ### 3. Configure environment
 
-```bash
-cp .env.local.example .env.local
-```
-
-Fill in `.env.local`:
+Create `.env.local`:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SB_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SB_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 OPENAI_API_KEY=sk-...
-NEXT_PUBLIC_ORG_ID=your-org-uuid   # Get from Settings page after first signup
 WEBHOOK_SECRET=any-random-string
 ```
 
@@ -146,13 +142,13 @@ WEBHOOK_SECRET=any-random-string
 
 ```bash
 npm run dev
-# Open http://localhost:3000 → Sign up → Go to Settings to get your Org ID
+# Open http://localhost:3000 → Sign up
 ```
 
 ### 5. Seed demo data (optional)
 
-1. Go to **Settings → copy Organization ID**
-2. Open `supabase/seed.sql`, replace `YOUR_ORG_UUID` and `YOUR_USER_UUID`
+1. After signing up, get your user UUID from Supabase → Authentication → Users
+2. Open `supabase/seed-single-user.sql`, replace `YOUR_USER_UUID`
 3. Run in Supabase SQL Editor
 
 ---
@@ -200,11 +196,10 @@ Import workflows from `n8n/workflows/`. Full setup in `n8n/README.md`.
 **Webhook payload example:**
 ```json
 {
-  "name": "Rahul Sharma",
-  "phone": "+91 98765 43210",
-  "raw_message": "Need 3BHK in Chennai under 90 lakhs near metro",
+  "name": "James Wilson",
+  "phone": "(512) 555-0142",
+  "raw_message": "Need a 3-bed single-family in Austin under $650K near good schools",
   "source": "web_form",
-  "organization_id": "your-org-uuid",
   "webhook_secret": "your-secret"
 }
 ```
@@ -217,12 +212,12 @@ Import workflows from `n8n/workflows/`. Full setup in `n8n/README.md`.
 |---|---|
 | **AI Engineering** | Structured prompt engineering, JSON extraction, insight generation |
 | **Full-Stack** | Next.js App Router, API routes, server + client components |
-| **Database Design** | Multi-tenant schema, RLS policies, triggers, indexes |
+| **Database Design** | Single-brokerage schema, RLS policies, triggers, indexes |
 | **Authentication** | Supabase Auth, session management, protected routes |
 | **File Storage** | Supabase Storage, drag-and-drop image uploads |
 | **Data Visualization** | Recharts (area, bar, donut), animated CSS bars |
 | **Automation** | n8n workflows, webhook design, cron scheduling |
-| **Architecture** | Multi-tenant SaaS, organization isolation, role-based access |
+| **Architecture** | Single-brokerage SaaS, RLS data isolation, role-based access |
 | **UX** | Loading skeletons, empty states, error handling, micro-animations |
 
 ---

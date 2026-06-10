@@ -10,10 +10,10 @@ const rows = [
   { label: "Lead response time",    before: "2–3 hours (if lucky)",        after: "Under 90 seconds, automated" },
   { label: "Data entry",            before: "Manual, full of errors",       after: "AI extracts everything instantly" },
   { label: "Follow-ups",            before: "Forgotten 60% of the time",    after: "Never missed — fully automated" },
-  { label: "After-hours enquiries", before: "Missed completely",            after: "AI handles 24/7, qualifies live" },
+  { label: "After-hours inquiries", before: "Missed completely",            after: "AI handles 24/7, qualifies live" },
   { label: "Property matching",     before: "Manual search, takes hours",   after: "AI-matched in under 2 seconds" },
   { label: "Lead scoring",          before: "Gut feeling only",             after: "AI score 0–100, with reasoning" },
-  { label: "Agent workload",        before: "Drowning in WhatsApp",         after: "Focus only on hot, ready leads" },
+  { label: "Agent workload",        before: "Drowning in texts & emails",   after: "Focus only on hot, ready leads" },
 ];
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -54,7 +54,7 @@ export default function Comparison() {
           >
             Your competitors are still using{" "}
             <em className="font-normal line-through text-[var(--foreground-subtle)]" style={{ fontStyle: "italic" }}>
-              Excel &amp; WhatsApp
+              spreadsheets &amp; sticky notes
             </em>
           </motion.h2>
         </div>

@@ -69,7 +69,7 @@ create table if not exists public.leads (
                    check (status in ('new','contacted','qualified','site_visit','negotiation','closed','lost')),
   assigned_to      uuid references auth.users(id),
   source           text default 'web_form'
-                   check (source in ('web_form', 'whatsapp', 'referral', 'manual')),
+                   check (source in ('web_form', 'sms', 'portal', 'whatsapp', 'referral', 'manual', 'ai_chat')),
   notes            text,
   visit_date       timestamp with time zone,
   ai_analyzed      boolean default false,

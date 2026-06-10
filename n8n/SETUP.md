@@ -62,7 +62,6 @@ In n8n → Settings → Variables → add:
 | Variable Name | Value |
 |---|---|
 | ESTATEFLOW_URL | https://your-vercel-app.vercel.app |
-| ORG_ID | your organization ID from Supabase profiles table |
 | WEBHOOK_SECRET | estateflow-secret-2024 |
 | N8N_SECRET | same value you set in Vercel above |
 | WATI_API_KEY | your WATI API key |
@@ -96,14 +95,6 @@ In n8n → Settings → Variables → add:
 1. Open each workflow
 2. Toggle **Active** switch at the top
 3. All 3 workflows are now live
-
----
-
-## How to Find Your ORG_ID
-
-1. Go to Supabase → your project → Table Editor → profiles
-2. Find your user row → copy the `organization_id` value
-3. Paste as `ORG_ID` in n8n variables
 
 ---
 

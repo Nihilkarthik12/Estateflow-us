@@ -7,23 +7,23 @@ import { Plus, Minus } from "lucide-react";
 const faqs = [
   {
     q: "What is EstateFlow AI?",
-    a: "EstateFlow is an AI-first real estate CRM for agencies, developers and brokerages. It automates lead capture, qualification, property matching and follow-ups from one dashboard.",
+    a: "EstateFlow is an AI-first real estate CRM for brokerages, teams and individual agents. It automates lead capture, qualification, property matching and follow-ups from one dashboard.",
   },
   {
     q: "How does AI lead analysis work?",
-    a: "WhatsApp and web leads are parsed by AI to extract budget, location, property type, urgency and intent. The platform then scores each lead 0–100 and suggests the best next step for your agent.",
+    a: "Leads from your website, Zillow, Realtor.com, texts and calls are parsed by AI to extract budget, location, property type, urgency and intent. The platform then scores each lead 0–100 and suggests the best next step for your agent.",
   },
   {
-    q: "Can multiple agents and branches use it?",
+    q: "Can multiple agents and offices use it?",
     a: "Yes. You can add your full team, define roles (admin/agent), assign leads to specific agents and manage performance across offices with centralized reporting.",
   },
   {
-    q: "Is my agency data secure?",
-    a: "Yes. EstateFlow uses row-level security so each agency's data is completely isolated. All data is encrypted in transit and at rest. We never share your data with any third party.",
+    q: "Is my brokerage data secure?",
+    a: "Yes. EstateFlow uses row-level security so each brokerage's data is completely isolated. All data is encrypted in transit and at rest. We never share your data with any third party.",
   },
   {
-    q: "Does EstateFlow support WhatsApp leads?",
-    a: "Yes. WhatsApp enquiries can be forwarded or integrated — they are processed exactly like web form leads, with full AI analysis and CRM sync.",
+    q: "Does EstateFlow capture leads from Zillow and Realtor.com?",
+    a: "Yes. Portal inquiries, texts, and calls can be forwarded or integrated — they are processed exactly like web form leads, with full AI analysis and CRM sync.",
   },
   {
     q: "Can I try it before committing?",
@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: "How long does setup take?",
-    a: "Under 10 minutes. Sign up, add your agency details, and your AI chatbot and lead capture form are live immediately. No technical setup needed.",
+    a: "Under 10 minutes. Sign up, add your brokerage details, and your AI chatbot and lead capture form are live immediately. No technical setup needed.",
   },
 ];
 

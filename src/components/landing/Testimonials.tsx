@@ -11,13 +11,13 @@ const outcomes = [
   {
     metric: "3 hrs → 90s",
     headline: "Response time that wins deals",
-    body: "Most Indian agencies respond to leads in 3–6 hours. The buyer has already talked to two competitors by then. EstateFlow's AI replies instantly — extracts requirements and scores intent before your agent even opens their phone.",
+    body: "Most US brokerages respond to leads in 3–6 hours. The buyer has already talked to two competitors by then. EstateFlow's AI replies instantly — extracts requirements and scores intent before your agent even opens their phone.",
     tag: "Lead Response",
     initials: "LR",
   },
   {
     metric: "0 leads lost",
-    headline: "Every midnight enquiry, captured",
+    headline: "Every midnight inquiry, captured",
     body: "Real estate buyers browse at 11 PM. Your current process misses every one of them. EstateFlow's voice agent and AI intake work round the clock — so Monday morning your CRM already has the weekend's qualified leads waiting.",
     tag: "24/7 Coverage",
     initials: "AC",
@@ -25,7 +25,7 @@ const outcomes = [
   {
     metric: "1 place",
     headline: "Your full pipeline, visible at a glance",
-    body: "Leads across WhatsApp, calls, and web forms land in one CRM. Every lead is staged from New to Closed, AI-analyzed with budget and urgency, and assigned to the right agent — no spreadsheets, no sticky notes.",
+    body: "Leads across texts, calls, and web forms land in one CRM. Every lead is staged from New to Closed, AI-analyzed with budget and urgency, and assigned to the right agent — no spreadsheets, no sticky notes.",
     tag: "CRM Pipeline",
     initials: "CP",
   },
@@ -64,7 +64,7 @@ export default function Testimonials() {
             className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
           >
             What EstateFlow<br />
-            <em className="font-normal" style={{ fontStyle: "italic" }}>actually changes for your agency</em>
+            <em className="font-normal" style={{ fontStyle: "italic" }}>actually changes for your brokerage</em>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -133,10 +133,10 @@ export default function Testimonials() {
         >
           <div>
             <p className="text-sm font-semibold text-[var(--foreground)]">
-              Be among the first agencies in India to use EstateFlow
+              Be among the first US brokerages to use EstateFlow
             </p>
             <p className="text-xs text-[var(--foreground-muted)] mt-1">
-              Currently onboarding select agencies. Early access is free.
+              Currently onboarding select brokerages. Early access is free.
             </p>
           </div>
           <a href="/signup" className="btn-oval shrink-0">

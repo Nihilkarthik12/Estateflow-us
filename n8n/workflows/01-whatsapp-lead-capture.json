@@ -61,8 +61,7 @@
             { "name": "name", "value": "={{ $json.name }}" },
             { "name": "phone", "value": "={{ $json.phone }}" },
             { "name": "raw_message", "value": "={{ $json.raw_message }}" },
-            { "name": "source", "value": "whatsapp" },
-            { "name": "organization_id", "value": "={{ $env.ORG_ID }}" },
+            { "name": "source", "value": "sms" },
             { "name": "webhook_secret", "value": "={{ $env.WEBHOOK_SECRET }}" }
           ]
         },

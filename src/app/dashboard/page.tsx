@@ -22,7 +22,7 @@ const urgencyVariant: Record<LeadUrgency, "danger" | "warning" | "default"> = {
   high: "danger", medium: "warning", low: "default",
 };
 
-const todayLabel = new Date().toLocaleDateString("en-IN", {
+const todayLabel = new Date().toLocaleDateString("en-US", {
   weekday: "long", day: "numeric", month: "long",
 });
 
@@ -33,8 +33,8 @@ const PIPELINE_STAGES: { stage: LeadStage; label: string }[] = [
   { stage: "new", label: "New" },
   { stage: "contacted", label: "Contacted" },
   { stage: "qualified", label: "Qualified" },
-  { stage: "site_visit", label: "Site Visit" },
-  { stage: "negotiation", label: "Negotiation" },
+  { stage: "site_visit", label: "Showing" },
+  { stage: "negotiation", label: "Under Contract" },
   { stage: "closed", label: "Closed" },
 ];
 

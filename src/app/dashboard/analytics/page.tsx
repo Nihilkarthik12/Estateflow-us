@@ -84,7 +84,7 @@ export default function AnalyticsPage() {
   // Format daily date labels for chart
   const volumeData = (data?.dailyVolume ?? []).map((d, i) => ({
     ...d,
-    label: i % 5 === 0 ? new Date(d.date).toLocaleDateString("en-IN", { month: "short", day: "numeric" }) : "",
+    label: i % 5 === 0 ? new Date(d.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "",
   }));
 
   return (

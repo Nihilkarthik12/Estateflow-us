@@ -23,7 +23,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "EstateFlow AI — AI-Powered Real Estate CRM",
   description:
-    "EstateFlow AI helps real estate agencies capture every WhatsApp lead, score buyer intent instantly, and automate follow-ups — so you never lose a deal again.",
+    "EstateFlow AI helps US real estate brokerages capture every lead from Zillow, Realtor.com, texts and calls, score buyer intent instantly, and automate follow-ups — so you never lose a deal again.",
 };
 
 export default function RootLayout({

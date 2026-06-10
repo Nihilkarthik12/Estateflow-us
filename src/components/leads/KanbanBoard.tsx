@@ -10,8 +10,8 @@ const STAGES: { key: LeadStage; label: string; color: string }[] = [
   { key: "new",         label: "New",         color: "var(--accent)" },
   { key: "contacted",   label: "Contacted",   color: "#818cf8" },
   { key: "qualified",   label: "Qualified",   color: "#a78bfa" },
-  { key: "site_visit",  label: "Site Visit",  color: "var(--warning)" },
-  { key: "negotiation", label: "Negotiation", color: "#fb923c" },
+  { key: "site_visit",  label: "Showing",  color: "var(--warning)" },
+  { key: "negotiation", label: "Under Contract", color: "#fb923c" },
   { key: "closed",      label: "Closed",      color: "var(--success)" },
   { key: "lost",        label: "Lost",        color: "var(--danger)" },
 ];

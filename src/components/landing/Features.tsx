@@ -5,14 +5,15 @@ import Image from "next/image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const FEATURES_BG = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80";
+// US suburban neighborhood aerial — ambient section background
+const FEATURES_BG = "https://images.unsplash.com/photo-1625602812206-5ec545ca1231?auto=format&fit=crop&w=1920&q=80";
 
 const features = [
   {
     num: "01",
-    title: "WhatsApp",
+    title: "Instant",
     titleItalic: "Lead Capture",
-    body: "Every buyer who messages on WhatsApp is automatically captured, replied to instantly, and logged in your CRM — even at midnight. You wake up to warm, qualified leads ready to call.",
+    body: "Every buyer who texts, calls, or fills out a form on Zillow, Realtor.com, or your site is automatically captured, replied to instantly, and logged in your CRM — even at midnight. You wake up to warm, qualified leads ready to call.",
     stat: "< 2s",
     statLabel: "AI reply time",
     img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80",
@@ -21,7 +22,7 @@ const features = [
     num: "02",
     title: "AI Lead",
     titleItalic: "Scoring",
-    body: "EstateFlow reads every enquiry and extracts budget, urgency, location and property type automatically. Your agent sees a full lead profile the moment the message arrives — no manual data entry.",
+    body: "EstateFlow reads every inquiry and extracts budget, urgency, location and property type automatically. Your agent sees a full lead profile the moment the message arrives — no manual data entry.",
     stat: "1–100",
     statLabel: "Intent score range",
     img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
@@ -30,7 +31,7 @@ const features = [
     num: "03",
     title: "Automated",
     titleItalic: "Follow-Ups",
-    body: "Research shows 80% of deals close after 5+ follow-ups — yet most agents stop at one. EstateFlow sends timed follow-ups via WhatsApp automatically so no lead goes cold while you're at a site visit.",
+    body: "Research shows 80% of deals close after 5+ follow-ups — yet most agents stop at one. EstateFlow sends timed follow-ups via text and email automatically so no lead goes cold while you're at a showing.",
     stat: "5×",
     statLabel: "Follow-up touchpoints",
     img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
@@ -42,22 +43,22 @@ const features = [
     body: "AI instantly maps each buyer's stated requirements to your live listings. Your agent walks into every meeting already knowing the top 3 properties to show — no browsing, no guessing.",
     stat: "Top 3",
     statLabel: "Listings surfaced per lead",
-    img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+    img: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=80",
   },
   {
     num: "05",
     title: "Voice AI",
     titleItalic: "Agent",
-    body: "A 24/7 AI voice agent answers every call to your office number, qualifies the buyer, extracts requirements, and books site visits — while you're in a meeting or asleep.",
+    body: "A 24/7 AI voice agent answers every call to your office number, qualifies the buyer, extracts requirements, and books showings — while you're in a meeting or asleep.",
     stat: "24/7",
     statLabel: "Always answering",
-    img: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80",
+    img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80",
   },
   {
     num: "06",
     title: "Pipeline",
     titleItalic: "Analytics",
-    body: "See every lead by stage across your full funnel — new, contacted, qualified, site visit, negotiation, closed. Know exactly where deals are stalling and which agents need support.",
+    body: "See every lead by stage across your full funnel — new, contacted, qualified, showing, under contract, closed. Know exactly where deals are stalling and which agents need support.",
     stat: "6",
     statLabel: "Pipeline stages tracked",
     img: "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=800&q=80",
@@ -110,7 +111,7 @@ export default function Features() {
             transition={{ delay: 0.2 }}
             className="text-sm text-[var(--foreground-muted)] max-w-xs leading-relaxed sm:text-right"
           >
-            Not just a CRM — a full AI engine built for how Indian real estate teams actually work.
+            Not just a CRM — a full AI engine built for how US real estate teams actually work.
           </motion.p>
         </div>
 

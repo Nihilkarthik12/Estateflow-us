@@ -6,9 +6,9 @@ const SYSTEM_PROMPT = `You are a real estate lead analyst. Extract structured in
 
 Return ONLY valid JSON with exactly these fields:
 - summary: A concise, professional one-sentence summary of the customer's requirement
-- budget: The budget mentioned (e.g. "₹90 Lakhs", "2 Crore") or null if not mentioned
-- location: The preferred city or area (e.g. "Chennai", "Bangalore, Whitefield") or null
-- property_type: The type of property (e.g. "3BHK Apartment", "Villa", "Plot") or null
+- budget: The budget mentioned (e.g. "$750K", "$1.2M", "up to $500,000") or null if not mentioned
+- location: The preferred city, neighborhood, or area (e.g. "Austin, TX", "Brooklyn, NY") or null
+- property_type: The type of property (e.g. "3 Bed Single-Family", "Condo", "Townhouse", "Lot") or null
 - urgency: One of "high", "medium", or "low" based on language urgency cues
 - buyer_intent: One of "serious", "researching", or "comparing" based on commitment signals
 

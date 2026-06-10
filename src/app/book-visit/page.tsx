@@ -72,8 +72,8 @@ export default function BookVisitPage() {
             style={{ background: "linear-gradient(135deg, var(--accent), var(--accent-2))", boxShadow: "0 8px 24px var(--accent-glow)" }}>
             <CalendarCheck size={26} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">Book a Site Visit</h1>
-          <p className="text-sm text-[var(--foreground-muted)]">Schedule a visit and our agent will confirm within 30 minutes.</p>
+          <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">Book a Showing</h1>
+          <p className="text-sm text-[var(--foreground-muted)]">Schedule a showing and our agent will confirm within 30 minutes.</p>
         </div>
 
         <AnimatePresence mode="wait">
@@ -122,8 +122,8 @@ export default function BookVisitPage() {
               {/* Name + Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  { label: "Full Name *", key: "visitor_name" as const, type: "text", placeholder: "Rahul Sharma" },
-                  { label: "Phone *", key: "visitor_phone" as const, type: "tel", placeholder: "+91 98765 43210" },
+                  { label: "Full Name *", key: "visitor_name" as const, type: "text", placeholder: "James Wilson" },
+                  { label: "Phone *", key: "visitor_phone" as const, type: "tel", placeholder: "(555) 123-4567" },
                 ].map(({ label, key, type, placeholder }) => (
                   <div key={key}>
                     <label className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider block mb-1.5">{label}</label>
@@ -136,7 +136,7 @@ export default function BookVisitPage() {
               {/* Email */}
               <div>
                 <label className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider block mb-1.5">Email (optional)</label>
-                <input type="email" placeholder="rahul@email.com" value={form.visitor_email} onChange={set("visitor_email")}
+                <input type="email" placeholder="james@email.com" value={form.visitor_email} onChange={set("visitor_email")}
                   className="w-full bg-[var(--surface-2)] border border-[var(--border-strong)] text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[var(--accent)] transition-colors" />
               </div>
 
@@ -163,7 +163,7 @@ export default function BookVisitPage() {
                 className="w-full py-3 rounded-xl text-sm font-bold text-white disabled:opacity-50 flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
                 style={{ background: "linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)" }}>
                 {loading ? <Loader2 size={16} className="animate-spin" /> : <CalendarCheck size={16} />}
-                {loading ? "Booking…" : "Book Site Visit"}
+                {loading ? "Booking…" : "Book Showing"}
               </button>
 
               <p className="text-[11px] text-[var(--foreground-subtle)] text-center">

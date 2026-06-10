@@ -4,14 +4,15 @@ import { createClient as createServiceClient } from "@supabase/supabase-js";
 import { sendLeadNotificationEmail } from "@/lib/email";
 import { rateLimit, getIP } from "@/lib/rate-limit";
 import { sanitizeField, isValidPhone, isValidEmail } from "@/lib/sanitize";
+import { formatPrice } from "@/lib/config/market";
 
 const SYSTEM_PROMPT = `You are a real estate lead analyst. Extract structured information from the customer's message.
 
 Return ONLY valid JSON with exactly these fields:
 - summary: A concise, professional one-sentence summary of the customer's requirement
-- budget: The budget mentioned (e.g. "₹90 Lakhs", "2 Crore") or null if not mentioned
-- location: The preferred city or area or null
-- property_type: The type of property (e.g. "3BHK Apartment", "Villa") or null
+- budget: The budget mentioned (e.g. "$750K", "$1.2M", "up to $500,000") or null if not mentioned
+- location: The preferred city, neighborhood, or area or null
+- property_type: The type of property (e.g. "3 Bed Single-Family", "Condo", "Townhouse") or null
 - urgency: One of "high", "medium", or "low" based on language urgency cues
 - buyer_intent: One of "serious", "researching", or "comparing" based on commitment signals`;
 
@@ -126,7 +127,7 @@ export async function POST(req: NextRequest) {
     const leadFirstName  = name.split(" ")[0];
     const propertyRef    = extractedPropertyType ?? "property";
     const locationRef    = extractedLocation ? ` in ${extractedLocation}` : "";
-    const welcomeMessage = `Hi ${leadFirstName}, thank you for your enquiry about ${propertyRef}${locationRef}. Our team will review your requirement and get back to you shortly with suitable options.`;
+    const welcomeMessage = `Hi ${leadFirstName}, thank you for your inquiry about ${propertyRef}${locationRef}. Our team will review your requirements and get back to you shortly with suitable options.`;
 
     await supabase.from("conversations").insert({
       lead_id: lead.id,
@@ -150,7 +151,7 @@ export async function POST(req: NextRequest) {
           const { data: props } = await propQuery;
           if (props && props.length > 0) {
             const top3     = props.slice(0, 3);
-            const matchMsg = `🏠 Top matching properties for your requirement:\n${top3.map((p, i) => `${i + 1}. ${p.title} — ₹${Number(p.price).toLocaleString("en-IN")} (${p.city ?? p.location})`).join("\n")}`;
+            const matchMsg = `🏠 Top matching properties for your requirement:\n${top3.map((p, i) => `${i + 1}. ${p.title} — ${formatPrice(p.price)} (${p.city ?? p.location})`).join("\n")}`;
             await supabase.from("conversations").insert({ lead_id: lead.id, message: matchMsg, direction: "outbound" });
           }
         } catch { /* silent */ }

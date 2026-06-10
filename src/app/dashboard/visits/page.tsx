@@ -116,7 +116,7 @@ export default function VisitsPage() {
 
   return (
     <div className="flex flex-col flex-1">
-      <TopBar title="Site Visits" subtitle="Schedule and track property visits" />
+      <TopBar title="Showings" subtitle="Schedule and track property showings" />
 
       <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-5">
 
@@ -128,9 +128,9 @@ export default function VisitsPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface)] via-[var(--surface)]/80 to-transparent pointer-events-none" />
           <div className="relative flex items-center justify-between px-6 py-5">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] mb-1" style={{ color: "var(--accent)" }}>Visit Management</p>
-              <p className="text-lg font-bold text-[var(--foreground)]">Site Visits</p>
-              <p className="text-xs text-[var(--foreground-muted)] mt-0.5">Track all scheduled and completed property visits</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] mb-1" style={{ color: "var(--accent)" }}>Showing Management</p>
+              <p className="text-lg font-bold text-[var(--foreground)]">Showings</p>
+              <p className="text-xs text-[var(--foreground-muted)] mt-0.5">Track all scheduled and completed property showings</p>
             </div>
             <div className="hidden sm:flex items-center gap-2">
               <div className="flex items-center gap-1.5">
@@ -237,7 +237,7 @@ export default function VisitsPage() {
                   {/* Date */}
                   <div>
                     <p className="text-sm font-medium text-[var(--foreground)]">
-                      {new Date(visit.visit_date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                      {new Date(visit.visit_date).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" })}
                     </p>
                     <p className="text-xs text-[var(--foreground-muted)] flex items-center gap-1 mt-0.5">
                       <Clock size={10} /> {visit.visit_time}
@@ -284,9 +284,9 @@ export default function VisitsPage() {
             </div>
             <form onSubmit={handleAdd} className="flex flex-col gap-4">
               {[
-                { label: "Visitor Name *", key: "visitor_name", type: "text", placeholder: "Rahul Sharma" },
-                { label: "Phone *", key: "visitor_phone", type: "tel", placeholder: "+91 98765 43210" },
-                { label: "Email", key: "visitor_email", type: "email", placeholder: "rahul@email.com" },
+                { label: "Visitor Name *", key: "visitor_name", type: "text", placeholder: "James Wilson" },
+                { label: "Phone *", key: "visitor_phone", type: "tel", placeholder: "(555) 123-4567" },
+                { label: "Email", key: "visitor_email", type: "email", placeholder: "james@email.com" },
               ].map(({ label, key, type, placeholder }) => (
                 <div key={key}>
                   <label className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider block mb-1.5">{label}</label>

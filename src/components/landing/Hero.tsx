@@ -6,8 +6,8 @@ import Image from "next/image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// Free Unsplash luxury real estate images — no API key needed
-const HERO_IMG = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80";
+// Manhattan skyline at dusk — full-bleed hero (client market: New York)
+const HERO_IMG = "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1920&q=80";
 
 export default function Hero() {
   return (
@@ -17,7 +17,7 @@ export default function Hero() {
       <div className="absolute inset-0">
         <Image
           src={HERO_IMG}
-          alt="Luxury property"
+          alt="New York City skyline"
           fill
           priority
           className="hero-bg-img object-cover object-center"
@@ -42,12 +42,12 @@ export default function Hero() {
           <em>while you sleep.</em>
         </p>
         <p className="text-sm text-white/70 leading-relaxed">
-          EstateFlow reads every WhatsApp enquiry, scores buyer intent in 2 seconds,
+          EstateFlow reads every text and email inquiry, scores buyer intent in 2 seconds,
           and sends the first follow-up — automatically.
         </p>
         <div className="mt-5 flex items-center justify-end gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[11px] text-emerald-400 uppercase tracking-[0.12em]">Early access · India</span>
+          <span className="text-[11px] text-emerald-400 uppercase tracking-[0.12em]">Early access · USA</span>
         </div>
       </motion.div>
 

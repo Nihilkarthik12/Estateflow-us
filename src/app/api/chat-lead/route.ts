@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       await supabase.from("notifications").insert(
         users.map((u) => ({
           user_id: u.id,
-          message: `New chat lead: ${name} — requested a site visit`,
+          message: `New chat lead: ${name} — requested a showing`,
           type: "lead",
           link: `/dashboard/leads/${lead.id}`,
           read: false,

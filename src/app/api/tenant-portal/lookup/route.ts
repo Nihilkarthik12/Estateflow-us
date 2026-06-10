@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   if (!phone) return NextResponse.json({ error: "Phone required" }, { status: 400 });
 
   // Basic phone validation — reject obviously bad input
-  const cleaned = phone.replace(/\s+/g, "").replace(/^\+91/, "");
+  const cleaned = phone.replace(/[\s()\-]+/g, "").replace(/^\+1/, "");
   if (!/^[0-9]{8,12}$/.test(cleaned)) {
     return NextResponse.json({ error: "Invalid phone number format." }, { status: 400 });
   }
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
   const { data: tenant } = await supabase
     .from("tenants")
     .select("id, name, email, phone, unit_number, status, property_id")
-    .or(`phone.eq.${phone},phone.eq.+91${cleaned},phone.eq.${cleaned}`)
+    .or(`phone.eq.${phone},phone.eq.+1${cleaned},phone.eq.${cleaned}`)
     .single();
 
   if (!tenant) {

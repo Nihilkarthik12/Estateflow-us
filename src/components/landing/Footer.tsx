@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail } from "lucide-react";
 
-const FOOTER_BG = "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1920&q=80";
+// NYC skyline aerial — ambient footer background
+const FOOTER_BG = "https://images.unsplash.com/photo-1538970272646-f61fabb3a8a2?auto=format&fit=crop&w=1920&q=80";
 
 export default function Footer() {
   return (
@@ -36,7 +37,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-[var(--foreground-muted)] leading-relaxed max-w-xs">
-              The AI-powered CRM built for modern real estate agencies across India.
+              The AI-powered CRM built for modern real estate brokerages across the US.
             </p>
           </div>
 
@@ -45,9 +46,9 @@ export default function Footer() {
             <p className="section-label mb-6">(Platform)</p>
             <ul className="space-y-3">
               {[
-                { label: "AI Lead Scoring",  href: "#features" },
-                { label: "WhatsApp Capture", href: "#features" },
-                { label: "Voice AI Agent",   href: "#features" },
+                { label: "AI Lead Scoring",    href: "#features" },
+                { label: "Text & Email Capture", href: "#features" },
+                { label: "Voice AI Agent",     href: "#features" },
                 { label: "Analytics",        href: "#features" },
                 { label: "How it Works",     href: "#workflow" },
               ].map(link => (
@@ -68,7 +69,7 @@ export default function Footer() {
               {[
                 { label: "Property Listings",  href: "/listings" },
                 { label: "Submit Requirement", href: "/submit-lead" },
-                { label: "Book a Site Visit",  href: "/book-visit" },
+                { label: "Book a Showing",     href: "/book-visit" },
                 { label: "Tenant Portal",      href: "/tenant-portal" },
                 { label: "Agent Login",        href: "/login" },
               ].map(link => (
@@ -108,7 +109,7 @@ export default function Footer() {
             © {new Date().getFullYear()} EstateFlow AI. All rights reserved.
           </p>
           <p className="text-xs text-[var(--foreground-subtle)]">
-            Built for Indian real estate · Powered by OpenAI · Vapi.ai · Supabase
+            Built for US real estate · Powered by OpenAI · Vapi.ai · Supabase
           </p>
         </div>
       </div>

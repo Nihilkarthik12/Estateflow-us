@@ -52,7 +52,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const v = $input.first().json;\nconst name = v.visitor_name?.split(' ')[0] || 'there';\nconst phone = v.visitor_phone?.replace('+', '') || '';\nconst time = v.visit_time || '10:00';\nconst property = v.properties?.title || 'the property';\nconst location = v.properties?.city || v.properties?.location || '';\n\nconst message = `Hi ${name}! 🔔 Reminder: Your site visit is TOMORROW.\\n\\n🏠 ${property}${location ? ' — ' + location : ''}\\n⏰ Time: ${time}\\n\\nPlease be on time. Our agent will meet you at the property.\\n\\nNeed to reschedule? Reply here or call us.`;\n\nreturn [{ json: { ...v, message, phone } }];"
+        "jsCode": "const v = $input.first().json;\nconst name = v.visitor_name?.split(' ')[0] || 'there';\nconst phone = v.visitor_phone?.replace('+', '') || '';\nconst time = v.visit_time || '10:00';\nconst property = v.properties?.title || 'the property';\nconst location = v.properties?.city || v.properties?.location || '';\n\nconst message = `Hi ${name}! 🔔 Reminder: Your showing is TOMORROW.\\n\\n🏠 ${property}${location ? ' — ' + location : ''}\\n⏰ Time: ${time}\\n\\nPlease be on time. Our agent will meet you at the property.\\n\\nNeed to reschedule? Reply here or call us.`;\n\nreturn [{ json: { ...v, message, phone } }];"
       },
       "id": "build-reminder",
       "name": "Build Reminder Message",

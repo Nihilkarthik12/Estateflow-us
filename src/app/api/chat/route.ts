@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
 import { rateLimit, getIP } from "@/lib/rate-limit";
+import { formatPrice } from "@/lib/config/market";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -37,29 +38,30 @@ export async function POST(req: NextRequest) {
 
       if (properties && properties.length > 0) {
         propertyContext = `\n\nAvailable Properties:\n${properties
-          .map((p) => `- ${p.title} (${p.property_type}) in ${p.city}${p.area ? ", " + p.area : ""}: ₹${Number(p.price).toLocaleString()}, ${p.bedrooms ?? "?"}BR/${p.bathrooms ?? "?"}BA`)
+          .map((p) => `- ${p.title} (${p.property_type}) in ${p.city}${p.area ? ", " + p.area : ""}: ${formatPrice(p.price)}, ${p.bedrooms ?? "?"}BD/${p.bathrooms ?? "?"}BA`)
           .join("\n")}`;
       }
     } catch { /* silently skip if property fetch fails */ }
 
-    const systemPrompt = `You are EstateFlow AI, a helpful real estate assistant. You help prospective buyers and renters explore properties, understand pricing, and book site visits.
+    const systemPrompt = `You are EstateFlow AI, a helpful real estate assistant for a US real estate brokerage. You help prospective buyers and renters explore properties, understand pricing, and book showings.
 
 Your capabilities:
 - Answer questions about available properties, pricing, locations, and amenities
 - Help users find properties matching their requirements
-- Explain the buying/rental process in India
-- Calculate loan EMI and check affordability
-- Schedule or suggest site visits
+- Explain the US home buying/rental process — offers, escrow, closing costs, pre-approval, inspections
+- Calculate monthly mortgage payments and check affordability
+- Schedule or suggest property showings
 
-Loan/EMI calculation rules:
-- Formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1)
-- Default: 20% down payment, 8.5% annual interest, 20 year tenure
-- Always show: loan amount, monthly EMI, total interest, total payment
+Mortgage calculation rules:
+- Formula: M = P × r × (1+r)^n / ((1+r)^n - 1), where r is the monthly rate and n is the number of payments
+- Default assumptions: 20% down payment, 7% annual interest (APR), 30 year term
+- Always show: loan amount, estimated monthly payment (principal + interest), total interest, total paid
 
 Guidelines:
 - Be concise, friendly, and professional
-- Use Indian rupee (₹) for prices
-- If you recommend a site visit or booking, end your message with: [ACTION:book_visit]
+- Use US dollars ($) for all prices, formatted with commas (e.g. $1,250,000)
+- Reference US terms: beds/baths, sq ft, HOA, property taxes, MLS
+- If you recommend a showing or booking, end your message with: [ACTION:book_visit]
 - Don't make up property details not in the provided list${propertyContext}`;
 
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
