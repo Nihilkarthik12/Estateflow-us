@@ -14,22 +14,17 @@ export async function GET(req: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  // Referral ask fires 30 days after the deal closed. closed_at is a timestamp,
-  // so match the whole calendar day [day 00:00, next day 00:00).
-  const start = new Date();
-  start.setDate(start.getDate() - 30);
-  start.setHours(0, 0, 0, 0);
-  const end = new Date(start);
-  end.setDate(end.getDate() + 1);
+  // Referral ask fires for deals closed within the last 35 days.
+  // Uses updated_at as the close-date proxy (trigger stamps it when status → closed).
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 35);
 
   const { data: leads } = await supabase
     .from("leads")
     .select("id, name, phone, location, property_type")
     .eq("status", "closed")
     .not("phone", "is", null)
-    .is("referral_followup_sent_at", null)
-    .gte("closed_at", start.toISOString())
-    .lt("closed_at", end.toISOString());
+    .gte("updated_at", cutoff.toISOString());
 
   if (!leads || leads.length === 0) {
     return NextResponse.json({ leads: [], count: 0 });

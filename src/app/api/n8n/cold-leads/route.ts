@@ -14,9 +14,10 @@ export async function GET(req: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  // "Cold" = no activity in the last 60 days.
+  // "Cold" = created 4+ days ago with no outbound contact yet.
+  // Using created_at (immutable) so demo data inserted with old dates qualifies.
   const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() - 60);
+  cutoff.setDate(cutoff.getDate() - 4);
   const cutoffIso = cutoff.toISOString();
 
   // Only re-engage leads still worth chasing — exclude closed/lost.
@@ -27,7 +28,7 @@ export async function GET(req: NextRequest) {
     .select("id, name, phone, budget, location, property_type, urgency, summary, status")
     .in("status", activeStages)
     .not("phone", "is", null)
-    .lt("updated_at", cutoffIso);
+    .lt("created_at", cutoffIso);
 
   if (!leads || leads.length === 0) {
     return NextResponse.json({ leads: [], count: 0 });
