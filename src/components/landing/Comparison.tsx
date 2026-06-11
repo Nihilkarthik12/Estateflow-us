@@ -1,10 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { X, Check } from "lucide-react";
-
-const COMPARISON_BG = "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1920&q=80";
 
 const rows = [
   { label: "Lead response time",    before: "2–3 hours (if lucky)",        after: "Under 90 seconds, automated" },
@@ -20,46 +17,32 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Comparison() {
   return (
-    <section className="section-rule landing-section px-6 sm:px-12 relative">
-      {/* Luxury property ambient background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <Image
-          src={COMPARISON_BG}
-          alt=""
-          fill
-          className="object-cover object-center opacity-[0.06]"
-          sizes="100vw"
-          aria-hidden
-        />
-      </div>
-      <div className="max-w-[1400px] mx-auto relative z-10">
+    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
+      <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="mb-14 sm:mb-20">
+        <div className="max-w-2xl mb-14">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="section-label mb-5"
+            className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
           >
-            (The Difference)
+            The difference
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease }}
-            style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
+            transition={{ duration: 0.6, ease }}
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
           >
             Your competitors are still using{" "}
-            <em className="font-normal line-through text-[var(--foreground-subtle)]" style={{ fontStyle: "italic" }}>
-              spreadsheets &amp; sticky notes
-            </em>
+            <span className="line-through text-slate-400">spreadsheets & sticky notes</span>
           </motion.h2>
         </div>
 
-        {/* ── Mobile: stacked cards ── */}
+        {/* Mobile: stacked cards */}
         <div className="flex flex-col gap-3 md:hidden">
           {rows.map((row, i) => (
             <motion.div
@@ -67,83 +50,83 @@ export default function Comparison() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.04, duration: 0.5, ease }}
-              className="border border-[rgba(255,255,255,0.07)] rounded-lg overflow-hidden"
+              transition={{ delay: i * 0.04, duration: 0.4 }}
+              className="rounded-xl border border-slate-200 overflow-hidden"
             >
-              <div className="px-4 py-3 bg-[var(--surface-2)]">
-                <p className="text-xs font-semibold text-[var(--foreground)] uppercase tracking-[0.1em]">{row.label}</p>
+              <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200">
+                <p className="text-[12px] font-bold text-slate-700 uppercase tracking-wide">{row.label}</p>
               </div>
               <div className="grid grid-cols-2">
-                <div className="px-4 py-3 border-r border-[rgba(255,255,255,0.07)] flex items-start gap-2">
-                  <X size={12} className="text-red-400 mt-0.5 shrink-0" />
-                  <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">{row.before}</p>
+                <div className="px-4 py-3 border-r border-slate-100 flex items-start gap-2">
+                  <X size={12} className="text-red-500 mt-0.5 shrink-0" />
+                  <p className="text-[12px] text-slate-500 leading-relaxed">{row.before}</p>
                 </div>
-                <div className="px-4 py-3 flex items-start gap-2 bg-[rgba(22,163,74,0.04)]">
-                  <Check size={12} className="text-emerald-400 mt-0.5 shrink-0" />
-                  <p className="text-xs text-[var(--foreground)] leading-relaxed font-medium">{row.after}</p>
+                <div className="px-4 py-3 bg-emerald-50/50 flex items-start gap-2">
+                  <Check size={12} className="text-emerald-600 mt-0.5 shrink-0" />
+                  <p className="text-[12px] text-slate-700 font-medium leading-relaxed">{row.after}</p>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* ── Desktop: 3-column table ── */}
+        {/* Desktop: table */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease }}
-          className="hidden md:block border border-[rgba(255,255,255,0.07)] rounded-xl overflow-hidden"
+          className="hidden md:block rounded-2xl border border-slate-200 overflow-hidden"
         >
-          {/* Header */}
-          <div className="grid grid-cols-[1.2fr_1fr_1fr] bg-[var(--surface-2)]">
-            <div className="px-6 py-4 border-b border-r border-[rgba(255,255,255,0.07)]">
-              <p className="text-[11px] font-semibold text-[var(--foreground-subtle)] uppercase tracking-widest">Situation</p>
+          {/* Table header */}
+          <div className="grid grid-cols-[1.2fr_1fr_1fr] bg-slate-50">
+            <div className="px-6 py-4 border-b border-r border-slate-200">
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Situation</p>
             </div>
-            <div className="px-6 py-4 border-b border-r border-[rgba(255,255,255,0.07)] flex items-center gap-2">
-              <X size={13} className="text-red-400" />
-              <p className="text-[11px] font-semibold text-red-400 uppercase tracking-widest">Without EstateFlow</p>
+            <div className="px-6 py-4 border-b border-r border-slate-200 flex items-center gap-2">
+              <X size={13} className="text-red-500" />
+              <p className="text-[11px] font-bold text-red-500 uppercase tracking-widest">Without EstateFlow</p>
             </div>
-            <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.07)] flex items-center gap-2 bg-[rgba(22,163,74,0.05)]">
-              <Check size={13} className="text-emerald-400" />
-              <p className="text-[11px] font-semibold text-emerald-400 uppercase tracking-widest">With EstateFlow</p>
+            <div className="px-6 py-4 border-b border-slate-200 flex items-center gap-2 bg-emerald-50/50">
+              <Check size={13} className="text-emerald-600" />
+              <p className="text-[11px] font-bold text-emerald-700 uppercase tracking-widest">With EstateFlow</p>
             </div>
           </div>
 
           {rows.map((row, i) => (
             <motion.div
               key={row.label}
-              initial={{ opacity: 0, x: -12 }}
+              initial={{ opacity: 0, x: -8 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05, duration: 0.4 }}
-              className="grid grid-cols-[1.2fr_1fr_1fr] hover:bg-white/[0.015] transition-colors"
+              className="grid grid-cols-[1.2fr_1fr_1fr] hover:bg-slate-50/60 transition-colors"
             >
-              <div className="px-6 py-4 border-b border-r border-[rgba(255,255,255,0.06)] flex items-center">
-                <span className="text-sm font-medium text-[var(--foreground)]">{row.label}</span>
+              <div className="px-6 py-4 border-b border-r border-slate-100 flex items-center">
+                <span className="text-[14px] font-semibold text-slate-800">{row.label}</span>
               </div>
-              <div className="px-6 py-4 border-b border-r border-[rgba(255,255,255,0.06)] flex items-start gap-2.5">
-                <div className="w-4 h-4 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mt-0.5 shrink-0">
-                  <X size={9} className="text-red-400" />
+              <div className="px-6 py-4 border-b border-r border-slate-100 flex items-start gap-2.5">
+                <div className="w-4 h-4 rounded-full bg-red-50 border border-red-200 flex items-center justify-center mt-0.5 shrink-0">
+                  <X size={9} className="text-red-500" />
                 </div>
-                <span className="text-sm text-[var(--foreground-muted)]">{row.before}</span>
+                <span className="text-[13.5px] text-slate-500">{row.before}</span>
               </div>
-              <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.06)] flex items-start gap-2.5 bg-[rgba(22,163,74,0.03)]">
-                <div className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mt-0.5 shrink-0">
-                  <Check size={9} className="text-emerald-400" />
+              <div className="px-6 py-4 border-b border-slate-100 flex items-start gap-2.5 bg-emerald-50/30">
+                <div className="w-4 h-4 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mt-0.5 shrink-0">
+                  <Check size={9} className="text-emerald-600" />
                 </div>
-                <span className="text-sm font-medium text-[var(--foreground)]">{row.after}</span>
+                <span className="text-[13.5px] text-slate-800 font-medium">{row.after}</span>
               </div>
             </motion.div>
           ))}
 
-          <div className="grid grid-cols-[1.2fr_1fr_1fr]">
-            <div className="px-6 py-4 border-r border-[rgba(255,255,255,0.07)] bg-[var(--surface-2)]" />
-            <div className="px-6 py-4 border-r border-[rgba(255,255,255,0.07)] bg-[var(--surface-2)]">
-              <span className="text-sm text-red-400 font-semibold">Deals slipping away daily</span>
+          <div className="grid grid-cols-[1.2fr_1fr_1fr] bg-slate-50">
+            <div className="px-6 py-4 border-r border-slate-200" />
+            <div className="px-6 py-4 border-r border-slate-200">
+              <span className="text-[13.5px] text-red-500 font-semibold">Deals slipping away daily</span>
             </div>
-            <div className="px-6 py-4 bg-[rgba(22,163,74,0.06)]">
-              <span className="text-sm text-emerald-400 font-semibold">More closed deals, less effort</span>
+            <div className="px-6 py-4 bg-emerald-50/50">
+              <span className="text-[13.5px] text-emerald-700 font-semibold">More closed deals, less effort</span>
             </div>
           </div>
         </motion.div>

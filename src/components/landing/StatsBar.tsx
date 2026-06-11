@@ -1,113 +1,70 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-
-// Classic American luxury home at dusk
-const STATS_IMG = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1920&q=80";
+import Link from "next/link";
 
 const stats = [
-  {
-    value: "< 2s",
-    label: "Lead scored by AI",
-    sub: "from first message",
-    context: "Industry avg: 3–6 hours",
-  },
-  {
-    value: "24/7",
-    label: "Zero missed inquiries",
-    sub: "nights, weekends, holidays",
-    context: "While your team sleeps",
-  },
-  {
-    value: "6",
-    label: "Pipeline stages tracked",
-    sub: "new → closed, in one view",
-    context: "No spreadsheets needed",
-  },
-  {
-    value: "5×",
-    label: "Follow-up touchpoints",
-    sub: "automated per lead",
-    context: "80% of deals close after 5+",
-  },
+  { value: "< 2s",  label: "Lead scored by AI",       sub: "Industry avg: 3–6 hrs" },
+  { value: "24/7",  label: "Zero missed inquiries",    sub: "Nights, weekends, holidays" },
+  { value: "9+",    label: "Automations running",      sub: "Fully hands-free" },
+  { value: "5×",    label: "Follow-up touchpoints",    sub: "80% of deals close after 5+" },
 ];
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function StatsBar() {
   return (
-    <section className="stats-section section-rule relative overflow-hidden">
+    <section className="bg-[#0f172a] py-20 sm:py-28 px-5 sm:px-8">
+      <div className="max-w-7xl mx-auto">
 
-      <div className="absolute inset-0">
-        <Image
-          src={STATS_IMG}
-          alt="American luxury home"
-          fill
-          className="stats-bg-img object-cover object-center"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[rgba(13,15,14,0.90)]" />
-      </div>
+        {/* Label */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-[13px] font-semibold text-blue-400 uppercase tracking-wider mb-10"
+        >
+          What changes on day one
+        </motion.p>
 
-      <div className="relative z-10 px-6 sm:px-12 py-24 sm:py-32">
-        <div className="max-w-[1400px] mx-auto">
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="section-label mb-16 sm:mb-24 text-white/40"
-          >
-            (What changes on day one)
-          </motion.p>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 sm:gap-8">
-            {stats.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.7, ease }}
-                className={`stat-number-item ${i % 2 === 1 ? "md:mt-16 mt-0" : ""}`}
-              >
-                <p
-                  style={{
-                    fontFamily: "var(--font-playfair), Georgia, serif",
-                    fontSize: "clamp(3rem, 7vw, 6rem)",
-                    fontWeight: 700,
-                    lineHeight: 0.9,
-                    color: "white",
-                  }}
-                >
-                  {s.value}
-                </p>
-                <p className="mt-4 text-sm text-white/80 font-medium leading-snug">{s.label}</p>
-                <p className="mt-1 text-xs text-white/40">{s.sub}</p>
-                <p className="mt-3 text-[10px] text-white/25 uppercase tracking-[0.1em]">{s.context}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="mt-20 sm:mt-28 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
-          >
-            <p className="font-serif italic text-xl sm:text-2xl text-white/50 max-w-lg leading-relaxed"
-              style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
-              &ldquo;The AI that works while you sleep — and closes while you talk.&rdquo;
-            </p>
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-xs text-white/40 uppercase tracking-[0.14em]">Built for US real estate teams</span>
-            </div>
-          </motion.div>
+        {/* Stats grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-8">
+          {stats.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.6, ease }}
+            >
+              <p className="text-5xl sm:text-6xl font-bold tracking-tight text-white leading-none">
+                {s.value}
+              </p>
+              <p className="mt-3 text-[14px] font-semibold text-slate-200 leading-snug">{s.label}</p>
+              <p className="mt-1 text-[12px] text-slate-500">{s.sub}</p>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Bottom strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="mt-16 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+        >
+          <p className="text-[15px] text-slate-400 max-w-lg leading-relaxed">
+            The platform that works while you sleep —{" "}
+            <span className="text-white font-semibold">and closes while you talk.</span>
+          </p>
+          <Link
+            href="#contact"
+            className="shrink-0 inline-flex items-center px-6 py-3 rounded-xl bg-blue-600 text-white text-[14px] font-semibold hover:bg-blue-500 transition-colors"
+          >
+            See it in action →
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

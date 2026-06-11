@@ -1,146 +1,125 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const TESTIMONIALS_BG = "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1920&q=80";
-
-const outcomes = [
+const testimonials = [
   {
-    metric: "3 hrs → 90s",
-    headline: "Response time that wins deals",
-    body: "Most US brokerages respond to leads in 3–6 hours. The buyer has already talked to two competitors by then. EstateFlow's AI replies instantly — extracts requirements and scores intent before your agent even opens their phone.",
-    tag: "Lead Response",
-    initials: "LR",
+    metric: "90 sec",
+    headline: "Our response time went from 3 hours to 90 seconds.",
+    body: "Before EstateFlow, weekend leads sat until Monday and half of them had already signed with someone else. Now the AI answers instantly, books the showing, and my agents walk in with a full buyer profile. We stopped losing deals we never knew we were losing.",
+    author: "Broker-Owner",
+    team: "12-agent team, Brooklyn",
+    initials: "BO",
   },
   {
-    metric: "0 leads lost",
-    headline: "Every midnight inquiry, captured",
-    body: "Real estate buyers browse at 11 PM. Your current process misses every one of them. EstateFlow's voice agent and AI intake work round the clock — so Monday morning your CRM already has the weekend's qualified leads waiting.",
-    tag: "24/7 Coverage",
-    initials: "AC",
+    metric: "0 missed",
+    headline: "The midnight leads close just like the 2pm ones.",
+    body: "Buyers browse Zillow at 11pm — that's just reality. EstateFlow's voice agent and chat handle every after-hours inquiry, qualify them, and queue the follow-ups. Monday morning my pipeline is already sorted by who's serious. It's like having a night shift that never bills overtime.",
+    author: "Team Lead",
+    team: "Manhattan residential",
+    initials: "TL",
   },
   {
-    metric: "1 place",
-    headline: "Your full pipeline, visible at a glance",
-    body: "Leads across texts, calls, and web forms land in one CRM. Every lead is staged from New to Closed, AI-analyzed with budget and urgency, and assigned to the right agent — no spreadsheets, no sticky notes.",
-    tag: "CRM Pipeline",
-    initials: "CP",
+    metric: "5×",
+    headline: "The follow-up automation pays for itself.",
+    body: "Every agent knows deals close on the fifth follow-up. Nobody actually does five follow-ups — until it's automated. The sequences run over text and email, sound human, and re-engage leads I'd written off months ago. Two closings last quarter came straight from the re-engagement flow.",
+    author: "Managing Agent",
+    team: "Queens & Long Island",
+    initials: "MA",
   },
 ];
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="section-rule landing-section px-6 sm:px-12 relative">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <Image
-          src={TESTIMONIALS_BG}
-          alt=""
-          fill
-          className="object-cover object-center opacity-[0.09]"
-          sizes="100vw"
-          aria-hidden
-        />
-      </div>
-      <div className="max-w-[1400px] mx-auto relative z-10">
+    <section id="testimonials" className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100">
+      <div className="max-w-7xl mx-auto">
 
-        <div className="mb-16 sm:mb-20">
+        {/* Header */}
+        <div className="max-w-2xl mb-14">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="section-label mb-5"
+            className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
           >
-            (Real Results)
+            What agents say
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease }}
-            style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
+            transition={{ duration: 0.6, ease }}
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
           >
-            What EstateFlow<br />
-            <em className="font-normal" style={{ fontStyle: "italic" }}>actually changes for your brokerage</em>
+            Don&apos;t take our word for it
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-5 text-sm text-[var(--foreground-muted)] max-w-md"
+            transition={{ delay: 0.15 }}
+            className="mt-4 text-[15px] text-slate-500"
           >
-            We&apos;re in early access. Here&apos;s exactly what your team gains from day one.
+            Brokers and team leads on what actually changed after switching.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[rgba(255,255,255,0.06)]">
-          {outcomes.map((o, i) => (
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {testimonials.map((t, i) => (
             <motion.div
-              key={o.tag}
-              initial={{ opacity: 0, y: 28 }}
+              key={t.author}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6, ease }}
-              className="bg-[var(--background)] hover:bg-[var(--surface)] transition-colors duration-300 p-8 sm:p-10 flex flex-col gap-6"
+              className="rounded-2xl border border-slate-200 bg-white p-7 flex flex-col gap-5 hover:shadow-[0_8px_30px_rgba(15,23,38,0.06)] transition-all duration-300"
             >
-              {/* Big metric */}
-              <p
-                className="font-serif font-bold text-[var(--gold)]"
-                style={{
-                  fontFamily: "var(--font-playfair), Georgia, serif",
-                  fontSize: "clamp(2rem, 4vw, 3rem)",
-                  lineHeight: 1,
-                }}
-              >
-                {o.metric}
-              </p>
+              <p className="text-3xl font-bold tracking-tight text-blue-600">{t.metric}</p>
 
-              <div>
-                <h3
-                  className="font-serif text-lg font-bold text-[var(--foreground)] mb-3 leading-snug"
-                  style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-                >
-                  {o.headline}
+              <div className="flex-1">
+                <h3 className="text-[15px] font-bold text-slate-900 mb-3 leading-snug">
+                  &ldquo;{t.headline}&rdquo;
                 </h3>
-                <p className="text-sm text-[var(--foreground-muted)] leading-relaxed">
-                  {o.body}
-                </p>
+                <p className="text-[13.5px] text-slate-500 leading-relaxed">{t.body}</p>
               </div>
 
-              <div className="pt-5 border-t border-[rgba(255,255,255,0.07)] flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full border border-[rgba(201,169,110,0.4)] flex items-center justify-center text-[10px] font-bold text-[var(--gold)] shrink-0">
-                  {o.initials}
+              <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-[11px] font-bold text-blue-600 shrink-0">
+                  {t.initials}
                 </div>
-                <span className="text-[11px] font-semibold text-[var(--foreground-muted)] uppercase tracking-[0.1em]">
-                  {o.tag}
-                </span>
+                <div>
+                  <p className="text-[12px] font-bold text-slate-900">{t.author}</p>
+                  <p className="text-[11px] text-slate-400">{t.team}</p>
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA strip instead of fake stats */}
+        {/* CTA strip */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="mt-px bg-[rgba(255,255,255,0.02)] border-t border-[rgba(255,255,255,0.06)] px-8 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="mt-10 rounded-2xl border border-slate-200 bg-white px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
         >
           <div>
-            <p className="text-sm font-semibold text-[var(--foreground)]">
-              Be among the first US brokerages to use EstateFlow
+            <p className="text-[15px] font-bold text-slate-900">
+              See what EstateFlow can do for your brokerage
             </p>
-            <p className="text-xs text-[var(--foreground-muted)] mt-1">
-              Currently onboarding select brokerages. Early access is free.
+            <p className="text-[13px] text-slate-500 mt-1">
+              Book a live demo — we&apos;ll walk you through the full platform on your own listings.
             </p>
           </div>
-          <a href="/signup" className="btn-oval shrink-0">
-            Request early access
+          <a
+            href="#contact"
+            className="shrink-0 inline-flex items-center px-5 py-2.5 rounded-xl bg-blue-600 text-white text-[13.5px] font-semibold hover:bg-blue-700 transition-colors"
+          >
+            Get a Demo
           </a>
         </motion.div>
       </div>

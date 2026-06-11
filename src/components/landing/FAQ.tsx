@@ -7,35 +7,35 @@ import { Plus, Minus } from "lucide-react";
 const faqs = [
   {
     q: "What is EstateFlow AI?",
-    a: "EstateFlow is an AI-first real estate CRM for brokerages, teams and individual agents. It automates lead capture, qualification, property matching and follow-ups from one dashboard.",
+    a: "EstateFlow is an AI-first real estate platform for US brokerages, teams and individual agents. It automates lead capture, qualification, property matching and follow-ups — and runs your full pipeline from one dashboard.",
   },
   {
-    q: "How does AI lead analysis work?",
-    a: "Leads from your website, Zillow, Realtor.com, texts and calls are parsed by AI to extract budget, location, property type, urgency and intent. The platform then scores each lead 0–100 and suggests the best next step for your agent.",
+    q: "How does the AI lead analysis work?",
+    a: "Leads from your website, Zillow, Realtor.com, texts and calls are parsed by AI to extract budget, location, property type, urgency and intent. The platform scores each lead 0–100 and tells your agent exactly who to call first.",
   },
   {
-    q: "Can multiple agents and offices use it?",
-    a: "Yes. You can add your full team, define roles (admin/agent), assign leads to specific agents and manage performance across offices with centralized reporting.",
+    q: "What automations are included?",
+    a: "Instant lead capture and auto-reply, AI follow-up sequences over text and email, showing confirmations and reminders, missed-call text-back, cold-lead re-engagement, post-sale referral and review requests, and lease renewal alerts — all running hands-free.",
   },
   {
-    q: "Is my brokerage data secure?",
-    a: "Yes. EstateFlow uses row-level security so each brokerage's data is completely isolated. All data is encrypted in transit and at rest. We never share your data with any third party.",
-  },
-  {
-    q: "Does EstateFlow capture leads from Zillow and Realtor.com?",
-    a: "Yes. Portal inquiries, texts, and calls can be forwarded or integrated — they are processed exactly like web form leads, with full AI analysis and CRM sync.",
-  },
-  {
-    q: "Can I try it before committing?",
-    a: "Absolutely. Every plan includes a 14-day free trial with full access to all features. No credit card required to start.",
+    q: "Does it capture leads from Zillow and Realtor.com?",
+    a: "Yes. Portal inquiries, texts, and calls are processed exactly like website leads — full AI analysis, scoring, and CRM sync. No copy-pasting from emails ever again.",
   },
   {
     q: "What is the Voice AI agent?",
-    a: "The Voice AI agent is a real-time phone assistant on your website. Visitors click a button and talk to an AI that answers questions, qualifies them and captures their requirements — 24/7.",
+    a: "A real-time phone assistant that answers calls to your office number or website 24/7. It answers questions, qualifies the buyer, captures their requirements and books showings — even at 2am on a Sunday.",
+  },
+  {
+    q: "Can multiple agents use it?",
+    a: "Yes. Add your full team, assign leads to specific agents, and track performance across the whole pipeline with centralized reporting.",
+  },
+  {
+    q: "Is my data secure?",
+    a: "Yes. Bank-grade encryption in transit and at rest, with row-level security on every record. Your data is never shared with third parties.",
   },
   {
     q: "How long does setup take?",
-    a: "Under 10 minutes. Sign up, add your brokerage details, and your AI chatbot and lead capture form are live immediately. No technical setup needed.",
+    a: "Under 10 minutes. Sign up, add your brokerage details, and your AI chatbot, voice agent and lead capture are live immediately. No technical setup needed.",
   },
 ];
 
@@ -44,11 +44,11 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.04, duration: 0.4 }}
-      className="border-b border-[var(--border)]"
+      className="border-b border-slate-200"
     >
       <button
         type="button"
@@ -56,10 +56,10 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         className="w-full flex items-center justify-between gap-4 py-5 text-left group"
         aria-expanded={open}
       >
-        <span className={`text-sm font-semibold transition-colors leading-relaxed ${open ? "text-[var(--foreground)]" : "text-[var(--foreground-muted)] group-hover:text-[var(--foreground)]"}`}>
+        <span className={`text-[14px] font-semibold leading-relaxed transition-colors ${open ? "text-slate-900" : "text-slate-600 group-hover:text-slate-900"}`}>
           {q}
         </span>
-        <span className={`shrink-0 w-7 h-7 rounded-lg flex items-center justify-center border transition-all ${open ? "bg-[var(--gold-muted)] border-[var(--gold-border)] text-[var(--gold)]" : "bg-[var(--surface-2)] border-[var(--border)] text-[var(--foreground-subtle)]"}`}>
+        <span className={`shrink-0 w-7 h-7 rounded-lg flex items-center justify-center border transition-all ${open ? "bg-blue-50 border-blue-200 text-blue-600" : "bg-slate-100 border-slate-200 text-slate-400"}`}>
           {open ? <Minus size={13} /> : <Plus size={13} />}
         </span>
       </button>
@@ -72,7 +72,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
             transition={{ duration: 0.22 }}
             className="overflow-hidden"
           >
-            <p className="pb-5 text-sm leading-relaxed text-[var(--foreground-muted)]">{a}</p>
+            <p className="pb-5 text-[13.5px] leading-relaxed text-slate-500">{a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -84,43 +84,43 @@ export default function FAQ() {
   const half = Math.ceil(faqs.length / 2);
 
   return (
-    <section id="faq" className="section-rule landing-section px-6 sm:px-12">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="mb-14 sm:mb-20">
+    <section id="faq" className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Header */}
+        <div className="max-w-2xl mb-14">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="section-label mb-5"
+            className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
           >
-            (FAQ)
+            FAQ
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
+            transition={{ duration: 0.6 }}
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
           >
-            Everything you need<br />
-            <em className="font-normal" style={{ fontStyle: "italic" }}>to know</em>
+            Everything you need to know
           </motion.h2>
-          <p className="mt-5 text-sm text-[var(--foreground-muted)]">
+          <p className="mt-4 text-[14px] text-slate-500">
             Still have questions?{" "}
-            <a href="mailto:nihilkaarthikeyan@gmail.com" className="text-[var(--gold)] hover:underline">
+            <a href="mailto:nihilkaarthikeyan@gmail.com" className="text-blue-600 hover:underline font-medium">
               Email us →
             </a>
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-12">
-          <div className="border-t border-[var(--border)]">
+          <div className="border-t border-slate-200">
             {faqs.slice(0, half).map((f, i) => (
               <FAQItem key={f.q} {...f} index={i} />
             ))}
           </div>
-          <div className="border-t border-[var(--border)]">
+          <div className="border-t border-slate-200">
             {faqs.slice(half).map((f, i) => (
               <FAQItem key={f.q} {...f} index={i + half} />
             ))}

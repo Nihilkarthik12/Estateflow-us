@@ -1,60 +1,42 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Mail } from "lucide-react";
-
-// NYC skyline aerial — ambient footer background
-const FOOTER_BG = "https://images.unsplash.com/photo-1538970272646-f61fabb3a8a2?auto=format&fit=crop&w=1920&q=80";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[rgba(255,255,255,0.07)] px-6 sm:px-12 pt-16 pb-10 bg-[var(--background)] relative overflow-hidden">
-      {/* City skyline ambient background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <Image
-          src={FOOTER_BG}
-          alt=""
-          fill
-          className="object-cover object-bottom opacity-[0.07]"
-          sizes="100vw"
-          aria-hidden
-        />
-        {/* Gradient to fade image at top so it doesn't bleed into content above */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)] via-transparent to-transparent" />
-      </div>
+    <footer className="bg-white border-t border-slate-200 px-5 sm:px-8 pt-14 pb-8">
+      <div className="max-w-7xl mx-auto">
 
-      <div className="max-w-[1400px] mx-auto relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
-        {/* Elyse-style footer — 3 columns with parenthesized labels */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
-
-          {/* Brand — big serif name like Elyse */}
+          {/* Brand */}
           <div className="sm:col-span-1">
-            <p className="section-label mb-4">(Get in Touch)</p>
-            <Link href="/" className="block mb-6">
-              <span className="font-serif text-4xl sm:text-5xl font-bold text-[var(--foreground)]"
-                style={{ fontFamily: "var(--font-playfair), Georgia, serif", letterSpacing: "-0.02em" }}>
-                EstateFlow
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+                <span className="text-white font-bold text-sm">E</span>
+              </div>
+              <span className="font-bold text-[15px] tracking-tight text-slate-900">
+                EstateFlow<span className="text-blue-600"> AI</span>
               </span>
             </Link>
-            <p className="text-sm text-[var(--foreground-muted)] leading-relaxed max-w-xs">
-              The AI-powered CRM built for modern real estate brokerages across the US.
+            <p className="text-[13.5px] text-slate-500 leading-relaxed max-w-xs">
+              The AI-powered CRM built for modern US real estate brokerages. Close more. Work less.
             </p>
           </div>
 
-          {/* Platform Links */}
+          {/* Platform */}
           <div>
-            <p className="section-label mb-6">(Platform)</p>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-5">Platform</p>
             <ul className="space-y-3">
               {[
-                { label: "AI Lead Scoring",    href: "#features" },
-                { label: "Text & Email Capture", href: "#features" },
-                { label: "Voice AI Agent",     href: "#features" },
-                { label: "Analytics",        href: "#features" },
-                { label: "How it Works",     href: "#workflow" },
+                { label: "AI Lead Scoring",     href: "#features" },
+                { label: "Instant Lead Capture", href: "#features" },
+                { label: "Voice AI Agent",       href: "#features" },
+                { label: "How It Works",         href: "#workflow" },
+                { label: "Automations",          href: "#automations" },
               ].map(link => (
                 <li key={link.label}>
                   <Link href={link.href}
-                    className="text-sm text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors">
+                    className="text-[13.5px] text-slate-500 hover:text-slate-900 transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -62,9 +44,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Portal Links */}
+          {/* Explore */}
           <div>
-            <p className="section-label mb-6">(Portals)</p>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-5">Explore</p>
             <ul className="space-y-3">
               {[
                 { label: "Property Listings",  href: "/listings" },
@@ -75,7 +57,7 @@ export default function Footer() {
               ].map(link => (
                 <li key={link.label}>
                   <Link href={link.href}
-                    className="text-sm text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors">
+                    className="text-[13.5px] text-slate-500 hover:text-slate-900 transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -85,31 +67,30 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <p className="section-label mb-6">(Contact)</p>
-            <div className="space-y-2">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-5">Contact</p>
+            <div className="space-y-3">
               <a href="mailto:nihilkaarthikeyan@gmail.com"
-                className="flex items-center gap-2 text-sm text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors">
-                <Mail size={13} />
+                className="flex items-center gap-2 text-[13.5px] text-slate-500 hover:text-slate-900 transition-colors">
+                <Mail size={13} className="shrink-0" />
                 nihilkaarthikeyan@gmail.com
               </a>
             </div>
-            <div className="mt-6 space-y-2">
-              <p className="text-[11px] text-[var(--foreground-subtle)] uppercase tracking-[0.1em]">Quick links</p>
-              <div className="flex gap-4">
-                <Link href="/login" className="text-sm text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors">Sign in</Link>
-                <Link href="/signup" className="text-sm text-[var(--gold)] hover:text-[var(--gold-light)] transition-colors">Get Demo →</Link>
-              </div>
+            <div className="mt-6">
+              <a href="#contact"
+                className="inline-flex items-center px-4 py-2 rounded-xl bg-blue-600 text-white text-[13px] font-semibold hover:bg-blue-700 transition-colors">
+                Get a Demo →
+              </a>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-[rgba(255,255,255,0.07)]">
-          <p className="text-xs text-[var(--foreground-subtle)]">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-slate-200">
+          <p className="text-[12px] text-slate-400">
             © {new Date().getFullYear()} EstateFlow AI. All rights reserved.
           </p>
-          <p className="text-xs text-[var(--foreground-subtle)]">
-            Built for US real estate · Powered by OpenAI · Vapi.ai · Supabase
+          <p className="text-[12px] text-slate-400">
+            Built for US real estate · Equal Housing Opportunity
           </p>
         </div>
       </div>
