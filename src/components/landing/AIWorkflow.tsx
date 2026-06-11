@@ -1,11 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { MessageSquare, Brain, Database, Bell, Rocket, LucideIcon } from "lucide-react";
 
-const WORKFLOW_IMG = "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=80";
-import SectionHeader from "./SectionHeader";
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const steps: {
   icon: LucideIcon;
@@ -17,10 +15,10 @@ const steps: {
   {
     icon: MessageSquare,
     title: "Lead walks in",
-    description: "A buyer messages your website, calls your agent, or fills a form. All channels land in one place.",
+    description: "A buyer texts your number, calls your office, or fills a form. Every channel lands in one place.",
     time: "0s",
     visual: (
-      <div className="px-3 py-2 rounded-xl bg-[var(--surface-3)] border border-white/[0.06] text-xs text-[var(--foreground-muted)]">
+      <div className="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[13px] text-slate-600">
         💬 &quot;Looking for a 3-bed in Austin under $650K near downtown, need to close within 3 months&quot;
       </div>
     ),
@@ -33,7 +31,7 @@ const steps: {
     visual: (
       <div className="flex flex-wrap gap-1.5">
         {["$650K", "3 Bed", "Austin, TX", "Near downtown", "High urgency", "Serious buyer"].map((tag) => (
-          <span key={tag} className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[var(--accent-muted)] text-[var(--accent-light)] border border-[var(--border-accent)]">
+          <span key={tag} className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">
             {tag}
           </span>
         ))}
@@ -43,14 +41,14 @@ const steps: {
   {
     icon: Rocket,
     title: "Best properties matched",
-    description: "The system instantly ranks your listings by fit — your agent gets the top 3 options ready to share.",
+    description: "The system instantly ranks your listings by fit — your agent gets the top options ready to share.",
     time: "1.8s",
     visual: (
       <div className="space-y-1.5">
         {[{ n: "2412 Oak Ridge Dr", p: "$639K", m: "98%" }, { n: "188 Lakeview Terrace", p: "$648K", m: "94%" }].map((p) => (
-          <div key={p.n} className="flex items-center justify-between text-[10px] px-2.5 py-1.5 rounded-lg bg-[var(--surface-3)] border border-white/[0.05]">
-            <span className="text-[var(--foreground-muted)]">{p.n} · {p.p}</span>
-            <span className="font-bold text-[var(--success)]">{p.m} match</span>
+          <div key={p.n} className="flex items-center justify-between text-[12px] px-3 py-2 rounded-lg bg-slate-50 border border-slate-200">
+            <span className="text-slate-600 font-medium">{p.n} · {p.p}</span>
+            <span className="font-bold text-emerald-600">{p.m} match</span>
           </div>
         ))}
       </div>
@@ -62,9 +60,9 @@ const steps: {
     description: "A complete lead profile is created — score, tags, conversation history, and assigned agent.",
     time: "2.1s",
     visual: (
-      <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-[var(--success-muted)] border border-[rgba(16,185,129,0.2)]">
-        <span className="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse" />
-        <span className="text-xs font-medium text-[var(--success)]">Lead created · Score 88 · Assigned to Sarah</span>
+      <div className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200">
+        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="text-[13px] font-semibold text-emerald-700">Lead created · Score 88 · Assigned to Sarah</span>
       </div>
     ),
   },
@@ -74,8 +72,8 @@ const steps: {
     description: "Your agent receives an instant alert with everything they need — buyer profile, matched listings, recommended next step.",
     time: "2.4s",
     visual: (
-      <div className="px-3 py-2 rounded-xl bg-[var(--surface-3)] border border-white/[0.06] text-[11px] text-[var(--foreground-muted)] leading-relaxed">
-        🔴 <strong className="text-[var(--foreground)]">High intent lead — Michael Carter</strong><br />
+      <div className="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[12.5px] text-slate-600 leading-relaxed">
+        🔴 <strong className="text-slate-900">High intent lead — Michael Carter</strong><br />
         Call within 15 min · 3 properties ready to share
       </div>
     ),
@@ -84,62 +82,79 @@ const steps: {
 
 export default function AIWorkflow() {
   return (
-    <section id="workflow" className="landing-section px-4 sm:px-6">
+    <section id="workflow" className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          <div className="lg:sticky lg:top-28">
-            <SectionHeader
-              label="How it works"
-              title="From first message to follow-up — in under 3 seconds"
-              description="Your competitors take hours to respond. With EstateFlow, your agent has everything they need before they even know the lead arrived."
-            />
-            <div className="mt-6 inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium bg-[var(--success-muted)] text-[var(--success)] border border-[rgba(16,185,129,0.2)]">
-              <span className="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse" />
-              Fully automated · Zero manual input needed
-            </div>
 
-            {/* Time badge — property image background */}
-            <div className="mt-8 rounded-2xl overflow-hidden relative border border-[var(--border)]" style={{ minHeight: "130px" }}>
-              <Image
-                src={WORKFLOW_IMG}
-                alt=""
-                fill
-                className="object-cover object-center opacity-[0.35]"
-                sizes="400px"
-                aria-hidden
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--surface)]/80 to-black/50" />
-              <div className="relative p-5">
-                <p className="text-4xl font-bold text-[var(--foreground)]" style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>2.4s</p>
-                <p className="text-sm text-[var(--foreground-muted)] mt-1.5 max-w-[200px] leading-relaxed">Average time from lead to agent-ready profile</p>
-              </div>
-            </div>
+          {/* Sticky intro */}
+          <div className="lg:sticky lg:top-28">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
+            >
+              How it works
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease }}
+              className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
+            >
+              From first message to follow-up — in under 3 seconds
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 }}
+              className="mt-4 text-[15px] text-slate-500 leading-relaxed"
+            >
+              Your competitors take hours to respond. With EstateFlow, your agent has
+              everything they need before they even know the lead arrived.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.25 }}
+              className="mt-8 rounded-2xl border border-slate-200 bg-slate-50/60 p-6 inline-block"
+            >
+              <p className="text-5xl font-bold tracking-tight text-blue-600">2.4s</p>
+              <p className="text-[13px] text-slate-500 mt-2 max-w-[220px] leading-relaxed">
+                Average time from lead arrival to agent-ready profile
+              </p>
+            </motion.div>
           </div>
 
-          <div className="space-y-0">
+          {/* Timeline */}
+          <div>
             {steps.map((step, i) => (
               <motion.div
                 key={step.title}
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.07, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="relative flex gap-4 pb-8 last:pb-0"
+                transition={{ delay: i * 0.06, duration: 0.45, ease }}
+                className="relative flex gap-4 pb-9 last:pb-0"
               >
                 {i < steps.length - 1 && (
-                  <div className="absolute left-[23px] top-12 w-px bottom-0 bg-gradient-to-b from-[var(--accent)]/40 to-transparent" aria-hidden />
+                  <div className="absolute left-[22px] top-12 w-px bottom-0 bg-gradient-to-b from-blue-200 to-transparent" aria-hidden />
                 )}
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 z-10 bg-[var(--accent-muted)] border border-[var(--border-accent)]">
-                  <step.icon size={19} className="text-[var(--accent-light)]" />
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 z-10 bg-blue-50 border border-blue-100">
+                  <step.icon size={18} className="text-blue-600" />
                 </div>
-                <div className="flex-1 min-w-0 pt-1">
+                <div className="flex-1 min-w-0 pt-0.5">
                   <div className="flex items-center gap-2.5 mb-1.5">
-                    <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-[var(--surface-3)] text-[var(--accent-light)] border border-[var(--border)]">
+                    <span className="text-[10.5px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 text-blue-600 border border-slate-200">
                       t={step.time}
                     </span>
-                    <h3 className="text-sm font-semibold text-[var(--foreground)]">{step.title}</h3>
+                    <h3 className="text-[14.5px] font-bold text-slate-900">{step.title}</h3>
                   </div>
-                  <p className="text-sm text-[var(--foreground-muted)] leading-relaxed mb-3">{step.description}</p>
+                  <p className="text-[13.5px] text-slate-500 leading-relaxed mb-3">{step.description}</p>
                   {step.visual}
                 </div>
               </motion.div>

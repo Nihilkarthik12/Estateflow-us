@@ -1,10 +1,25 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail } from "lucide-react";
+
+const FOOTER_IMG = "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1920&q=80";
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-slate-200 px-5 sm:px-8 pt-14 pb-8">
-      <div className="max-w-7xl mx-auto">
+    <footer className="relative bg-white border-t border-slate-200 px-5 sm:px-8 pt-14 pb-8 overflow-hidden">
+      {/* Faint city skyline at the very bottom */}
+      <div className="absolute inset-x-0 bottom-0 h-40 pointer-events-none">
+        <Image
+          src={FOOTER_IMG}
+          alt=""
+          fill
+          className="object-cover object-bottom opacity-[0.06]"
+          sizes="100vw"
+          aria-hidden
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white" />
+      </div>
+      <div className="relative max-w-7xl mx-auto">
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 

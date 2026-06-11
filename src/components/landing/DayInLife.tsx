@@ -1,7 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { X, CheckCircle2, MessageCircle, Brain, Bell, Calendar, TrendingUp } from "lucide-react";
+
+const CALLOUT_IMG = "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=80";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -134,19 +137,31 @@ export default function DayInLife() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="mt-10 rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+          className="mt-10 rounded-2xl border border-blue-100 bg-blue-50 overflow-hidden grid grid-cols-1 sm:grid-cols-[1fr_240px] items-stretch"
         >
-          <div>
-            <p className="text-[18px] font-bold text-slate-900 mb-1">
-              The difference isn&apos;t talent. It&apos;s the system.
-            </p>
-            <p className="text-[14px] text-slate-500">
-              Top agents aren&apos;t working harder — they&apos;re working smarter. EstateFlow is the unfair advantage your competitors don&apos;t want you to have.
-            </p>
+          <div className="p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div>
+              <p className="text-[18px] font-bold text-slate-900 mb-1">
+                The difference isn&apos;t talent. It&apos;s the system.
+              </p>
+              <p className="text-[14px] text-slate-500">
+                Top agents aren&apos;t working harder — they&apos;re working smarter. EstateFlow is the unfair advantage your competitors don&apos;t want you to have.
+              </p>
+            </div>
+            <div className="text-center sm:text-right shrink-0">
+              <p className="text-5xl font-extrabold text-blue-600 leading-none">$60K+</p>
+              <p className="text-[12px] text-slate-500 mt-1.5">Extra commission in pipeline<br/>per agent, per month</p>
+            </div>
           </div>
-          <div className="text-center sm:text-right shrink-0">
-            <p className="text-5xl font-extrabold text-blue-600 leading-none">$60K+</p>
-            <p className="text-[12px] text-slate-500 mt-1.5">Extra commission in pipeline<br/>per agent, per month</p>
+          {/* House photo */}
+          <div className="relative min-h-[160px] sm:min-h-full hidden sm:block">
+            <Image
+              src={CALLOUT_IMG}
+              alt="American home"
+              fill
+              className="object-cover object-center"
+              sizes="240px"
+            />
           </div>
         </motion.div>
       </div>

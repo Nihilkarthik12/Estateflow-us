@@ -2,173 +2,134 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import {
+  Inbox, Brain, Send, Home, PhoneCall, KanbanSquare, LucideIcon,
+} from "lucide-react";
+
+const FEATURES_IMG = "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1920&q=80";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// US suburban neighborhood aerial — ambient section background
-const FEATURES_BG = "https://images.unsplash.com/photo-1625602812206-5ec545ca1231?auto=format&fit=crop&w=1920&q=80";
-
-const features = [
+const features: { icon: LucideIcon; title: string; body: string; stat: string; statLabel: string }[] = [
   {
-    num: "01",
-    title: "Instant",
-    titleItalic: "Lead Capture",
-    body: "Every buyer who texts, calls, or fills out a form on Zillow, Realtor.com, or your site is automatically captured, replied to instantly, and logged in your CRM — even at midnight. You wake up to warm, qualified leads ready to call.",
+    icon: Inbox,
+    title: "Instant Lead Capture",
+    body: "Every buyer who texts, calls, or inquires on Zillow, Realtor.com, or your site is captured, replied to instantly, and logged in your CRM — even at midnight. You wake up to warm, qualified leads.",
     stat: "< 2s",
     statLabel: "AI reply time",
-    img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80",
   },
   {
-    num: "02",
-    title: "AI Lead",
-    titleItalic: "Scoring",
-    body: "EstateFlow reads every inquiry and extracts budget, urgency, location and property type automatically. Your agent sees a full lead profile the moment the message arrives — no manual data entry.",
-    stat: "1–100",
-    statLabel: "Intent score range",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+    icon: Brain,
+    title: "AI Lead Scoring",
+    body: "Budget, location, property type, urgency, and buyer intent — extracted automatically from every message and scored 0–100, so your agents always know exactly who to call first.",
+    stat: "0–100",
+    statLabel: "intent score on every lead",
   },
   {
-    num: "03",
-    title: "Automated",
-    titleItalic: "Follow-Ups",
-    body: "Research shows 80% of deals close after 5+ follow-ups — yet most agents stop at one. EstateFlow sends timed follow-ups via text and email automatically so no lead goes cold while you're at a showing.",
+    icon: Send,
+    title: "Automated Follow-Ups",
+    body: "80% of deals close after 5+ follow-ups — yet most agents stop at one. EstateFlow sends perfectly-timed follow-ups by text and email so no lead goes cold while you're at a showing.",
     stat: "5×",
-    statLabel: "Follow-up touchpoints",
-    img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+    statLabel: "touchpoints per lead",
   },
   {
-    num: "04",
-    title: "Smart Property",
-    titleItalic: "Matching",
-    body: "AI instantly maps each buyer's stated requirements to your live listings. Your agent walks into every meeting already knowing the top 3 properties to show — no browsing, no guessing.",
+    icon: Home,
+    title: "Smart Property Matching",
+    body: "The moment a lead is analyzed, the system ranks your listings by fit and hands your agent the top three options — ready to send in one tap.",
     stat: "Top 3",
-    statLabel: "Listings surfaced per lead",
-    img: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=80",
+    statLabel: "listings surfaced per lead",
   },
   {
-    num: "05",
-    title: "Voice AI",
-    titleItalic: "Agent",
-    body: "A 24/7 AI voice agent answers every call to your office number, qualifies the buyer, extracts requirements, and books showings — while you're in a meeting or asleep.",
+    icon: PhoneCall,
+    title: "24/7 Voice AI Agent",
+    body: "An AI voice agent answers every call to your office number, qualifies the buyer, captures requirements, and books showings — while you're in a meeting or asleep.",
     stat: "24/7",
-    statLabel: "Always answering",
-    img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80",
+    statLabel: "always answering",
   },
   {
-    num: "06",
-    title: "Pipeline",
-    titleItalic: "Analytics",
-    body: "See every lead by stage across your full funnel — new, contacted, qualified, showing, under contract, closed. Know exactly where deals are stalling and which agents need support.",
+    icon: KanbanSquare,
+    title: "Full Pipeline Visibility",
+    body: "Every lead staged across your funnel — new, contacted, qualified, showing, under contract, closed. Know where deals stall and which agents need support.",
     stat: "6",
-    statLabel: "Pipeline stages tracked",
-    img: "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=800&q=80",
+    statLabel: "pipeline stages tracked",
   },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="section-rule landing-section px-6 sm:px-12 relative">
-      {/* Ambient property image in background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <Image
-          src={FEATURES_BG}
-          alt=""
-          fill
-          className="object-cover object-center opacity-[0.08]"
-          sizes="100vw"
-          aria-hidden
-        />
-      </div>
-      <div className="max-w-[1400px] mx-auto relative z-10">
+    <section id="features" className="py-20 sm:py-28 px-5 sm:px-8">
+      <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 mb-16 sm:mb-20">
-          <div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="section-label mb-5"
-            >
-              (What EstateFlow Does)
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease }}
-              style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-              className="cinematic-reveal font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
-            >
-              Every tool an agent needs<br />
-              <em className="font-normal" style={{ fontStyle: "italic" }}>to win more deals</em>
-            </motion.h2>
-          </div>
+        <div className="max-w-2xl mx-auto text-center mb-14">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-sm text-[var(--foreground-muted)] max-w-xs leading-relaxed sm:text-right"
+            className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
+          >
+            The platform
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease }}
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
+          >
+            Everything your team needs to close more deals
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="mt-4 text-[15px] text-slate-500"
           >
             Not just a CRM — a full AI engine built for how US real estate teams actually work.
           </motion.p>
         </div>
 
-        {/* Feature grid — image header cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[rgba(255,255,255,0.06)]">
+        {/* Banner image */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease }}
+          className="relative h-48 sm:h-64 rounded-2xl overflow-hidden mb-12"
+        >
+          <Image
+            src={FEATURES_IMG}
+            alt="Modern American real estate"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-transparent" />
+        </motion.div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((f, i) => (
             <motion.div
-              key={f.num}
-              initial={{ opacity: 0, y: 24 }}
+              key={f.title}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.07, duration: 0.6, ease }}
-              className="feature-card-item bg-[var(--background)] flex flex-col group hover:bg-[var(--surface)] transition-colors duration-300 overflow-hidden"
+              transition={{ delay: (i % 3) * 0.08, duration: 0.5, ease }}
+              className="group rounded-2xl border border-slate-200 bg-white p-7 hover:shadow-[0_8px_30px_rgba(15,23,38,0.07)] hover:border-blue-200 transition-all duration-300"
             >
-              {/* Property image header */}
-              <div className="relative h-40 overflow-hidden shrink-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={f.img}
-                  alt=""
-                  className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Gradient fade to card background */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[var(--background)]" />
-                {/* Number overlaid on image */}
-                <span
-                  className="absolute bottom-3 left-8 font-serif italic text-5xl text-white/25 group-hover:text-[rgba(201,169,110,0.45)] transition-colors duration-300"
-                  style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontStyle: "italic", fontWeight: 400 }}
-                >
-                  ({f.num})
-                </span>
-              </div>
-
-              {/* Content */}
-              <div className="px-8 sm:px-10 pb-8 sm:pb-10 pt-4 flex flex-col gap-5 flex-1">
-                <h3
-                  className="font-serif text-xl font-bold text-[var(--foreground)] leading-tight"
-                  style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-                >
-                  {f.title}{" "}
-                  <em className="font-normal" style={{ fontStyle: "italic" }}>{f.titleItalic}</em>
-                </h3>
-
-                <p className="text-sm text-[var(--foreground-muted)] leading-relaxed flex-1">
-                  {f.body}
-                </p>
-
-                <div className="pt-4 border-t border-[rgba(255,255,255,0.07)]">
-                  <p
-                    className="font-serif text-3xl font-bold text-[var(--gold)]"
-                    style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-                  >
-                    {f.stat}
-                  </p>
-                  <p className="text-[11px] text-[var(--foreground-subtle)] uppercase tracking-[0.1em] mt-1">{f.statLabel}</p>
+              <div className="flex items-center justify-between mb-5">
+                <div className="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
+                  <f.icon size={19} className="text-blue-600 group-hover:text-white transition-colors duration-300" />
+                </div>
+                <div className="text-right">
+                  <p className="text-xl font-bold text-slate-900 tracking-tight leading-none">{f.stat}</p>
+                  <p className="text-[10.5px] text-slate-400 mt-1">{f.statLabel}</p>
                 </div>
               </div>
+              <h3 className="text-[16px] font-bold text-slate-900 mb-2">{f.title}</h3>
+              <p className="text-[13.5px] text-slate-500 leading-relaxed">{f.body}</p>
             </motion.div>
           ))}
         </div>

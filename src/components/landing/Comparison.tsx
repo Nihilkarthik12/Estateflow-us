@@ -1,7 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { X, Check } from "lucide-react";
+
+const COMPARE_IMG = "https://images.unsplash.com/photo-1576941089067-2de3c901e126?auto=format&fit=crop&w=900&q=80";
 
 const rows = [
   { label: "Lead response time",    before: "2–3 hours (if lucky)",        after: "Under 90 seconds, automated" },
@@ -21,25 +24,43 @@ export default function Comparison() {
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="max-w-2xl mb-14">
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
-          >
-            The difference
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-center mb-14">
+          <div className="max-w-2xl">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
+            >
+              The difference
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease }}
+              className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
+            >
+              Your competitors are still using{" "}
+              <span className="line-through text-slate-400">spreadsheets & sticky notes</span>
+            </motion.h2>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease }}
-            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
+            className="relative h-40 rounded-2xl overflow-hidden hidden lg:block"
           >
-            Your competitors are still using{" "}
-            <span className="line-through text-slate-400">spreadsheets & sticky notes</span>
-          </motion.h2>
+            <Image
+              src={COMPARE_IMG}
+              alt="Modern American home"
+              fill
+              className="object-cover object-center"
+              sizes="320px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent" />
+          </motion.div>
         </div>
 
         {/* Mobile: stacked cards */}

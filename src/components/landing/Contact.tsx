@@ -3,7 +3,10 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { CheckCircle, ShieldCheck, Clock, Zap } from "lucide-react";
+
+const CONTACT_IMG = "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -69,9 +72,27 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease }}
-            className="rounded-2xl border border-slate-200 bg-slate-50 p-8 flex flex-col justify-between"
+            className="rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden flex flex-col justify-between"
           >
-            <div>
+            {/* Property photo header */}
+            <div className="relative h-44 overflow-hidden">
+              <Image
+                src={CONTACT_IMG}
+                alt="Modern American home"
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
+              <div className="absolute bottom-4 left-5">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur text-[11px] font-semibold text-slate-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  Live on your listings
+                </span>
+              </div>
+            </div>
+
+            <div className="p-8">
               <p className="text-[22px] font-bold text-slate-900 leading-snug mb-3">
                 See EstateFlow live on your own listings
               </p>
@@ -89,16 +110,16 @@ export default function Contact() {
                   </li>
                 ))}
               </ul>
-            </div>
 
-            <div className="mt-10 pt-6 border-t border-slate-200">
-              <p className="text-[12px] text-slate-400 uppercase tracking-wider font-semibold mb-3">Works with</p>
-              <div className="flex flex-wrap gap-2">
-                {["Zillow", "Realtor.com", "MLS", "Gmail", "Twilio"].map(n => (
-                  <span key={n} className="px-3 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-semibold text-slate-500">
-                    {n}
-                  </span>
-                ))}
+              <div className="mt-10 pt-6 border-t border-slate-200">
+                <p className="text-[12px] text-slate-400 uppercase tracking-wider font-semibold mb-3">Works with</p>
+                <div className="flex flex-wrap gap-2">
+                  {["Zillow", "Realtor.com", "MLS", "Gmail", "Twilio"].map(n => (
+                    <span key={n} className="px-3 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-semibold text-slate-500">
+                      {n}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>

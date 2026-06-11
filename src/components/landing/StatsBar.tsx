@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+
+const STATS_IMG = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1920&q=80";
 
 const stats = [
   { value: "< 2s",  label: "Lead scored by AI",       sub: "Industry avg: 3–6 hrs" },
@@ -14,8 +17,20 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function StatsBar() {
   return (
-    <section className="bg-[#0f172a] py-20 sm:py-28 px-5 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative bg-[#0f172a] py-20 sm:py-28 px-5 sm:px-8 overflow-hidden">
+      {/* Faint home photo behind the navy band */}
+      <div className="absolute inset-0 pointer-events-none">
+        <Image
+          src={STATS_IMG}
+          alt=""
+          fill
+          className="object-cover object-center opacity-[0.12]"
+          sizes="100vw"
+          aria-hidden
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a] via-[#0f172a]/85 to-[#0f172a]/60" />
+      </div>
+      <div className="relative max-w-7xl mx-auto">
 
         {/* Label */}
         <motion.p

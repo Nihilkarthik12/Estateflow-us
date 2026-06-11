@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -11,7 +12,7 @@ const testimonials = [
     body: "Before EstateFlow, weekend leads sat until Monday and half of them had already signed with someone else. Now the AI answers instantly, books the showing, and my agents walk in with a full buyer profile. We stopped losing deals we never knew we were losing.",
     author: "Broker-Owner",
     team: "12-agent team, Brooklyn",
-    initials: "BO",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
   },
   {
     metric: "0 missed",
@@ -19,7 +20,7 @@ const testimonials = [
     body: "Buyers browse Zillow at 11pm — that's just reality. EstateFlow's voice agent and chat handle every after-hours inquiry, qualify them, and queue the follow-ups. Monday morning my pipeline is already sorted by who's serious. It's like having a night shift that never bills overtime.",
     author: "Team Lead",
     team: "Manhattan residential",
-    initials: "TL",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
   },
   {
     metric: "5×",
@@ -27,7 +28,7 @@ const testimonials = [
     body: "Every agent knows deals close on the fifth follow-up. Nobody actually does five follow-ups — until it's automated. The sequences run over text and email, sound human, and re-engage leads I'd written off months ago. Two closings last quarter came straight from the re-engagement flow.",
     author: "Managing Agent",
     team: "Queens & Long Island",
-    initials: "MA",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
   },
 ];
 
@@ -87,8 +88,14 @@ export default function Testimonials() {
               </div>
 
               <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-[11px] font-bold text-blue-600 shrink-0">
-                  {t.initials}
+                <div className="relative w-10 h-10 rounded-full overflow-hidden border border-slate-200 shrink-0">
+                  <Image
+                    src={t.avatar}
+                    alt={t.author}
+                    fill
+                    className="object-cover object-center"
+                    sizes="40px"
+                  />
                 </div>
                 <div>
                   <p className="text-[12px] font-bold text-slate-900">{t.author}</p>

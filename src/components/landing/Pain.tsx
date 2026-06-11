@@ -3,156 +3,112 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const PAIN_IMG = "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1200&q=80";
 
-// Free Unsplash images
-const INTERIOR_IMG = "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80";
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const pains = [
   {
-    num: "01",
-    title: "You respond in 3 hours.",
-    titleItalic: "They signed elsewhere in 2.",
-    body: "A buyer texted at 11pm asking about a 3-bed listing. Your agent saw it at 9am. The lead had already signed with the competitor who replied at 11:04pm — with an AI.",
     stat: "78%",
-    statLabel: "of leads go to the first agent who responds",
+    statLabel: "of leads sign with the first agent who responds",
+    title: "You respond in 3 hours. They signed elsewhere in 2.",
+    body: "A buyer texted at 11pm asking about a 3-bed listing. Your agent saw it at 9am. The lead had already signed with the competitor who replied at 11:04pm — with an AI.",
   },
   {
-    num: "02",
-    title: "3 hours a day",
-    titleItalic: "copying texts into spreadsheets.",
-    body: "Name, phone, budget, location — manually typed into a spreadsheet, then into your CRM, then into a follow-up message. Every single lead. That's 750+ hours a year per agent. Wasted.",
     stat: "750+",
-    statLabel: "hours per year lost to manual data entry",
+    statLabel: "hours per year lost to manual data entry, per agent",
+    title: "3 hours a day copying texts into spreadsheets.",
+    body: "Name, phone, budget, location — typed into a spreadsheet, then your CRM, then a follow-up message. Every single lead. That's 750+ hours a year. Wasted.",
   },
   {
-    num: "03",
-    title: "You follow up once.",
-    titleItalic: "The deal closes on the 5th.",
-    body: "Research shows 80% of real estate deals close after 5+ follow-ups. Most agents stop after the first. Your CRM has no system. Leads go cold. Revenue disappears.",
     stat: "80%",
     statLabel: "of deals close after 5+ follow-ups",
+    title: "You follow up once. The deal closes on the 5th.",
+    body: "Research shows 80% of real estate deals close after five or more follow-ups. Most agents stop after the first. Leads go cold. Revenue disappears.",
   },
 ];
 
 export default function Pain() {
   return (
-    <section className="section-rule landing-section px-6 sm:px-12">
-      <div className="max-w-[1400px] mx-auto">
+    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
+      <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="mb-16 sm:mb-20">
+        <div className="max-w-2xl mb-14">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="section-label mb-5"
+            className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
           >
-            (The Real Problem)
+            The real problem
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease }}
-            style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            className="cinematic-reveal font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--foreground)] leading-tight tracking-[-0.02em]"
+            transition={{ duration: 0.6, ease }}
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
           >
-            Your brokerage is silently<br />
-            <em className="font-normal" style={{ fontStyle: "italic", color: "#f87171" }}>losing $50K+ every month</em>
+            Your brokerage is silently losing{" "}
+            <span className="text-red-500">$50K+ every month</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-5 text-sm text-[var(--foreground-muted)] max-w-md leading-relaxed"
+            transition={{ delay: 0.15 }}
+            className="mt-4 text-[15px] text-slate-500"
           >
             Not because the leads are bad. Because the process is broken.
           </motion.p>
         </div>
 
-        {/* 2-column layout: image left, cards right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-[rgba(255,255,255,0.06)]">
-
-          {/* Property image — tall, editorial */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative min-h-[400px] lg:min-h-[600px] overflow-hidden"
-          >
-            <Image
-              src={INTERIOR_IMG}
-              alt="Luxury interior"
-              fill
-              className="pain-img object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            {/* Gradient overlay — lighter at top to show the image, darker at bottom for text */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[rgba(13,15,14,0.15)] via-[rgba(13,15,14,0.25)] to-[rgba(13,15,14,0.7)]" />
-            {/* Corner label */}
-            <div className="absolute bottom-6 left-6">
-              <p className="section-label text-white/60">(The Status Quo)</p>
-              <p className="font-serif italic text-white/80 text-lg mt-1"
-                style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
-                Beautiful property.<br />Lost because of process.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Pain cards stacked */}
-          <div className="flex flex-col">
-            {pains.map((p, i) => (
-              <motion.div
-                key={p.num}
-                initial={{ opacity: 0, x: 24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6, ease }}
-                className={`pain-card-item bg-[var(--background)] hover:bg-[var(--surface)] transition-colors duration-300 p-8 sm:p-10 flex flex-col gap-4
-                  ${i < 2 ? "border-b border-[rgba(255,255,255,0.06)]" : ""}`}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <span className="font-serif italic text-4xl text-[rgba(255,255,255,0.08)]"
-                    style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontStyle: "italic" }}>
-                    ({p.num})
-                  </span>
-                  <div className="text-right">
-                    <p className="font-serif text-4xl sm:text-5xl font-bold text-[#f87171]"
-                      style={{ fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>
-                      {p.stat}
-                    </p>
-                    <p className="text-[10px] text-[var(--foreground-subtle)] mt-1.5 max-w-[140px] text-right leading-snug">{p.statLabel}</p>
-                  </div>
-                </div>
-
-                <h3 className="font-serif text-lg font-bold text-[var(--foreground)] leading-snug"
-                  style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}>
-                  {p.title}{" "}
-                  <em className="font-normal text-[var(--foreground-muted)]" style={{ fontStyle: "italic" }}>
-                    {p.titleItalic}
-                  </em>
-                </h3>
-                <p className="text-sm text-[var(--foreground-muted)] leading-relaxed">{p.body}</p>
-              </motion.div>
-            ))}
-          </div>
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {pains.map((p, i) => (
+            <motion.div
+              key={p.stat}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.5, ease }}
+              className="rounded-2xl border border-slate-200 bg-slate-50/50 p-7 hover:shadow-[0_8px_30px_rgba(15,23,38,0.06)] hover:bg-white transition-all duration-300"
+            >
+              <p className="text-4xl font-bold tracking-tight text-red-500">{p.stat}</p>
+              <p className="mt-1.5 text-[12px] text-slate-400 font-medium">{p.statLabel}</p>
+              <h3 className="mt-5 text-[15px] font-bold text-slate-900 leading-snug">{p.title}</h3>
+              <p className="mt-2.5 text-[13.5px] text-slate-500 leading-relaxed">{p.body}</p>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Bridge */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+        {/* Photo banner with bridge text */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-12 font-serif text-lg sm:text-xl italic text-[var(--foreground-muted)] text-center"
-          style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+          transition={{ delay: 0.2, duration: 0.6, ease }}
+          className="mt-8 relative rounded-2xl overflow-hidden min-h-[180px] flex items-center"
         >
-          EstateFlow fixes all three —{" "}
-          <span className="text-[var(--foreground)] not-italic font-bold">automatically.</span>
-        </motion.p>
+          <Image
+            src={PAIN_IMG}
+            alt="American home for sale"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/55 to-transparent" />
+          <div className="relative px-8 sm:px-12 py-8">
+            <p className="text-[18px] sm:text-[22px] font-bold text-white leading-snug max-w-md">
+              EstateFlow fixes all three —{" "}
+              <span className="text-blue-300">automatically.</span>
+            </p>
+            <p className="mt-2 text-[13.5px] text-slate-200 max-w-sm">
+              Same leads, same market — a process that actually closes them.
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
