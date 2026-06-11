@@ -85,9 +85,10 @@ export default function Navbar() {
           </a>
           <Link
             href="#contact"
-            className="inline-flex items-center px-5 py-2.5 rounded-xl bg-blue-600 text-white text-[13.5px] font-semibold hover:bg-blue-500 transition-colors"
+            className="inline-flex items-center gap-1 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-[13.5px] font-semibold hover:bg-blue-500 transition-colors group"
           >
-            Get a Demo
+            Recover My Leads
+            <span className="transition-transform group-hover:translate-x-0.5">→</span>
           </Link>
         </div>
 
@@ -125,8 +126,8 @@ export default function Navbar() {
             Chat on WhatsApp
           </a>
           <Link href="#contact" onClick={() => setOpen(false)}
-            className="mt-2 inline-flex items-center justify-center px-5 py-3 rounded-xl bg-blue-600 text-white text-[14px] font-semibold">
-            Get a Demo
+            className="mt-2 inline-flex items-center justify-center gap-1.5 px-5 py-3 rounded-xl bg-blue-600 text-white text-[14px] font-semibold">
+            Recover My Leads →
           </Link>
         </div>
       )}
