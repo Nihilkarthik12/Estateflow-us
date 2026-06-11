@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const PAIN_IMG = "https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1200&q=80";
+const PAIN_BG = "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=60";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -30,8 +31,13 @@ const pains = [
 
 export default function Pain() {
   return (
-    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100 overflow-hidden">
+      {/* Faint property photo behind the whole section */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image src={PAIN_BG} alt="" fill className="object-cover object-center opacity-[0.05]" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/40 to-white" />
+      </div>
+      <div className="relative max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="max-w-2xl mb-14">

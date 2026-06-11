@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Plus, Minus } from "lucide-react";
 
 const FAQ_IMG = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80";
+const FAQ_BG = "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=1920&q=60";
 
 const faqs = [
   {
@@ -88,8 +89,13 @@ export default function FAQ() {
   const half = Math.ceil(faqs.length / 2);
 
   return (
-    <section id="faq" className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <section id="faq" className="relative py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100 overflow-hidden">
+      {/* Faint home photo behind the whole section */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image src={FAQ_BG} alt="" fill className="object-cover object-center opacity-[0.04]" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-slate-50/40 to-slate-50" />
+      </div>
+      <div className="relative max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="max-w-2xl mb-14">

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 const AUTO_IMG = "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1600&q=80";
+const AUTO_BG = "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1920&q=60";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -70,8 +71,13 @@ const automations: { icon: LucideIcon; title: string; body: string; trigger: str
 
 export default function Automations() {
   return (
-    <section id="automations" className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <section id="automations" className="relative py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100 overflow-hidden">
+      {/* Faint home photo behind the whole section */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image src={AUTO_BG} alt="" fill className="object-cover object-center opacity-[0.04]" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-slate-50/40 to-slate-50" />
+      </div>
+      <div className="relative max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="max-w-2xl mb-14">

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { X, CheckCircle2, MessageCircle, Brain, Bell, Calendar, TrendingUp } from "lucide-react";
 
 const CALLOUT_IMG = "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=80";
+const DAY_BG = "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1920&q=60";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -48,8 +49,13 @@ const timeline = [
 
 export default function DayInLife() {
   return (
-    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
-      <div className="max-w-6xl mx-auto">
+    <section className="relative py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100 overflow-hidden">
+      {/* Faint home interior behind the whole section */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image src={DAY_BG} alt="" fill className="object-cover object-center opacity-[0.05]" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/40 to-white" />
+      </div>
+      <div className="relative max-w-6xl mx-auto">
 
         {/* Header */}
         <motion.div

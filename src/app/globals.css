@@ -3,50 +3,50 @@
 @source "../**/*.{js,ts,jsx,tsx}";
 
 /* ═══════════════════════════════════════════════════════════
-   DESIGN TOKENS — "Estate Noir" palette
-   Warm dark charcoal + Forest green accent + Champagne gold
-   Inspired by Elyse Residence editorial luxury aesthetic
+   DESIGN TOKENS — "Liberty Blue" palette (US edition)
+   Deep navy slate + American trust-blue accent
+   Modern US proptech aesthetic — clean, confident, tech-forward
    ═══════════════════════════════════════════════════════════ */
 :root {
-  /* ── Backgrounds — warm dark charcoal (not cold blue-black) ── */
-  --background: #0d0f0e;
-  --surface:    #131816;
-  --surface-2:  #1a1f1d;
-  --surface-3:  #222724;
-  --surface-4:  #2b302c;
+  /* ── Backgrounds — deep navy slate ── */
+  --background: #0a0e16;
+  --surface:    #0f1520;
+  --surface-2:  #151c2a;
+  --surface-3:  #1c2435;
+  --surface-4:  #252e42;
 
-  /* ── Forest green accent — for CTA panels, highlights ── */
-  --forest:       #162a22;
-  --forest-mid:   #1e3a2e;
-  --forest-light: #2d5542;
-  --forest-border: rgba(45,85,66,0.5);
+  /* ── Deep blue accent — for CTA panels, highlights ── */
+  --forest:       #122036;
+  --forest-mid:   #18294a;
+  --forest-light: #234071;
+  --forest-border: rgba(35,64,113,0.5);
 
   /* ── Borders ── */
   --border:        rgba(255,255,255,0.07);
   --border-strong: rgba(255,255,255,0.12);
-  --border-gold:   rgba(201,169,110,0.3);
+  --border-gold:   rgba(91,141,239,0.3);
 
-  /* ── Typography — warm cream ── */
-  --foreground:        #f0ebe3;
-  --foreground-muted:  #8a847a;
-  --foreground-subtle: #504c47;
+  /* ── Typography — crisp cool white ── */
+  --foreground:        #edf1f7;
+  --foreground-muted:  #8e97a8;
+  --foreground-subtle: #4e5666;
 
   /* ── Gold accent ── */
-  --gold:        #c9a96e;
-  --gold-light:  #e8c87a;
-  --gold-muted:  rgba(201,169,110,0.12);
-  --gold-border: rgba(201,169,110,0.25);
-  --gold-glow:   rgba(201,169,110,0.2);
+  --gold:        #5b8def;
+  --gold-light:  #85aef5;
+  --gold-muted:  rgba(91,141,239,0.12);
+  --gold-border: rgba(91,141,239,0.25);
+  --gold-glow:   rgba(91,141,239,0.2);
 
   /* ── Gold CSS shorthand vars ── */
-  --gold-muted:  rgba(201,169,110,0.12);
-  --gold-border: rgba(201,169,110,0.3);
+  --gold-muted:  rgba(91,141,239,0.12);
+  --gold-border: rgba(91,141,239,0.3);
 
   /* ── Aliases ── */
-  --accent:       #c9a96e;
-  --accent-muted: rgba(201,169,110,0.12);
-  --accent-light: #e8c87a;
-  --accent-glow:  rgba(201,169,110,0.2);
+  --accent:       #5b8def;
+  --accent-muted: rgba(91,141,239,0.12);
+  --accent-light: #85aef5;
+  --accent-glow:  rgba(91,141,239,0.2);
 
   /* ── Status ── */
   --success:       #4ade80;
@@ -110,7 +110,7 @@ body {
 /* ─── Serif utility ──────────────────────────────────────────── */
 .font-serif { font-family: var(--font-playfair), Georgia, serif; }
 
-::selection { background: rgba(201,169,110,0.2); color: var(--gold-light); }
+::selection { background: rgba(91,141,239,0.2); color: var(--gold-light); }
 :focus-visible { outline: 1px solid var(--gold); outline-offset: 3px; }
 
 ::-webkit-scrollbar { width: 4px; }
@@ -123,7 +123,7 @@ body {
 
 /* Navbar glass — warm dark, very subtle */
 .glass {
-  background: rgba(13,15,14,0.88);
+  background: rgba(10,14,22,0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -251,7 +251,7 @@ body {
 
 /* ─── Glass card — frosted dark ────────────────────────────── */
 .glass-card {
-  background: rgba(19,24,22,0.7);
+  background: rgba(15,21,32,0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,0.08);
@@ -266,7 +266,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(13,15,14,0.7) 100%);
+  background: linear-gradient(to bottom, transparent 40%, rgba(10,14,22,0.7) 100%);
   pointer-events: none;
 }
 
@@ -284,7 +284,7 @@ body {
   transition: border-color 0.3s ease, transform 0.3s ease;
 }
 .card-hover:hover {
-  border-color: rgba(201,169,110,0.25);
+  border-color: rgba(91,141,239,0.25);
   transform: translateY(-4px);
 }
 
@@ -296,7 +296,7 @@ body {
   transition: border-color 0.25s, transform 0.25s;
 }
 .testimonial-card:hover {
-  border-color: rgba(201,169,110,0.2);
+  border-color: rgba(91,141,239,0.2);
   transform: translateY(-4px);
 }
 
@@ -323,7 +323,7 @@ body {
   transition: border-color 0.25s, transform 0.25s;
 }
 .feature-card:hover {
-  border-color: rgba(201,169,110,0.2);
+  border-color: rgba(91,141,239,0.2);
 }
 
 /* Stat card */
@@ -339,7 +339,7 @@ body {
 
 /* Gold gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #c9a96e 0%, #e8c87a 100%);
+  background: linear-gradient(135deg, #5b8def 0%, #85aef5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -351,7 +351,7 @@ body {
   100% { background-position:  200% center; }
 }
 .gradient-text-animated {
-  background: linear-gradient(90deg, #c9a96e, #e8c87a, #4ade80, #c9a96e);
+  background: linear-gradient(90deg, #5b8def, #85aef5, #4ade80, #5b8def);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -427,7 +427,7 @@ body {
 .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
 .orb-1 {
   width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(201,169,110,0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(91,141,239,0.1) 0%, transparent 70%);
   top: -100px; left: -100px;
   animation: orb-float 24s ease-in-out infinite;
 }
@@ -439,7 +439,7 @@ body {
 }
 .orb-3 {
   width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(91,141,239,0.06) 0%, transparent 70%);
   top: 60%; left: 40%;
   animation: orb-float 20s ease-in-out infinite 3s;
 }
@@ -469,7 +469,7 @@ input:-webkit-autofill:focus {
 }
 .card-glow:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 0 1px rgba(201,169,110,0.2), 0 20px 60px -12px rgba(0,0,0,0.6);
+  box-shadow: 0 0 0 1px rgba(91,141,239,0.2), 0 20px 60px -12px rgba(0,0,0,0.6);
 }
 
 /* ─── CTA banner ─────────────────────────────────────────────── */

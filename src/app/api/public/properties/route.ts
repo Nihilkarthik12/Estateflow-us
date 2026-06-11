@@ -17,7 +17,7 @@ export async function GET(req: Request) {
 
   const { data: properties } = await supabase
     .from("properties")
-    .select("id, title, location, city, price, bedrooms, property_type")
+    .select("id, title, location, city, price, bedrooms, bathrooms, area, property_type, images")
     .eq("status", "available")
     .order("created_at", { ascending: false })
     .limit(50);
