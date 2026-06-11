@@ -5,6 +5,7 @@ import Image from "next/image";
 import { X, Check } from "lucide-react";
 
 const COMPARE_IMG = "https://images.unsplash.com/photo-1576941089067-2de3c901e126?auto=format&fit=crop&w=900&q=80";
+const COMPARE_BG = "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1920&q=60";
 
 const rows = [
   { label: "Lead response time",    before: "2–3 hours (if lucky)",        after: "Under 90 seconds, automated" },
@@ -20,8 +21,11 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Comparison() {
   return (
-    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative overflow-hidden py-20 sm:py-28 px-5 sm:px-8 border-y border-slate-100">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image src={COMPARE_BG} alt="" fill className="object-cover object-center opacity-[0.30]" sizes="100vw" />
+      </div>
+      <div className="relative max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-center mb-14">

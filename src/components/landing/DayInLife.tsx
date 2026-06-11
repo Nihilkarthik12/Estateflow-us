@@ -49,11 +49,9 @@ const timeline = [
 
 export default function DayInLife() {
   return (
-    <section className="relative py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100 overflow-hidden">
-      {/* Faint home interior behind the whole section */}
+    <section className="relative py-20 sm:py-28 px-5 sm:px-8 border-y border-slate-100 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <Image src={DAY_BG} alt="" fill className="object-cover object-center opacity-[0.05]" sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/40 to-white" />
+        <Image src={DAY_BG} alt="" fill className="object-cover object-center opacity-[0.30]" sizes="100vw" />
       </div>
       <div className="relative max-w-6xl mx-auto">
 

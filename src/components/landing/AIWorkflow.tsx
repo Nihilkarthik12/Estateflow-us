@@ -6,6 +6,7 @@ import { MessageSquare, Brain, Database, Bell, Rocket, LucideIcon } from "lucide
 
 const WORKFLOW_IMG = "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1600&q=80";
 const WORKFLOW_SIDE_IMG = "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=800&q=80";
+const AIWF_BG = "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1920&q=60";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -86,8 +87,11 @@ const steps: {
 
 export default function AIWorkflow() {
   return (
-    <section id="workflow" className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
-      <div className="max-w-6xl mx-auto">
+    <section id="workflow" className="relative overflow-hidden py-20 sm:py-28 px-5 sm:px-8 border-y border-slate-100">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image src={AIWF_BG} alt="" fill className="object-cover object-center opacity-[0.30]" sizes="100vw" />
+      </div>
+      <div className="relative max-w-6xl mx-auto">
 
         {/* Top banner — cinematic strip */}
         <motion.div

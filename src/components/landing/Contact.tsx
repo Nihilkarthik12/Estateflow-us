@@ -31,8 +31,11 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <section id="contact" className="relative overflow-hidden py-20 sm:py-28 px-5 sm:px-8 border-y border-slate-100">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image src={CONTACT_IMG} alt="" fill className="object-cover object-center opacity-[0.30]" sizes="100vw" />
+      </div>
+      <div className="relative max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-14">

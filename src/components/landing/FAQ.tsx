@@ -89,11 +89,9 @@ export default function FAQ() {
   const half = Math.ceil(faqs.length / 2);
 
   return (
-    <section id="faq" className="relative py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100 overflow-hidden">
-      {/* Faint home photo behind the whole section */}
+    <section id="faq" className="relative py-20 sm:py-28 px-5 sm:px-8 border-y border-slate-100 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <Image src={FAQ_BG} alt="" fill className="object-cover object-center opacity-[0.04]" sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-slate-50/40 to-slate-50" />
+        <Image src={FAQ_BG} alt="" fill className="object-cover object-center opacity-[0.30]" sizes="100vw" />
       </div>
       <div className="relative max-w-7xl mx-auto">
 

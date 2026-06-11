@@ -57,8 +57,11 @@ const features: { icon: LucideIcon; title: string; body: string; stat: string; s
 
 export default function Features() {
   return (
-    <section id="features" className="py-20 sm:py-28 px-5 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section id="features" className="relative overflow-hidden py-20 sm:py-28 px-5 sm:px-8">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <Image src={FEATURES_IMG} alt="" fill className="object-cover object-center opacity-[0.30]" sizes="100vw" />
+      </div>
+      <div className="relative max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-14">
