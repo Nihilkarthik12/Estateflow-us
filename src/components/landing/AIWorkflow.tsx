@@ -1,7 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { MessageSquare, Brain, Database, Bell, Rocket, LucideIcon } from "lucide-react";
+
+const WORKFLOW_IMG = "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1600&q=80";
+const WORKFLOW_SIDE_IMG = "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=800&q=80";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -84,6 +88,33 @@ export default function AIWorkflow() {
   return (
     <section id="workflow" className="py-20 sm:py-28 px-5 sm:px-8 bg-white border-y border-slate-100">
       <div className="max-w-6xl mx-auto">
+
+        {/* Top banner — cinematic strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease }}
+          className="relative h-52 sm:h-64 rounded-2xl overflow-hidden mb-14"
+        >
+          <Image
+            src={WORKFLOW_IMG}
+            alt="Luxury American home at dusk"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/50 to-transparent" />
+          <div className="absolute inset-0 flex items-center px-8 sm:px-12">
+            <div>
+              <p className="text-[12px] font-semibold text-blue-300 uppercase tracking-widest mb-2">How it works</p>
+              <p className="text-2xl sm:text-3xl font-bold text-white leading-snug max-w-md">
+                From first message to follow-up — <span className="text-blue-300">in under 3 seconds</span>
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
           {/* Sticky intro */}
@@ -92,25 +123,7 @@ export default function AIWorkflow() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
-            >
-              How it works
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease }}
-              className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
-            >
-              From first message to follow-up — in under 3 seconds
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.15 }}
-              className="mt-4 text-[15px] text-slate-500 leading-relaxed"
+              className="text-[15px] text-slate-500 leading-relaxed"
             >
               Your competitors take hours to respond. With EstateFlow, your agent has
               everything they need before they even know the lead arrived.
@@ -120,13 +133,34 @@ export default function AIWorkflow() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.25 }}
+              transition={{ delay: 0.15 }}
               className="mt-8 rounded-2xl border border-slate-200 bg-slate-50/60 p-6 inline-block"
             >
               <p className="text-5xl font-bold tracking-tight text-blue-600">2.4s</p>
               <p className="text-[13px] text-slate-500 mt-2 max-w-[220px] leading-relaxed">
                 Average time from lead arrival to agent-ready profile
               </p>
+            </motion.div>
+
+            {/* Side house photo */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.25 }}
+              className="mt-6 relative h-52 rounded-2xl overflow-hidden"
+            >
+              <Image
+                src={WORKFLOW_SIDE_IMG}
+                alt="Modern American home"
+                fill
+                className="object-cover object-center"
+                sizes="480px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+              <div className="absolute bottom-4 left-4">
+                <span className="text-[12px] font-semibold text-white/80">Your leads. Your listings. Automated.</span>
+              </div>
             </motion.div>
           </div>
 

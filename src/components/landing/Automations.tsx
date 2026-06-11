@@ -1,10 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   MessageSquare, PhoneMissed, BellRing, CalendarCheck, CalendarClock,
   RefreshCcw, Star, FileText, Zap, LucideIcon,
 } from "lucide-react";
+
+const AUTO_IMG = "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1600&q=80";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -100,6 +103,32 @@ export default function Automations() {
             so your team spends their hours with clients, not keyboards.
           </motion.p>
         </div>
+
+        {/* Photo banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease }}
+          className="relative h-48 sm:h-60 rounded-2xl overflow-hidden mb-10"
+        >
+          <Image
+            src={AUTO_IMG}
+            alt="American suburban neighborhood"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/75 via-slate-900/40 to-transparent" />
+          <div className="absolute inset-0 flex items-center px-8 sm:px-12">
+            <div>
+              <p className="text-2xl sm:text-3xl font-bold text-white leading-snug max-w-lg">
+                Nine automations running <span className="text-blue-300">while you sleep</span>
+              </p>
+              <p className="mt-2 text-[13.5px] text-white/65 max-w-sm">Fully configured for your brokerage. Live the same day.</p>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

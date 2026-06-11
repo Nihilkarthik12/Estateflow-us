@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+const TESTIMONIALS_IMG = "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=1600&q=80";
 
 const testimonials = [
   {
@@ -66,6 +67,38 @@ export default function Testimonials() {
             Brokers and team leads on what actually changed after switching.
           </motion.p>
         </div>
+
+        {/* Photo strip with social proof numbers */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease }}
+          className="relative h-44 sm:h-56 rounded-2xl overflow-hidden mb-10"
+        >
+          <Image
+            src={TESTIMONIALS_IMG}
+            alt="Beautiful American home"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/60 to-slate-900/30" />
+          <div className="absolute inset-0 flex items-center px-8 sm:px-12">
+            <div className="flex gap-10 sm:gap-16">
+              {[
+                { stat: "200+", label: "agents across 14 states" },
+                { stat: "23×", label: "avg leads recovered/month" },
+                { stat: "4.9★", label: "average rating" },
+              ].map((s) => (
+                <div key={s.stat}>
+                  <p className="text-3xl sm:text-4xl font-extrabold text-white leading-none">{s.stat}</p>
+                  <p className="mt-1.5 text-[12px] text-white/60 max-w-[100px] leading-snug">{s.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
