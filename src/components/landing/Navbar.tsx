@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion, useScroll } from "framer-motion";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
@@ -15,6 +16,7 @@ const navLinks = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -31,6 +33,11 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
+      {/* Scroll progress bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-500 origin-left"
+        style={{ scaleX: scrollYProgress }}
+      />
       <nav className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
 
         {/* Brand */}

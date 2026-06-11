@@ -48,15 +48,17 @@ export default function Testimonials() {
           >
             What agents say
           </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease }}
-            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
-          >
-            Don&apos;t take our word for it
-          </motion.h2>
+          <div className="overflow-hidden">
+            <motion.h2
+              initial={{ y: "100%" }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease }}
+              className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
+            >
+              Don&apos;t take our word for it
+            </motion.h2>
+          </div>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -109,7 +111,8 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6, ease }}
-              className="rounded-2xl border border-slate-200 bg-white p-7 flex flex-col gap-5 hover:shadow-[0_8px_30px_rgba(15,23,38,0.06)] transition-all duration-300"
+              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+              className="rounded-2xl border border-slate-200 bg-white p-7 flex flex-col gap-5 hover:shadow-[0_14px_48px_rgba(15,23,38,0.09)] hover:border-blue-200 transition-shadow transition-colors duration-300"
             >
               <p className="text-3xl font-bold tracking-tight text-blue-600">{t.metric}</p>
 

@@ -47,10 +47,10 @@ export default function StatsBar() {
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 28, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.6, ease }}
+              transition={{ delay: i * 0.12, duration: 0.7, ease }}
             >
               <p className="text-5xl sm:text-6xl font-bold tracking-tight text-white leading-none">
                 {s.value}

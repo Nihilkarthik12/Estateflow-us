@@ -89,15 +89,17 @@ export default function Automations() {
           >
             The automation suite
           </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease }}
-            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
-          >
-            Nine automations. Zero busywork.
-          </motion.h2>
+          <div className="overflow-hidden">
+            <motion.h2
+              initial={{ y: "100%" }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease }}
+              className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
+            >
+              Nine automations. Zero busywork.
+            </motion.h2>
+          </div>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -145,7 +147,8 @@ export default function Automations() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: (i % 3) * 0.06, duration: 0.5, ease }}
-              className="group rounded-2xl border border-slate-200 bg-white p-6 hover:shadow-[0_8px_30px_rgba(15,23,38,0.06)] hover:border-blue-200 transition-all duration-300"
+              whileHover={{ y: -5, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+              className="group rounded-2xl border border-slate-200 bg-white p-6 hover:shadow-[0_14px_48px_rgba(15,23,38,0.08)] hover:border-blue-200 transition-shadow transition-colors duration-300"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
