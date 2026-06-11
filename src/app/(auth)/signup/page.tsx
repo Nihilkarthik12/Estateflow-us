@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, ArrowRight, Loader2, User, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Loader2, User, Mail, Lock, CheckCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -34,7 +34,21 @@ export default function SignUpPage() {
       if (authError) throw authError;
       if (!authData.user) throw new Error("Sign up failed.");
 
+      // Create profile row via admin API
+      await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: authData.user.id, fullName: form.fullName }),
+      });
+
+      // No session means email confirmation is required
+      if (!authData.session) {
+        setError("__confirm__");
+        return;
+      }
+
       router.push("/dashboard");
+      router.refresh();
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Something went wrong.";
       if (message.toLowerCase().includes("failed to fetch")) {
@@ -45,6 +59,28 @@ export default function SignUpPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  // Email confirmation required — show success state
+  if (error === "__confirm__") {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full flex flex-col items-center text-center gap-5 py-8"
+      >
+        <CheckCircle size={48} className="text-[var(--success)]" />
+        <div>
+          <p className="text-xl font-bold text-[var(--foreground)] mb-2">Check your email</p>
+          <p className="text-sm text-[var(--foreground-muted)] max-w-xs">
+            We sent a confirmation link to <strong>{form.email}</strong>. Click it to activate your account.
+          </p>
+        </div>
+        <Link href="/login" className="text-sm text-[var(--accent)] hover:text-[var(--accent-hover)] font-medium transition-colors">
+          Back to sign in →
+        </Link>
+      </motion.div>
+    );
   }
 
   return (
