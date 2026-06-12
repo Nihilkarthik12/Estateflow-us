@@ -1,0 +1,115 @@
+{
+  "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+  "name": "11 - New Lead 1-Hour No-Response Alert",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "cronExpression", "expression": "*/30 * * * *" }]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 30 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.ESTATEFLOW_URL }}/api/n8n/uncontacted-leads",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-n8n-secret", "value": "={{ $env.N8N_SECRET }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-uncontacted",
+      "name": "Get Uncontacted Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "has-leads",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "has-leads-check",
+      "name": "Any Uncontacted Leads?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst leads = data.leads || [];\nconst count = data.count || 0;\n\n// Build a summary for the agent\nconst leadList = leads.slice(0, 5).map(l => {\n  const age = Math.round((Date.now() - new Date(l.created_at).getTime()) / 60000);\n  return `• ${l.name} (${l.source || 'website'}) — ${age} min ago`;\n}).join('\\n');\n\nconst more = count > 5 ? `\\n...and ${count - 5} more` : '';\n\nconst message = `🚨 *URGENT: ${count} New Lead${count > 1 ? 's' : ''} Waiting*\\n\\nThe following lead${count > 1 ? 's have' : ' has'} not been contacted for over 1 hour:\\n\\n${leadList}${more}\\n\\n⚡ Speed matters — reply within the next 30 min to maximize conversion!\\n\\n👉 Open CRM: ${$env.ESTATEFLOW_URL}/dashboard/leads`;\n\nreturn [{ json: { message, count } }];"
+      },
+      "id": "build-alert",
+      "name": "Build Agent Alert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ $env.AGENT_WHATSAPP_NUMBER }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "messageText", "value": "={{ $json.message }}" }
+          ]
+        },
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "id": "alert-agent",
+      "name": "Alert Agent on WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 200]
+    }
+  ],
+  "connections": {
+    "Every 30 Minutes": {
+      "main": [[{ "node": "Get Uncontacted Leads", "type": "main", "index": 0 }]]
+    },
+    "Get Uncontacted Leads": {
+      "main": [[{ "node": "Any Uncontacted Leads?", "type": "main", "index": 0 }]]
+    },
+    "Any Uncontacted Leads?": {
+      "main": [
+        [{ "node": "Build Agent Alert", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Build Agent Alert": {
+      "main": [[{ "node": "Alert Agent on WhatsApp", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": {
+    "description": "Runs every 30 minutes. Finds new leads that came in 1-3 hours ago with zero outbound contact. Sends an urgent WhatsApp alert to the agent listing those leads so they can respond immediately."
+  }
+}

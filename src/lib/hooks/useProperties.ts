@@ -70,7 +70,15 @@ export function useProperties() {
       .select()
       .single();
 
-    if (!error) setProperties((prev) => [data as Property, ...prev]);
+    if (!error && data) {
+      setProperties((prev) => [data as Property, ...prev]);
+      // Trigger n8n workflow 10 — notify matching leads
+      fetch("/api/n8n/trigger-property-listed", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ property_id: (data as Property).id }),
+      }).catch(() => {}); // fire-and-forget
+    }
     return { data, error: error?.message };
   }
 

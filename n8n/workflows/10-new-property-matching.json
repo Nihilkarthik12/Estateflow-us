@@ -1,0 +1,164 @@
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "name": "10 - New Property → Matching Leads Alert",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-property-listed",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "property-webhook",
+      "name": "New Property Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "new-property-listed"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.ESTATEFLOW_URL }}/api/n8n/matching-leads?property_id={{ $json.property_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-n8n-secret", "value": "={{ $env.N8N_SECRET }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-matches",
+      "name": "Get Matching Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "has-matches",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "has-matches-check",
+      "name": "Any Matching Leads?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "leads",
+        "options": {}
+      },
+      "id": "split-leads",
+      "name": "Split Into Individual Leads",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $input.first().json;\nconst property = $('Get Matching Leads').first().json.property;\n\nconst firstName = lead.name?.split(' ')[0] || 'there';\nconst price = property.price ? `$${Number(property.price).toLocaleString('en-US')}` : 'great price';\nconst beds = property.bedrooms ? `${property.bedrooms}-bedroom ` : '';\nconst type = property.property_type || 'property';\nconst location = property.city || property.location || 'a great location';\n\nconst message = `Hi ${firstName}! 🏠 Great news!\n\nWe just listed a new ${beds}${type} that matches exactly what you've been looking for:\n\n📍 ${property.title}\n📌 ${location}\n💰 ${price}\n\nThis is a fresh listing and properties like this move fast. Want to schedule a viewing this week?\n\nReply YES and we'll lock in a time for you! 👇`;\n\nreturn [{ json: { ...lead, message, property_title: property.title } }];"
+      },
+      "id": "build-message",
+      "name": "Build Match Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ $('Split Into Individual Leads').item.json.phone.replace(/\\D/g, '') }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "messageText", "value": "={{ $json.message }}" }
+          ]
+        },
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "id": "send-whatsapp",
+      "name": "Send WhatsApp to Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NEXT_PUBLIC_SB_URL }}/rest/v1/conversations",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Prefer", "value": "return=minimal" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "lead_id", "value": "={{ $('Split Into Individual Leads').item.json.id }}" },
+            { "name": "message", "value": "={{ $('Build Match Message').item.json.message }}" },
+            { "name": "direction", "value": "outbound" },
+            { "name": "channel", "value": "whatsapp" }
+          ]
+        },
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "id": "log-crm",
+      "name": "Log in CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 200]
+    }
+  ],
+  "connections": {
+    "New Property Webhook": {
+      "main": [[{ "node": "Get Matching Leads", "type": "main", "index": 0 }]]
+    },
+    "Get Matching Leads": {
+      "main": [[{ "node": "Any Matching Leads?", "type": "main", "index": 0 }]]
+    },
+    "Any Matching Leads?": {
+      "main": [
+        [{ "node": "Split Into Individual Leads", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Split Into Individual Leads": {
+      "main": [[{ "node": "Build Match Message", "type": "main", "index": 0 }]]
+    },
+    "Build Match Message": {
+      "main": [[{ "node": "Send WhatsApp to Lead", "type": "main", "index": 0 }]]
+    },
+    "Send WhatsApp to Lead": {
+      "main": [[{ "node": "Log in CRM", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": {
+    "description": "Triggered when a new property is listed in EstateFlow. Fetches all active leads, matches them by budget/location/property type, and sends a personalised WhatsApp alert to each matching lead."
+  }
+}
