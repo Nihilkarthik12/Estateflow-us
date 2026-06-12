@@ -8,6 +8,8 @@ import {
   Home, Clock, Send, Pencil, Trash2, Loader2,
   AlertCircle, CheckCircle2, User, RefreshCw, Building2,
   BedDouble, Maximize2, Sparkles, CalendarDays, UserCheck,
+  MessageCircle, BellRing, DollarSign, Activity,
+  PhoneCall, FileText, Plus,
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -20,6 +22,7 @@ import ConfirmModal from "@/components/ui/ConfirmModal";
 import type { Lead, LeadStage, LeadUrgency, BuyerIntent } from "@/types";
 
 interface Message { id: string; message: string; direction: "inbound" | "outbound"; created_at: string; }
+interface Activity { id: string; type: string; content: string; created_at: string; }
 
 interface PropertyRecommendation {
   id: string;
@@ -105,6 +108,22 @@ export default function LeadDetailPage() {
   const [savingVisit, setSavingVisit] = useState(false);
   const [visitSaved, setVisitSaved] = useState(false);
 
+  // Follow-up reminder
+  const [followUpAt, setFollowUpAt] = useState("");
+  const [savingFollowUp, setSavingFollowUp] = useState(false);
+  const [followUpSaved, setFollowUpSaved] = useState(false);
+
+  // Commission
+  const [commission, setCommission] = useState("");
+  const [savingCommission, setSavingCommission] = useState(false);
+  const [commissionSaved, setCommissionSaved] = useState(false);
+
+  // Activity log
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activityNote, setActivityNote] = useState("");
+  const [activityType, setActivityType] = useState("note");
+  const [savingActivity, setSavingActivity] = useState(false);
+
   const msgEndRef = useRef<HTMLDivElement>(null);
 
   const fetchRecommendations = useCallback(async () => {
@@ -133,9 +152,18 @@ export default function LeadDetailPage() {
         const local = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
         setVisitDate(local);
       }
-      // Single user — no team members to load
+      if (leadData?.follow_up_at) {
+        const dt = new Date(leadData.follow_up_at);
+        const local = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+        setFollowUpAt(local);
+      }
+      if (leadData?.commission_amount) setCommission(String(leadData.commission_amount));
       setTeamMembers([]);
       setLoadingLead(false);
+      // Load activities
+      const res = await fetch(`/api/lead-activity?lead_id=${id}`);
+      const json = await res.json();
+      setActivities(json.activities ?? []);
     }
     load();
     fetchRecommendations();
@@ -233,6 +261,42 @@ export default function LeadDetailPage() {
     router.push("/dashboard/leads");
   }
 
+  async function saveFollowUp() {
+    if (!followUpAt) return;
+    setSavingFollowUp(true);
+    const supabase = createClient();
+    const { data } = await supabase.from("leads").update({ follow_up_at: new Date(followUpAt).toISOString() }).eq("id", id).select().single();
+    setLead(data as Lead);
+    setFollowUpSaved(true);
+    setSavingFollowUp(false);
+    setTimeout(() => setFollowUpSaved(false), 2500);
+  }
+
+  async function saveCommission() {
+    if (!commission) return;
+    setSavingCommission(true);
+    const supabase = createClient();
+    const { data } = await supabase.from("leads").update({ commission_amount: parseFloat(commission) }).eq("id", id).select().single();
+    setLead(data as Lead);
+    setCommissionSaved(true);
+    setSavingCommission(false);
+    setTimeout(() => setCommissionSaved(false), 2500);
+  }
+
+  async function addActivity() {
+    if (!activityNote.trim()) return;
+    setSavingActivity(true);
+    const res = await fetch("/api/lead-activity", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lead_id: id, type: activityType, content: activityNote.trim() }),
+    });
+    const json = await res.json();
+    if (json.activity) setActivities((prev) => [json.activity, ...prev]);
+    setActivityNote("");
+    setSavingActivity(false);
+  }
+
   if (loadingLead) {
     return (
       <div className="flex flex-col flex-1">
@@ -264,11 +328,29 @@ export default function LeadDetailPage() {
 
       <div className="flex-1 overflow-y-auto p-6">
         {/* Back + Actions */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
           <Link href="/dashboard/leads">
             <Button variant="ghost" size="sm"><ArrowLeft size={14} /> Leads</Button>
           </Link>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
+            {lead?.phone && (
+              <a href={`tel:${lead.phone}`}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-colors">
+                <PhoneCall size={13} /> Call
+              </a>
+            )}
+            {lead?.phone && (
+              <a href={`https://wa.me/${lead.phone.replace(/\D/g,"")}`} target="_blank" rel="noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 hover:bg-[#25D366]/20 transition-colors">
+                <MessageCircle size={13} /> WhatsApp
+              </a>
+            )}
+            {lead?.email && (
+              <a href={`mailto:${lead.email}`}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-colors">
+                <Mail size={13} /> Email
+              </a>
+            )}
             <Button variant="secondary" size="sm" onClick={() => setEditOpen(true)}>
               <Pencil size={13} /> Edit
             </Button>
@@ -278,7 +360,7 @@ export default function LeadDetailPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
 
           {/* LEFT column */}
           <div className="flex flex-col gap-4">
@@ -413,6 +495,79 @@ export default function LeadDetailPage() {
               </button>
             </motion.div>
 
+            {/* Follow-up Reminder */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.095 }}
+              className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <BellRing size={14} className="text-[var(--accent)]" />
+                <p className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider flex-1">
+                  Follow-up Reminder
+                </p>
+                {followUpSaved && <CheckCircle2 size={12} className="text-[var(--success)]" />}
+              </div>
+              {lead.follow_up_at && !followUpSaved && (
+                <p className="text-xs text-[var(--warning)] mb-2 flex items-center gap-1.5">
+                  <BellRing size={11} />
+                  Set: {new Date((lead as Lead & { follow_up_at?: string }).follow_up_at!).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
+                </p>
+              )}
+              <input
+                type="datetime-local"
+                value={followUpAt}
+                onChange={(e) => setFollowUpAt(e.target.value)}
+                className="w-full bg-[var(--surface-2)] border border-[var(--border-strong)] text-[var(--foreground)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors mb-2"
+              />
+              <button
+                onClick={saveFollowUp}
+                disabled={!followUpAt || savingFollowUp}
+                className="w-full py-2 rounded-lg text-sm font-medium bg-[var(--accent)] text-white hover:opacity-90 disabled:opacity-40 transition-opacity flex items-center justify-center gap-2"
+              >
+                {savingFollowUp ? <Loader2 size={13} className="animate-spin" /> : <BellRing size={13} />}
+                Set Reminder
+              </button>
+            </motion.div>
+
+            {/* Commission (shown when stage = closed) */}
+            {(lead.status === "closed" || commission) && (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.098 }}
+                className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <DollarSign size={14} className="text-emerald-400" />
+                  <p className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider flex-1">
+                    Commission Earned
+                  </p>
+                  {commissionSaved && <CheckCircle2 size={12} className="text-[var(--success)]" />}
+                </div>
+                <div className="relative mb-2">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[var(--foreground-muted)]">$</span>
+                  <input
+                    type="number"
+                    value={commission}
+                    onChange={(e) => setCommission(e.target.value)}
+                    placeholder="0.00"
+                    className="w-full pl-7 bg-[var(--surface-2)] border border-[var(--border-strong)] text-[var(--foreground)] rounded-lg px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors"
+                  />
+                </div>
+                <button
+                  onClick={saveCommission}
+                  disabled={!commission || savingCommission}
+                  className="w-full py-2 rounded-lg text-sm font-medium text-white hover:opacity-90 disabled:opacity-40 transition-opacity flex items-center justify-center gap-2"
+                  style={{ background: "linear-gradient(135deg, #10b981, #059669)" }}
+                >
+                  {savingCommission ? <Loader2 size={13} className="animate-spin" /> : <DollarSign size={13} />}
+                  Save Commission
+                </button>
+              </motion.div>
+            )}
+
             {/* AI Intelligence */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -511,8 +666,82 @@ export default function LeadDetailPage() {
             )}
           </div>
 
+          {/* MIDDLE → Activity Log (col-span 1 on large) */}
+          <div className="flex flex-col gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.07 }}
+              className="bg-[var(--surface)] border border-[var(--border)] rounded-xl overflow-hidden"
+            >
+              <div className="px-5 py-4 border-b border-[var(--border)] flex items-center gap-2">
+                <Activity size={14} className="text-[var(--accent)]" />
+                <p className="text-sm font-semibold text-[var(--foreground)] flex-1">Activity Log</p>
+              </div>
+              {/* Add activity */}
+              <div className="px-4 pt-3 pb-2 border-b border-[var(--border)]">
+                <div className="flex gap-2 mb-2">
+                  {([
+                    { type: "note", icon: FileText, label: "Note" },
+                    { type: "call", icon: PhoneCall, label: "Call" },
+                    { type: "whatsapp", icon: MessageCircle, label: "WA" },
+                    { type: "email", icon: Mail, label: "Email" },
+                  ] as const).map(({ type, icon: Icon, label }) => (
+                    <button key={type} onClick={() => setActivityType(type)}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                        activityType === type
+                          ? "bg-[var(--accent)] text-white"
+                          : "bg-[var(--surface-2)] text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+                      }`}>
+                      <Icon size={10} /> {label}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    value={activityNote}
+                    onChange={(e) => setActivityNote(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && addActivity()}
+                    placeholder={activityType === "call" ? "Call outcome…" : activityType === "email" ? "Email summary…" : "Add a note…"}
+                    className="flex-1 bg-[var(--surface-2)] border border-[var(--border-strong)] text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] rounded-lg px-3 py-1.5 text-xs outline-none focus:border-[var(--accent)] transition-colors"
+                  />
+                  <button onClick={addActivity} disabled={!activityNote.trim() || savingActivity}
+                    className="w-7 h-7 rounded-lg flex items-center justify-center text-white disabled:opacity-40 transition-opacity"
+                    style={{ background: "var(--accent)" }}>
+                    {savingActivity ? <Loader2 size={11} className="animate-spin" /> : <Plus size={13} />}
+                  </button>
+                </div>
+              </div>
+              {/* Timeline */}
+              <div className="px-4 py-3 flex flex-col gap-2.5 max-h-[340px] overflow-y-auto">
+                {activities.length === 0 ? (
+                  <p className="text-xs text-[var(--foreground-subtle)] text-center py-6">No activities logged yet</p>
+                ) : activities.map((a) => {
+                  const icons: Record<string, React.ReactNode> = {
+                    call: <PhoneCall size={11} className="text-emerald-400" />,
+                    email: <Mail size={11} className="text-blue-400" />,
+                    whatsapp: <MessageCircle size={11} className="text-[#25D366]" />,
+                    note: <FileText size={11} className="text-[var(--accent)]" />,
+                    stage_change: <Activity size={11} className="text-amber-400" />,
+                  };
+                  return (
+                    <div key={a.id} className="flex gap-2.5 items-start">
+                      <div className="w-5 h-5 rounded-full bg-[var(--surface-2)] flex items-center justify-center shrink-0 mt-0.5 border border-[var(--border)]">
+                        {icons[a.type] ?? icons.note}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] text-[var(--foreground)] leading-snug">{a.content}</p>
+                        <p className="text-[10px] text-[var(--foreground-subtle)] mt-0.5">{timeAgo(a.created_at)}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
+
           {/* RIGHT column */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
+          <div className="lg:col-span-2 flex flex-col gap-4 min-w-0">
 
             {/* Raw message */}
             {lead.raw_message && (

@@ -40,10 +40,10 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // Get lease
+  // Get lease (include documents column added by migration)
   const { data: lease } = await supabase
     .from("leases")
-    .select("start_date, end_date, monthly_rent, status")
+    .select("start_date, end_date, monthly_rent, status, documents")
     .eq("tenant_id", tenant.id)
     .eq("status", "active")
     .order("created_at", { ascending: false })
@@ -69,10 +69,18 @@ export async function GET(req: NextRequest) {
       ).data
     : null;
 
+  // Get agent contact info from profiles (phone/whatsapp added by migration)
+  const { data: agentProfile } = await supabase
+    .from("profiles")
+    .select("full_name, phone, whatsapp")
+    .limit(1)
+    .single();
+
   return NextResponse.json({
     tenant,
     lease: lease ?? null,
     tickets: tickets ?? [],
-    property,
+    property: property ? { ...property, phone: agentProfile?.phone ?? null, whatsapp: agentProfile?.whatsapp ?? null } : null,
+    agent: agentProfile ? { phone: agentProfile.phone ?? null, whatsapp: agentProfile.whatsapp ?? null, name: agentProfile.full_name ?? null } : null,
   });
 }

@@ -8,6 +8,8 @@ interface Profile {
   id: string;
   full_name: string | null;
   avatar_url: string | null;
+  phone?: string | null;
+  whatsapp?: string | null;
 }
 
 interface AuthContextValue {

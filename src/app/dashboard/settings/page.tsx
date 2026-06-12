@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { User, Loader2, CheckCircle2, ExternalLink } from "lucide-react";
+import { User, Phone, MessageCircle, Loader2, CheckCircle2, ExternalLink } from "lucide-react";
 import TopBar from "@/components/dashboard/TopBar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
@@ -14,19 +14,27 @@ export default function SettingsPage() {
   const { user, profile } = useAuth();
 
   // Profile form
-  const [profileForm, setProfileForm] = useState({ full_name: "" });
+  const [profileForm, setProfileForm] = useState({ full_name: "", phone: "", whatsapp: "" });
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
 
   useEffect(() => {
-    if (profile) setProfileForm({ full_name: profile.full_name ?? "" });
+    if (profile) setProfileForm({
+      full_name: profile.full_name ?? "",
+      phone: profile.phone ?? "",
+      whatsapp: profile.whatsapp ?? "",
+    });
   }, [profile]);
 
   async function saveProfile() {
     if (!user?.id) return;
     setProfileSaving(true);
     const supabase = createClient();
-    await supabase.from("profiles").update({ full_name: profileForm.full_name }).eq("id", user.id);
+    await supabase.from("profiles").update({
+      full_name: profileForm.full_name,
+      phone: profileForm.phone,
+      whatsapp: profileForm.whatsapp,
+    }).eq("id", user.id);
     setProfileSaving(false);
     setProfileSaved(true);
     setTimeout(() => setProfileSaved(false), 3000);
@@ -66,9 +74,34 @@ export default function SettingsPage() {
                   <Input
                     label="Full Name"
                     value={profileForm.full_name}
-                    onChange={(e) => setProfileForm({ full_name: e.target.value })}
+                    onChange={(e) => setProfileForm(f => ({ ...f, full_name: e.target.value }))}
                     placeholder="Your full name"
                   />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <Phone size={11} className="text-[var(--accent)]" />
+                        <label className="text-[11px] font-bold uppercase tracking-wider text-[var(--foreground-subtle)]">Phone (for tenants)</label>
+                      </div>
+                      <Input
+                        value={profileForm.phone}
+                        onChange={(e) => setProfileForm(f => ({ ...f, phone: e.target.value }))}
+                        placeholder="+1 555 000 0000"
+                      />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <MessageCircle size={11} style={{ color: "#25D366" }} />
+                        <label className="text-[11px] font-bold uppercase tracking-wider text-[var(--foreground-subtle)]">WhatsApp (for tenants)</label>
+                      </div>
+                      <Input
+                        value={profileForm.whatsapp}
+                        onChange={(e) => setProfileForm(f => ({ ...f, whatsapp: e.target.value }))}
+                        placeholder="+1 555 000 0000"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-xs text-[var(--foreground-subtle)]">Tenants see these numbers on their portal to contact you.</p>
                   <div className="flex items-center gap-3">
                     <Button size="sm" onClick={saveProfile} disabled={profileSaving}>
                       {profileSaving ? <><Loader2 size={13} className="animate-spin" /> Saving…</> : "Save Profile"}

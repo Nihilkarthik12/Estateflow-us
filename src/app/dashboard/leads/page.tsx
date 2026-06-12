@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus, Search, Brain, Phone, LayoutList,
   Kanban, Filter, Trash2, Pencil, Eye,
-  MapPin, Clock, Users,
+  MapPin, Clock, Users, MessageCircle, Mail,
 } from "lucide-react";
 import Link from "next/link";
 import TopBar from "@/components/dashboard/TopBar";
@@ -275,6 +275,25 @@ export default function LeadsPage() {
                         <Clock size={10} />{timeAgo(lead.created_at)}
                       </div>
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {lead.phone && (
+                          <a href={`tel:${lead.phone}`} title="Call"
+                            className="p-1.5 rounded-lg text-emerald-500 hover:bg-emerald-500/10 transition-colors">
+                            <Phone size={13} />
+                          </a>
+                        )}
+                        {lead.phone && (
+                          <a href={`https://wa.me/${lead.phone.replace(/\D/g,"")}`} target="_blank" rel="noreferrer" title="WhatsApp"
+                            className="p-1.5 rounded-lg text-[#25D366] hover:bg-[#25D366]/10 transition-colors">
+                            <MessageCircle size={13} />
+                          </a>
+                        )}
+                        {lead.email && (
+                          <a href={`mailto:${lead.email}`} title="Email"
+                            className="p-1.5 rounded-lg text-blue-400 hover:bg-blue-400/10 transition-colors">
+                            <Mail size={13} />
+                          </a>
+                        )}
+                        <div className="w-px h-3 bg-[var(--border)] mx-0.5" />
                         <Link href={`/dashboard/leads/${lead.id}`}>
                           <button className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-3)] transition-colors"><Eye size={13} /></button>
                         </Link>

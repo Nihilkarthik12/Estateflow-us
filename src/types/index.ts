@@ -59,6 +59,8 @@ export interface Lead {
   source?: string;
   ai_analyzed?: boolean;
   visit_date?: string;
+  follow_up_at?: string | null;
+  commission_amount?: number | null;
   created_at: string;
   updated_at?: string;
 }
