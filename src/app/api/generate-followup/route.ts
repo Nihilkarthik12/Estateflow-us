@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
+import { createClient as createServiceClient } from "@supabase/supabase-js";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +15,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "OpenAI API key not configured" }, { status: 500 });
     }
 
-    const supabase = await createClient();
+    const n8nSecret = req.headers.get("x-n8n-secret");
+    const isN8N = n8nSecret && n8nSecret === process.env.N8N_SECRET;
+
+    const supabase = isN8N
+      ? createServiceClient(process.env.NEXT_PUBLIC_SB_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+      : await createClient();
 
     const { data: lead, error } = await supabase
       .from("leads")
