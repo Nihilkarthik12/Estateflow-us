@@ -47,8 +47,7 @@ export default function SignUpPage() {
         return;
       }
 
-      router.push("/dashboard");
-      router.refresh();
+      router.replace("/dashboard");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Something went wrong.";
       if (message.toLowerCase().includes("failed to fetch")) {
