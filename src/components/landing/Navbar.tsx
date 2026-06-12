@@ -66,6 +66,12 @@ export default function Navbar() {
         {/* Desktop actions */}
         <div className="hidden md:flex items-center gap-3">
           <Link
+            href="/tenant-portal"
+            className={`text-[13.5px] font-medium transition-colors px-3 py-2 ${scrolled ? "text-slate-600 hover:text-slate-900" : "text-white/80 hover:text-white"}`}
+          >
+            Tenant Portal
+          </Link>
+          <Link
             href="/login"
             className={`text-[13.5px] font-medium transition-colors px-3 py-2 ${scrolled ? "text-slate-600 hover:text-slate-900" : "text-white/80 hover:text-white"}`}
           >
@@ -104,6 +110,10 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="h-px bg-slate-200 my-2" />
+          <Link href="/tenant-portal" onClick={() => setOpen(false)}
+            className="py-2.5 text-[15px] font-medium text-slate-700">
+            Tenant Portal
+          </Link>
           <Link href="/login" onClick={() => setOpen(false)}
             className="py-2.5 text-[15px] font-medium text-slate-700">
             Agent Login
