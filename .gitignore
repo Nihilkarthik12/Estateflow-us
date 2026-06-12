@@ -44,3 +44,7 @@ next-env.d.ts
 
 # local screenshots
 *.png
+
+# sensitive local info — never commit
+SITE-INFO.md
+n8n/CREDENTIALS.md

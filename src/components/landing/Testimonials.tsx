@@ -1,41 +1,43 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { Zap, Clock, Bot, RefreshCw, CalendarCheck, BarChart2, MessageSquare, PhoneCall } from "lucide-react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const TESTIMONIALS_IMG = "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=1600&q=80";
 
-const testimonials = [
+const capabilities = [
   {
-    metric: "90 sec",
-    headline: "Our response time went from 3 hours to 90 seconds.",
-    body: "Before EstateFlow, weekend leads sat until Monday and half of them had already signed with someone else. Now the AI answers instantly, books the showing, and my agents walk in with a full buyer profile. We stopped losing deals we never knew we were losing.",
-    author: "Broker-Owner",
-    team: "12-agent team, Brooklyn",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    icon: Zap,
+    metric: "< 2 sec",
+    title: "Every lead scored instantly",
+    body: "When a Zillow inquiry, text, or missed call comes in, EstateFlow's AI reads it, scores buyer intent, extracts budget and location, and queues your agent with a full profile — before anyone picks up the phone.",
   },
   {
-    metric: "0 missed",
-    headline: "The midnight leads close just like the 2pm ones.",
-    body: "Buyers browse Zillow at 11pm — that's just reality. EstateFlow's voice agent and chat handle every after-hours inquiry, qualify them, and queue the follow-ups. Monday morning my pipeline is already sorted by who's serious. It's like having a night shift that never bills overtime.",
-    author: "Team Lead",
-    team: "Manhattan residential",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    icon: Clock,
+    metric: "24 / 7",
+    title: "No lead slips through after hours",
+    body: "Buyers browse listings at midnight. EstateFlow's chat and voice agents handle every after-hours inquiry, respond instantly, and deliver a sorted, qualified pipeline to your agents every morning.",
   },
   {
-    metric: "5×",
-    headline: "The follow-up automation pays for itself.",
-    body: "Every agent knows deals close on the fifth follow-up. Nobody actually does five follow-ups — until it's automated. The sequences run over text and email, sound human, and re-engage leads I'd written off months ago. Two closings last quarter came straight from the re-engagement flow.",
-    author: "Managing Agent",
-    team: "Queens & Long Island",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+    icon: RefreshCw,
+    metric: "8 flows",
+    title: "Automations running hands-free",
+    body: "Follow-up sequences, rent reminders, visit confirmations, lease renewal alerts, and cold-lead re-engagement — all running automatically so your team focuses on closing, not chasing.",
   },
+];
+
+const realFeatures = [
+  { icon: Bot,           label: "AI lead scoring",          desc: "Budget, location & intent extracted automatically" },
+  { icon: MessageSquare, label: "Text & chat follow-up",    desc: "Automated sequences over SMS and web chat" },
+  { icon: PhoneCall,     label: "Voice AI agent",           desc: "Answers calls and qualifies leads via Vapi" },
+  { icon: CalendarCheck, label: "Visit confirmation",       desc: "Sends reminders 24 hrs before every showing" },
+  { icon: RefreshCw,     label: "Cold-lead re-engagement",  desc: "Revives leads inactive 4+ days automatically" },
+  { icon: BarChart2,     label: "Pipeline analytics",       desc: "Stage breakdown, source tracking, agent performance" },
 ];
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100">
+    <section id="results" className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-50 border-y border-slate-100">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -46,7 +48,7 @@ export default function Testimonials() {
             viewport={{ once: true }}
             className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-3"
           >
-            What agents say
+            What changes from day one
           </motion.p>
           <div className="overflow-hidden">
             <motion.h2
@@ -56,7 +58,7 @@ export default function Testimonials() {
               transition={{ duration: 0.7, ease }}
               className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
             >
-              Don&apos;t take our word for it
+              Built to close more deals,<br />not add more work.
             </motion.h2>
           </div>
           <motion.p
@@ -66,81 +68,68 @@ export default function Testimonials() {
             transition={{ delay: 0.15 }}
             className="mt-4 text-[15px] text-slate-500"
           >
-            Brokers and team leads on what actually changed after switching.
+            Every feature ships ready to use — no setup calls, no spreadsheets to import.
           </motion.p>
         </div>
 
-        {/* Photo strip with social proof numbers */}
+        {/* Capability cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
+          {capabilities.map((c, i) => (
+            <motion.div
+              key={c.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.6, ease }}
+              whileHover={{ y: -5, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+              className="rounded-2xl border border-slate-200 bg-white p-7 flex flex-col gap-4 hover:shadow-[0_14px_48px_rgba(15,23,38,0.09)] hover:border-blue-200 transition-all duration-300"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
+                  <c.icon size={17} className="text-blue-600" />
+                </div>
+                <p className="text-2xl font-extrabold tracking-tight text-blue-600">{c.metric}</p>
+              </div>
+              <div>
+                <h3 className="text-[15px] font-bold text-slate-900 mb-2 leading-snug">{c.title}</h3>
+                <p className="text-[13.5px] text-slate-500 leading-relaxed">{c.body}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Real feature grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease }}
-          className="relative h-44 sm:h-56 rounded-2xl overflow-hidden mb-10"
+          className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8"
         >
-          <Image
-            src={TESTIMONIALS_IMG}
-            alt="Beautiful American home"
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/60 to-slate-900/30" />
-          <div className="absolute inset-0 flex items-center px-8 sm:px-12">
-            <div className="flex gap-10 sm:gap-16">
-              {[
-                { stat: "200+", label: "agents across 14 states" },
-                { stat: "23×", label: "avg leads recovered/month" },
-                { stat: "4.9★", label: "average rating" },
-              ].map((s) => (
-                <div key={s.stat}>
-                  <p className="text-3xl sm:text-4xl font-extrabold text-white leading-none">{s.stat}</p>
-                  <p className="mt-1.5 text-[12px] text-white/60 max-w-[100px] leading-snug">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={t.author}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.6, ease }}
-              whileHover={{ y: -6, transition: { type: "spring", stiffness: 400, damping: 25 } }}
-              className="rounded-2xl border border-slate-200 bg-white p-7 flex flex-col gap-5 hover:shadow-[0_14px_48px_rgba(15,23,38,0.09)] hover:border-blue-200 transition-shadow transition-colors duration-300"
-            >
-              <p className="text-3xl font-bold tracking-tight text-blue-600">{t.metric}</p>
-
-              <div className="flex-1">
-                <h3 className="text-[15px] font-bold text-slate-900 mb-3 leading-snug">
-                  &ldquo;{t.headline}&rdquo;
-                </h3>
-                <p className="text-[13.5px] text-slate-500 leading-relaxed">{t.body}</p>
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden border border-slate-200 shrink-0">
-                  <Image
-                    src={t.avatar}
-                    alt={t.author}
-                    fill
-                    className="object-cover object-center"
-                    sizes="40px"
-                  />
+          <p className="text-[13px] font-semibold text-blue-600 uppercase tracking-wider mb-6">
+            Everything included
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {realFeatures.map((f, i) => (
+              <motion.div
+                key={f.label}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.07 }}
+                className="flex items-start gap-3"
+              >
+                <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0 mt-0.5">
+                  <f.icon size={15} className="text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-[12px] font-bold text-slate-900">{t.author}</p>
-                  <p className="text-[11px] text-slate-400">{t.team}</p>
+                  <p className="text-[13.5px] font-semibold text-slate-900">{f.label}</p>
+                  <p className="text-[12px] text-slate-400 mt-0.5 leading-snug">{f.desc}</p>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* CTA strip */}
         <motion.div
@@ -148,14 +137,14 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="mt-10 rounded-2xl border border-slate-200 bg-white px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
+          className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5"
         >
           <div>
             <p className="text-[15px] font-bold text-slate-900">
-              See what EstateFlow can do for your brokerage
+              See EstateFlow running on your actual listings
             </p>
             <p className="text-[13px] text-slate-500 mt-1">
-              Book a live demo — we&apos;ll walk you through the full platform on your own listings.
+              Book a live demo — we&apos;ll walk through the full platform with your own data.
             </p>
           </div>
           <a
@@ -165,6 +154,7 @@ export default function Testimonials() {
             Get a Demo
           </a>
         </motion.div>
+
       </div>
     </section>
   );

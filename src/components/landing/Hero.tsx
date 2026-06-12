@@ -8,8 +8,8 @@ import { ArrowRight } from "lucide-react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// Traditional American craftsman home — warm, aspirational, recognisably US
-const HERO_HOME = "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1600&q=85";
+// Luxury American estate — wide aerial/exterior, aspirational US real estate
+const HERO_BG = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=85";
 const WHATSAPP_URL = "https://wa.me/917598470890?text=Hi%2C%20I%27d%20like%20to%20see%20a%20demo%20of%20EstateFlow.";
 
 const WA_ICON = (
@@ -22,25 +22,50 @@ const WA_ICON = (
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  const photoY   = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const photoScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const leftOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
     <section ref={containerRef} className="relative min-h-screen flex overflow-hidden bg-[#070c14]">
 
-      {/* subtle grid overlay */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.025]" style={{
+      {/* ── Full-bleed background image with parallax ── */}
+      <motion.div
+        style={{ y: bgY, scale: bgScale }}
+        className="absolute inset-0 origin-center z-0"
+      >
+        <Image
+          src={HERO_BG}
+          alt="Luxury American estate"
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      </motion.div>
+
+      {/* Dark gradient overlay — heavy left for text, fades right to reveal image */}
+      <div className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          background: "linear-gradient(105deg, rgba(7,12,20,0.97) 0%, rgba(7,12,20,0.88) 35%, rgba(7,12,20,0.55) 60%, rgba(7,12,20,0.18) 100%)"
+        }}
+      />
+
+      {/* Bottom fade */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#070c14] to-transparent z-10 pointer-events-none" />
+
+      {/* Subtle grid texture */}
+      <div className="absolute inset-0 pointer-events-none z-10 opacity-[0.018]" style={{
         backgroundImage: "linear-gradient(rgba(255,255,255,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.8) 1px,transparent 1px)",
         backgroundSize: "72px 72px",
       }} />
 
-      {/* ── LEFT editorial panel ── */}
+      {/* ── Content ── */}
       <motion.div
-        style={{ opacity: leftOpacity }}
-        className="relative z-10 flex flex-col justify-center w-full lg:w-[56%] px-8 sm:px-14 xl:px-20 pt-28 pb-20"
+        style={{ opacity: contentOpacity }}
+        className="relative z-20 flex flex-col justify-center w-full lg:w-[58%] px-8 sm:px-14 xl:px-20 pt-28 pb-20"
       >
-        <div className="max-w-[520px]">
+        <div className="max-w-[540px]">
 
           {/* Eyebrow */}
           <motion.div
@@ -50,19 +75,19 @@ export default function Hero() {
             className="flex items-center gap-2.5 mb-10"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[11px] font-bold text-white/35 uppercase tracking-[0.2em]">
+            <span className="text-[11px] font-bold text-white/40 uppercase tracking-[0.2em]">
               AI-Powered Lead Recovery
             </span>
           </motion.div>
 
-          {/* Headline — clip-reveal per line */}
+          {/* Headline */}
           <div className="mb-8">
             <div className="overflow-hidden">
               <motion.p
                 initial={{ y: "105%" }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.9, ease, delay: 0.08 }}
-                className="text-[21px] sm:text-[26px] text-white/45 leading-none mb-1"
+                className="text-[21px] sm:text-[26px] text-white/50 leading-none mb-1"
                 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontStyle: "italic" }}
               >
                 The agent who replies first
@@ -85,7 +110,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.38, ease }}
-            className="text-[15.5px] sm:text-[17px] text-white/50 leading-relaxed mb-10 max-w-[420px]"
+            className="text-[15.5px] sm:text-[17px] text-white/55 leading-relaxed mb-10 max-w-[420px]"
           >
             EstateFlow replies to every text, Zillow inquiry, and missed call in
             under 90 seconds — AI-scored and agent-ready, 24/7.
@@ -98,7 +123,6 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.48, ease }}
             className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-12"
           >
-            {/* Primary — shimmer on hover */}
             <Link
               href="#contact"
               className="hero-cta-primary group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-blue-600 text-white text-[15px] font-bold hover:bg-blue-500 transition-colors overflow-hidden"
@@ -108,99 +132,83 @@ export default function Hero() {
               <ArrowRight size={16} className="relative transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
 
-            {/* WhatsApp ghost */}
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-4 rounded-xl border border-white/12 text-white/60 text-[14px] font-medium hover:border-white/28 hover:text-white/85 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-4 rounded-xl border border-white/15 text-white/65 text-[14px] font-medium hover:border-white/30 hover:text-white/90 transition-all"
             >
               {WA_ICON}
               Quick chat
             </a>
           </motion.div>
 
-          {/* Agent quote */}
+          {/* Trust badges */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.65 }}
-            className="pl-4 border-l-2 border-blue-500/40"
+            className="flex flex-wrap gap-3"
           >
-            <p
-              className="text-[13.5px] text-white/45 leading-relaxed italic"
-              style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            >
-              &ldquo;We stopped losing after-hours leads the day we turned it on.&rdquo;
-            </p>
-            <p className="text-[11px] text-white/28 mt-1.5 font-semibold tracking-wide">
-              — Sarah M., Broker-Owner · Chicago
-            </p>
+            {[
+              "Zillow & MLS ready",
+              "8 automations built-in",
+              "AI reply in < 2 seconds",
+            ].map((badge) => (
+              <span
+                key={badge}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11.5px] font-medium text-white/50"
+                style={{ background: "rgba(91,141,239,0.08)", border: "1px solid rgba(91,141,239,0.18)" }}
+              >
+                <span className="w-1 h-1 rounded-full bg-blue-400" />
+                {badge}
+              </span>
+            ))}
           </motion.div>
         </div>
       </motion.div>
 
-      {/* ── RIGHT photo panel (desktop only) ── */}
-      <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[46%] overflow-hidden">
-        {/* Feather edge to the left */}
-        <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-[#070c14] to-transparent z-10 pointer-events-none" />
-        {/* Bottom fade */}
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#070c14]/70 to-transparent z-10 pointer-events-none" />
-
-        {/* Parallax image */}
-        <motion.div style={{ y: photoY, scale: photoScale }} className="absolute inset-0 origin-center">
-          <Image
-            src={HERO_HOME}
-            alt="Beautiful American home"
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="46vw"
-          />
-        </motion.div>
-
-        {/* Floating AI lead card */}
-        <motion.div
-          initial={{ opacity: 0, y: 28, scale: 0.93 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ delay: 1.1, duration: 0.65, ease }}
-          className="absolute bottom-12 left-8 z-20 w-[260px] rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
-          style={{
-            background: "rgba(7,12,20,0.88)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.09)",
-          }}
-        >
-          <div className="px-4 py-3 border-b border-white/[0.06] flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">AI replied · 4 seconds ago</span>
-          </div>
-          <div className="px-4 py-3">
-            <p className="text-[12px] text-white/70 leading-relaxed mb-3">
-              &ldquo;3-bed near downtown Austin, budget $640K, need to close in 60 days.&rdquo;
-            </p>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[10px] text-white/35 mb-0.5">Michael C. · Intent score</p>
-                <div className="flex items-center gap-2">
-                  <div className="w-20 h-1 rounded-full bg-white/10 overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: "94%" }}
-                      transition={{ delay: 1.6, duration: 1.2, ease: "easeOut" }}
-                      className="h-full rounded-full bg-emerald-400"
-                    />
-                  </div>
-                  <span className="text-[11px] font-bold text-emerald-400">94</span>
+      {/* ── Floating AI lead card — sits over the visible image area ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 28, scale: 0.93 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ delay: 1.1, duration: 0.65, ease }}
+        className="absolute bottom-16 right-10 lg:right-[8%] z-20 w-[260px] rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.7)]"
+        style={{
+          background: "rgba(7,12,20,0.88)",
+          backdropFilter: "blur(20px)",
+          border: "1px solid rgba(255,255,255,0.09)",
+        }}
+      >
+        <div className="px-4 py-3 border-b border-white/[0.06] flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">AI replied · 4 seconds ago</span>
+        </div>
+        <div className="px-4 py-3">
+          <p className="text-[12px] text-white/70 leading-relaxed mb-3">
+            &ldquo;3-bed near downtown Austin, budget $640K, need to close in 60 days.&rdquo;
+          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] text-white/35 mb-0.5">Michael C. · Intent score</p>
+              <div className="flex items-center gap-2">
+                <div className="w-20 h-1 rounded-full bg-white/10 overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "94%" }}
+                    transition={{ delay: 1.6, duration: 1.2, ease: "easeOut" }}
+                    className="h-full rounded-full bg-emerald-400"
+                  />
                 </div>
+                <span className="text-[11px] font-bold text-emerald-400">94</span>
               </div>
-              <span className="text-[10px] font-bold text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded-md bg-blue-500/10">
-                High intent
-              </span>
             </div>
+            <span className="text-[10px] font-bold text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded-md bg-blue-500/10">
+              High intent
+            </span>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
 
       {/* Scroll hint */}
       <motion.div
