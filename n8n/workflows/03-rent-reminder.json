@@ -1,4 +1,4 @@
-{"id":"a5dddecd-e5b1-4513-9a4a-3c728b104b36",
+﻿{"id":"a5dddecd-e5b1-4513-9a4a-3c728b104b36",
   "name": "03 - Rent Reminder",
   "nodes": [
     {
@@ -16,11 +16,11 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.ESTATEFLOW_URL }}/api/n8n/rent-due",
+        "url": "=https://estateflow-us.vercel.app/api/n8n/rent-due",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "x-n8n-secret", "value": "={{ $env.N8N_SECRET }}" }
+            { "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }
           ]
         },
         "options": {}

@@ -1,4 +1,4 @@
-{"id":"fe417732-03ae-436e-9432-40cf0dc60a27",
+﻿{"id":"fe417732-03ae-436e-9432-40cf0dc60a27",
   "name": "05 - Visit Reminder (1 Day Before)",
   "nodes": [
     {
@@ -14,10 +14,10 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.ESTATEFLOW_URL }}/api/n8n/visits-tomorrow",
+        "url": "=https://estateflow-us.vercel.app/api/n8n/visits-tomorrow",
         "sendHeaders": true,
         "headerParameters": {
-          "parameters": [{ "name": "x-n8n-secret", "value": "={{ $env.N8N_SECRET }}" }]
+          "parameters": [{ "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }]
         },
         "options": {}
       },

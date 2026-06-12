@@ -1,4 +1,4 @@
-{"id":"eaf0989e-0b00-4724-850a-d0e6bffa6be9",
+﻿{"id":"eaf0989e-0b00-4724-850a-d0e6bffa6be9",
   "name": "07 - Lease Renewal Alert",
   "nodes": [
     {
@@ -14,10 +14,10 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.ESTATEFLOW_URL }}/api/n8n/lease-renewals",
+        "url": "=https://estateflow-us.vercel.app/api/n8n/lease-renewals",
         "sendHeaders": true,
         "headerParameters": {
-          "parameters": [{ "name": "x-n8n-secret", "value": "={{ $env.N8N_SECRET }}" }]
+          "parameters": [{ "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }]
         },
         "options": {}
       },
@@ -93,12 +93,12 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.NEXT_PUBLIC_SB_URL }}/rest/v1/notifications",
+        "url": "={{ https://mishbyycoknjwtrmrpkn.supabase.co }}/rest/v1/notifications",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
-            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "apikey", "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
+            { "name": "Authorization", "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
             { "name": "Content-Type", "value": "application/json" },
             { "name": "Prefer", "value": "return=minimal" }
           ]

@@ -1,4 +1,4 @@
-{"id":"e2dce49c-600d-4312-97c0-f07f6562c257",
+﻿{"id":"e2dce49c-600d-4312-97c0-f07f6562c257",
   "name": "02 - Automated Follow-up Sequence",
   "nodes": [
     {
@@ -16,11 +16,11 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $env.ESTATEFLOW_URL }}/api/n8n/pending-followups",
+        "url": "=https://estateflow-us.vercel.app/api/n8n/pending-followups",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "x-n8n-secret", "value": "={{ $env.N8N_SECRET }}" }
+            { "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }
           ]
         },
         "options": {}
@@ -67,7 +67,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.ESTATEFLOW_URL }}/api/generate-followup",
+        "url": "=https://estateflow-us.vercel.app/api/generate-followup",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [{ "name": "Content-Type", "value": "application/json" }]
@@ -114,12 +114,12 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.NEXT_PUBLIC_SB_URL }}/rest/v1/conversations",
+        "url": "={{ https://mishbyycoknjwtrmrpkn.supabase.co }}/rest/v1/conversations",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
-            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "apikey", "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
+            { "name": "Authorization", "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
             { "name": "Content-Type", "value": "application/json" },
             { "name": "Prefer", "value": "return=minimal" }
           ]
