@@ -152,7 +152,7 @@ export default function Hero() {
           >
             {[
               "Zillow & MLS ready",
-              "8 automations built-in",
+              "12 automations built-in",
               "AI reply in < 2 seconds",
             ].map((badge) => (
               <span

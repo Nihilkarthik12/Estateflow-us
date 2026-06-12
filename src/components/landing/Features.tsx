@@ -35,9 +35,9 @@ const features: { icon: LucideIcon; title: string; body: string; stat: string; s
   {
     icon: Home,
     title: "Smart Property Matching",
-    body: "The moment a lead is analyzed, the system ranks your listings by fit and hands your agent the top three options — ready to send in one tap.",
-    stat: "Top 3",
-    statLabel: "listings surfaced per lead",
+    body: "Add a new listing and EstateFlow instantly WhatsApps every lead whose budget and location matches — no manual outreach needed. Buyers hear about your properties before they find them elsewhere.",
+    stat: "< 60s",
+    statLabel: "from listing to buyer alert",
   },
   {
     icon: PhoneCall,

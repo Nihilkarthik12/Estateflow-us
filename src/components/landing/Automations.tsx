@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import {
   MessageSquare, PhoneMissed, BellRing, CalendarCheck, CalendarClock,
-  RefreshCcw, Star, FileText, Zap, LucideIcon,
+  RefreshCcw, Star, FileText, Zap, Building2, AlarmClock, UserX, LucideIcon,
 } from "lucide-react";
 
 const AUTO_IMG = "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1600&q=80";
@@ -67,6 +67,24 @@ const automations: { icon: LucideIcon; title: string; body: string; trigger: str
     body: "Leases expiring in 90 days trigger a renewal conversation with the tenant and an in-app alert for your team — no renewal slips through again.",
     trigger: "Daily · 9 AM",
   },
+  {
+    icon: Building2,
+    title: "New Listing → Buyer Alerts",
+    body: "The moment you add a property, EstateFlow scans every active lead, scores each for budget and location fit, and WhatsApps every match instantly. Fresh listings fill your calendar the same hour.",
+    trigger: "On listing",
+  },
+  {
+    icon: AlarmClock,
+    title: "1-Hour No-Response Alert",
+    body: "If a new lead hasn't been contacted within 60 minutes, you get an urgent WhatsApp — their name, source, and how long they've been waiting. Speed to lead is the single biggest close factor.",
+    trigger: "Every 30 min",
+  },
+  {
+    icon: UserX,
+    title: "No-Show Recovery",
+    body: "Buyer missed their showing? Two hours after the slot, they automatically get a warm WhatsApp: 'We missed you — want to reschedule?' Recovers 30% of no-shows agents normally write off.",
+    trigger: "2 PM · 7 PM",
+  },
 ];
 
 export default function Automations() {
@@ -97,7 +115,7 @@ export default function Automations() {
               transition={{ duration: 0.7, ease }}
               className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight"
             >
-              Nine automations. Zero busywork.
+              Twelve automations. Zero busywork.
             </motion.h2>
           </div>
           <motion.p
@@ -107,7 +125,7 @@ export default function Automations() {
             transition={{ delay: 0.15 }}
             className="mt-4 text-[15px] text-slate-500 leading-relaxed"
           >
-            Everything below runs hands-free over text and email, around the clock —
+            Everything below runs hands-free over WhatsApp, text, and email, around the clock —
             so your team spends their hours with clients, not keyboards.
           </motion.p>
         </div>
@@ -131,7 +149,7 @@ export default function Automations() {
           <div className="absolute inset-0 flex items-center px-8 sm:px-12">
             <div>
               <p className="text-2xl sm:text-3xl font-bold text-white leading-snug max-w-lg">
-                Nine automations running <span className="text-blue-300">while you sleep</span>
+                Twelve automations running <span className="text-blue-300">while you sleep</span>
               </p>
               <p className="mt-2 text-[13.5px] text-white/65 max-w-sm">Fully configured for your brokerage. Live the same day.</p>
             </div>

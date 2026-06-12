@@ -9,7 +9,7 @@ const STATS_IMG = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?
 const stats = [
   { value: "< 2s",  label: "Lead scored by AI",       sub: "Industry avg: 3–6 hrs" },
   { value: "24/7",  label: "Zero missed inquiries",    sub: "Nights, weekends, holidays" },
-  { value: "9+",    label: "Automations running",      sub: "Fully hands-free" },
+  { value: "12",    label: "Automations running",      sub: "Fully hands-free" },
   { value: "5×",    label: "Follow-up touchpoints",    sub: "80% of deals close after 5+" },
 ];
 

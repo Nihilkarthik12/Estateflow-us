@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: "What automations are included?",
-    a: "Instant lead capture and auto-reply, AI follow-up sequences over text and email, showing confirmations and reminders, missed-call text-back, cold-lead re-engagement, post-sale referral and review requests, and lease renewal alerts — all running hands-free.",
+    a: "Twelve automations ship built-in: instant lead capture & auto-reply, AI follow-up sequences, showing confirmations & reminders, missed-call text-back, cold-lead re-engagement, post-sale referrals, lease renewal alerts, new listing → matching buyer alerts, 1-hour no-response agent alert, and visit no-show recovery — all running hands-free over WhatsApp.",
   },
   {
     q: "Does it capture leads from Zillow and Realtor.com?",
