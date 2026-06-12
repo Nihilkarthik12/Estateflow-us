@@ -44,9 +44,12 @@
 
   /* ── Aliases ── */
   --accent:       #5b8def;
+  --accent-2:     #3b82f6;
+  --accent-hover: #4a7de0;
   --accent-muted: rgba(91,141,239,0.12);
   --accent-light: #85aef5;
-  --accent-glow:  rgba(91,141,239,0.2);
+  --accent-glow:  rgba(91,141,239,0.28);
+  --border-accent: rgba(91,141,239,0.22);
 
   /* ── Status ── */
   --success:       #4ade80;
@@ -461,6 +464,31 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--foreground) !important;
   caret-color: var(--foreground);
   transition: background-color 9999s ease-out 0s;
+}
+
+/* ─── Shimmer loading skeleton ──────────────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ─── Premium sidebar ────────────────────────────────────────── */
+.sidebar-premium {
+  background: linear-gradient(180deg, #070c18 0%, #09101f 40%, #0b1222 100%);
+  border-right: 1px solid rgba(91,141,239,0.1);
+}
+
+/* ─── Stat card premium ──────────────────────────────────────── */
+.stat-card-premium {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: all 0.25s ease;
+}
+.stat-card-premium:hover {
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 1px var(--border-accent), 0 12px 40px rgba(0,0,0,0.5);
+  transform: translateY(-2px);
 }
 
 /* ─── Card glow (kept for compat) ───────────────────────────── */

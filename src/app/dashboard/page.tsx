@@ -95,28 +95,47 @@ export default function DashboardOverview() {
       <div className="flex-1 p-6 flex flex-col gap-6 overflow-y-auto">
 
         {/* Welcome banner */}
-        <motion.div {...fade(-0.05)} className="relative overflow-hidden rounded-2xl border border-[var(--border)]">
+        <motion.div {...fade(-0.05)} className="relative overflow-hidden rounded-2xl"
+          style={{ border: "1px solid rgba(91,141,239,0.15)" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=60"
             alt=""
-            className="absolute inset-0 w-full h-full object-cover opacity-[0.2]"
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.15]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface)] via-[var(--surface)]/80 to-transparent pointer-events-none" />
-          <div className="relative flex items-center justify-between px-6 py-5">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] mb-1" style={{ color: "var(--accent)" }}>
+          <div className="absolute inset-0 pointer-events-none"
+            style={{ background: "linear-gradient(105deg, rgba(7,12,24,0.97) 0%, rgba(7,12,24,0.85) 50%, rgba(7,12,24,0.4) 100%)" }} />
+          {/* Top accent line */}
+          <div className="absolute top-0 left-0 right-0 h-px"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(91,141,239,0.5), transparent)" }} />
+
+          <div className="relative flex items-center justify-between px-6 py-5 gap-4">
+            <div className="min-w-0">
+              <p className="text-[11px] font-bold uppercase tracking-[0.16em] mb-1.5"
+                style={{ color: "rgba(133,174,245,0.7)" }}>
                 {new Date().getHours() < 12 ? "Good morning" : new Date().getHours() < 17 ? "Good afternoon" : "Good evening"}
               </p>
-              <p className="text-lg font-bold text-[var(--foreground)] leading-tight">Your pipeline is live</p>
-              <p className="text-xs text-[var(--foreground-muted)] mt-0.5">{todayLabel}</p>
+              <p className="text-[17px] font-bold leading-tight" style={{ color: "rgba(255,255,255,0.92)" }}>
+                Your pipeline is live
+              </p>
+              <p className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,0.3)" }}>{todayLabel}</p>
             </div>
-            <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-semibold text-emerald-400">AI Active</span>
+
+            <div className="hidden sm:flex items-center gap-4 shrink-0">
+              {/* Live pulse badges */}
+              <div className="flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl"
+                style={{ background: "rgba(74,222,128,0.07)", border: "1px solid rgba(74,222,128,0.2)" }}>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-[11px] font-bold text-emerald-400">AI Active</span>
+                </div>
+                <span className="text-[9.5px]" style={{ color: "rgba(255,255,255,0.3)" }}>All channels</span>
               </div>
-              <span className="text-[10px] text-[var(--foreground-subtle)]">Monitoring all channels</span>
+              <div className="flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl"
+                style={{ background: "rgba(91,141,239,0.07)", border: "1px solid rgba(91,141,239,0.18)" }}>
+                <span className="text-[13px] font-bold" style={{ color: "#85aef5" }}>24/7</span>
+                <span className="text-[9.5px]" style={{ color: "rgba(255,255,255,0.3)" }}>Response</span>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -125,20 +144,24 @@ export default function DashboardOverview() {
         <motion.div {...fade(0)} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-28 rounded-2xl shimmer" style={{ background: "var(--surface)" }} />
+              <div key={i} className="h-28 rounded-2xl shimmer" />
             ))
           ) : (
             <>
               <StatCard title="Total Leads" value={String(stats?.totalLeads ?? 0)} icon={Users}
-                gradient="from-[var(--accent)] to-[var(--accent-hover)]" />
-              <StatCard title="Active Properties" value={String(stats?.activeProperties ?? 0)} icon={Home}
-                gradient="from-[#06b6d4] to-[#0891b2]" />
+                gradient="from-[#5b8def] to-[#3b82f6]"
+                accentColor="rgba(91,141,239,0.25)" />
+              <StatCard title="Active Listings" value={String(stats?.activeProperties ?? 0)} icon={Home}
+                gradient="from-[#06b6d4] to-[#0891b2]"
+                accentColor="rgba(6,182,212,0.2)" />
               <StatCard title="Conversion Rate" value={`${stats?.conversionRate ?? 0}%`} icon={TrendingUp}
                 positive={(stats?.conversionRate ?? 0) > 0}
-                gradient="from-[#10b981] to-[#059669]" />
+                gradient="from-[#10b981] to-[#059669]"
+                accentColor="rgba(16,185,129,0.2)" />
               <StatCard title="AI Analyzed" value={`${stats?.aiAnalyzedPct ?? 0}%`} icon={Brain}
                 positive={(stats?.aiAnalyzedPct ?? 0) > 50}
-                gradient="from-[#f59e0b] to-[#d97706]" />
+                gradient="from-[#f59e0b] to-[#d97706]"
+                accentColor="rgba(245,158,11,0.2)" />
             </>
           )}
         </motion.div>
@@ -338,40 +361,41 @@ export default function DashboardOverview() {
             </CardHeader>
             <CardContent>
               {loading ? (
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                <div className="flex flex-col gap-2.5">
                   {Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="h-24 rounded-2xl shimmer" />
+                    <div key={i} className="h-9 rounded-xl shimmer" />
                   ))}
                 </div>
               ) : (
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                <div className="flex flex-col gap-2">
                   {pipeline.map((s) => {
                     const cfg = stageConfig[s.stage];
-                    const pct = Math.round((s.count / maxPipelineCount) * 100);
+                    const pct = maxPipelineCount > 0 ? Math.round((s.count / maxPipelineCount) * 100) : 0;
                     return (
                       <Link key={s.stage} href={`/dashboard/leads?stage=${s.stage}`}>
                         <motion.div
-                          whileHover={{ scale: 1.04, y: -2 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                          className="flex flex-col gap-2 p-4 rounded-2xl cursor-pointer group"
-                          style={{ background: cfg.bg, border: `1px solid ${cfg.color}25` }}
+                          whileHover={{ x: 3 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer group transition-colors"
+                          style={{ background: `${cfg.color}08`, border: `1px solid ${cfg.color}18` }}
                         >
-                          {/* Mini bar */}
-                          <div className="h-1 w-full rounded-full" style={{ background: `${cfg.color}25` }}>
+                          <span className="text-[12px] font-semibold w-[90px] shrink-0 truncate"
+                            style={{ color: `${cfg.color}cc` }}>
+                            {cfg.label}
+                          </span>
+                          <div className="flex-1 h-1.5 rounded-full overflow-hidden"
+                            style={{ background: `${cfg.color}15` }}>
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${pct}%` }}
-                              transition={{ duration: 0.8, delay: 0.3 }}
+                              transition={{ duration: 0.9, delay: 0.2 }}
                               className="h-full rounded-full"
-                              style={{ background: cfg.color }}
+                              style={{ background: `linear-gradient(90deg, ${cfg.color}99, ${cfg.color})` }}
                             />
                           </div>
-                          <span className="text-3xl font-bold leading-none" style={{ color: cfg.color }}>
-                            {s.count}
-                          </span>
-                          <span className="text-xs font-medium group-hover:opacity-100 opacity-70 transition-opacity"
+                          <span className="text-[13px] font-bold w-6 text-right shrink-0"
                             style={{ color: cfg.color }}>
-                            {cfg.label}
+                            {s.count}
                           </span>
                         </motion.div>
                       </Link>
