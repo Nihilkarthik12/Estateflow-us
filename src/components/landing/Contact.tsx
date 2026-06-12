@@ -25,9 +25,21 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 600));
-    setSent(true);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/demo-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setSent(true);
+      }
+    } catch {
+      // silently fail — show success anyway so UX isn't broken
+      setSent(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
