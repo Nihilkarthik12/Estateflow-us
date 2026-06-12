@@ -20,9 +20,9 @@ const capabilities = [
   },
   {
     icon: RefreshCw,
-    metric: "8 flows",
+    metric: "12 flows",
     title: "Automations running hands-free",
-    body: "Follow-up sequences, rent reminders, visit confirmations, lease renewal alerts, and cold-lead re-engagement — all running automatically so your team focuses on closing, not chasing.",
+    body: "Follow-up sequences, rent reminders, visit confirmations, lease renewal alerts, no-show recovery, new listing alerts, and cold-lead re-engagement — all running automatically so your team focuses on closing, not chasing.",
   },
 ];
 

@@ -11,9 +11,9 @@ const CONTACT_IMG = "https://images.unsplash.com/photo-1570129477492-45c003edd2b
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const trust = [
-  { icon: Clock,         label: "We respond within the hour" },
-  { icon: Zap,           label: "14-day free trial included" },
-  { icon: ShieldCheck,   label: "No credit card required" },
+  { icon: Clock,         label: "Demo call within 24 hours" },
+  { icon: Zap,           label: "Full setup included on every plan" },
+  { icon: ShieldCheck,   label: "No credit card to book a demo" },
   { icon: CheckCircle,   label: "Cancel anytime, no lock-in" },
 ];
 
