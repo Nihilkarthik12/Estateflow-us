@@ -3,6 +3,7 @@ import Hero           from "@/components/landing/Hero";
 import Pain           from "@/components/landing/Pain";
 import StatsBar       from "@/components/landing/StatsBar";
 import Features       from "@/components/landing/Features";
+import DashboardPreview from "@/components/landing/DashboardPreview";
 import AIWorkflow     from "@/components/landing/AIWorkflow";
 import Automations    from "@/components/landing/Automations";
 import DayInLife      from "@/components/landing/DayInLife";
@@ -25,6 +26,7 @@ export default function LandingPage() {
         <Hero />
         <Pain />
         <Features />
+        <DashboardPreview />
         <AIWorkflow />
         <Automations />
         <StatsBar />
