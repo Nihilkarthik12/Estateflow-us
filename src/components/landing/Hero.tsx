@@ -63,7 +63,7 @@ export default function Hero() {
       {/* ── Content ── */}
       <motion.div
         style={{ opacity: contentOpacity }}
-        className="relative z-20 flex flex-col justify-center w-full lg:w-[58%] px-8 sm:px-14 xl:px-20 pt-28 pb-20"
+        className="relative z-20 flex flex-col justify-center w-full lg:w-[58%] px-6 sm:px-14 xl:px-20 pt-24 pb-32 sm:pb-20"
       >
         <div className="max-w-[540px]">
 
@@ -98,7 +98,7 @@ export default function Hero() {
                 initial={{ y: "105%" }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.9, ease, delay: 0.18 }}
-                className="text-[58px] sm:text-[72px] lg:text-[82px] font-black tracking-[-0.04em] text-white leading-[0.92]"
+                className="text-[42px] sm:text-[72px] lg:text-[82px] font-black tracking-[-0.04em] text-white leading-[0.92]"
               >
                 wins the deal.
               </motion.h1>
@@ -168,12 +168,12 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      {/* ── Floating AI lead card — sits over the visible image area ── */}
+      {/* ── Floating AI lead card — hidden on mobile to avoid overlap ── */}
       <motion.div
         initial={{ opacity: 0, y: 28, scale: 0.93 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ delay: 1.1, duration: 0.65, ease }}
-        className="absolute bottom-16 right-10 lg:right-[8%] z-20 w-[260px] rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.7)]"
+        className="hidden sm:block absolute bottom-16 right-10 lg:right-[8%] z-20 w-[260px] rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.7)]"
         style={{
           background: "rgba(7,12,20,0.88)",
           backdropFilter: "blur(20px)",

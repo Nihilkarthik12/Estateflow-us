@@ -114,7 +114,7 @@ export default function VapiAgent() {
   // ── Idle state — just the call button ────────────────────────────────────
   if (status === "idle") {
     return (
-      <div className="fixed bottom-6 right-[5.5rem] z-50 flex flex-col items-center gap-1">
+      <div className="fixed bottom-6 left-24 sm:left-auto sm:right-[5.5rem] z-50 flex flex-col items-center gap-1">
         {error && (
           <p className="absolute bottom-full mb-2 w-56 text-[11px] text-red-400 bg-[var(--surface)] border border-red-500/30 rounded-xl px-3 py-2 text-center shadow-lg">
             {error}
@@ -134,7 +134,7 @@ export default function VapiAgent() {
 
   // ── Active / connecting / ended — full call screen ────────────────────────
   return (
-    <div className="fixed bottom-24 right-[5.5rem] z-50 w-72 rounded-3xl shadow-2xl border border-[var(--border)] overflow-hidden flex flex-col"
+    <div className="fixed bottom-24 left-6 sm:left-auto sm:right-[5.5rem] z-50 w-72 rounded-3xl shadow-2xl border border-[var(--border)] overflow-hidden flex flex-col"
       style={{ background: "var(--surface)" }}>
 
       {/* Header */}
