@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
 import { rateLimit, getIP } from "@/lib/rate-limit";
-import { sanitizeField, isValidPhone } from "@/lib/sanitize";
+import { sanitizeField, isValidPhone, isValidEmail } from "@/lib/sanitize";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -52,13 +52,17 @@ export async function POST(req: NextRequest) {
 
     const name                = sanitizeField(body.name, 150);
     const phone               = sanitizeField(body.phone, 20);
+    const email               = sanitizeField(body.email, 200);
     const conversationSummary = sanitizeField(body.conversationSummary, 2000);
 
-    if (!name || !phone) {
-      return NextResponse.json({ error: "name and phone are required" }, { status: 400 });
+    if (!name || !phone || !email) {
+      return NextResponse.json({ error: "name, phone, and email are required" }, { status: 400 });
     }
     if (!isValidPhone(phone)) {
       return NextResponse.json({ error: "Invalid phone number format." }, { status: 400 });
+    }
+    if (!isValidEmail(email)) {
+      return NextResponse.json({ error: "Invalid email format." }, { status: 400 });
     }
 
     // AI-extract lead details from the full conversation
@@ -71,6 +75,7 @@ export async function POST(req: NextRequest) {
       .insert({
         name,
         phone,
+        email,
         raw_message:   conversationSummary || `Chat lead: ${name}, ${phone}`,
         budget:        extracted.budget        ?? undefined,
         location:      extracted.location      ?? undefined,

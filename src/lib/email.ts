@@ -1,5 +1,40 @@
-// Sends lead notification emails via Resend.
+// Email sending via Resend.
 // Silently skips if RESEND_API_KEY is not configured.
+
+const RESEND_FROM = process.env.RESEND_FROM ?? "EstateFlow <noreply@leadgen.sbs>";
+
+interface SendEmailResult {
+  ok: boolean;
+  id?: string;
+  error?: string;
+}
+
+// Generic sender used by automations (n8n) to email leads/customers.
+// Returns a result object so callers can report success/failure.
+export async function sendEmail(
+  to: string,
+  subject: string,
+  html: string,
+): Promise<SendEmailResult> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { ok: false, error: "RESEND_API_KEY not configured" };
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from: RESEND_FROM, to, subject, html }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) return { ok: false, error: data?.message ?? `HTTP ${res.status}` };
+    return { ok: true, id: data?.id };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Unknown error" };
+  }
+}
 
 export async function sendLeadNotificationEmail(
   agentEmail: string,

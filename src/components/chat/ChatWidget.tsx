@@ -115,6 +115,7 @@ export default function ChatWidget() {
   const [leadFormReason, setLeadFormReason] = useState<"save_lead" | "book_visit">("save_lead");
   const [leadName, setLeadName] = useState("");
   const [leadPhone, setLeadPhone] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
   const [leadSubmitting, setLeadSubmitting] = useState(false);
   const [leadSaved, setLeadSaved] = useState(false);
 
@@ -253,8 +254,10 @@ export default function ChatWidget() {
 
   // ── Lead capture ──────────────────────────────────────────────────────────
 
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadEmail.trim());
+
   async function submitLead() {
-    if (!leadName.trim() || !leadPhone.trim()) return;
+    if (!leadName.trim() || !leadPhone.trim() || !emailValid) return;
     setLeadSubmitting(true);
 
     const conversationSummary = messages
@@ -269,6 +272,7 @@ export default function ChatWidget() {
         body: JSON.stringify({
           name: leadName.trim(),
           phone: leadPhone.trim(),
+          email: leadEmail.trim(),
           conversationSummary,
         }),
       });
@@ -417,15 +421,23 @@ export default function ChatWidget() {
                 <input
                   value={leadPhone}
                   onChange={(e) => setLeadPhone(e.target.value)}
-                  placeholder="Phone number"
+                  placeholder="WhatsApp number"
                   type="tel"
+                  className="w-full rounded-lg px-3 py-1.5 text-sm text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] outline-none focus:border-blue-400/60 transition-colors"
+                  style={{ background: "var(--surface)", border: "1px solid rgba(255,255,255,0.1)" }}
+                />
+                <input
+                  value={leadEmail}
+                  onChange={(e) => setLeadEmail(e.target.value)}
+                  placeholder="Email address"
+                  type="email"
                   className="w-full rounded-lg px-3 py-1.5 text-sm text-[var(--foreground)] placeholder:text-[var(--foreground-subtle)] outline-none focus:border-blue-400/60 transition-colors"
                   style={{ background: "var(--surface)", border: "1px solid rgba(255,255,255,0.1)" }}
                 />
                 <div className="flex gap-2">
                   <button
                     onClick={submitLead}
-                    disabled={leadSubmitting || !leadName.trim() || !leadPhone.trim()}
+                    disabled={leadSubmitting || !leadName.trim() || !leadPhone.trim() || !emailValid}
                     className="flex-1 py-1.5 rounded-lg text-xs font-semibold text-white disabled:opacity-50 transition-opacity flex items-center justify-center gap-1"
                     style={{ background: "linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)" }}
                   >

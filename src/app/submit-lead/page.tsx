@@ -27,8 +27,12 @@ export default function SubmitLeadPage() {
     e.preventDefault();
     setError("");
 
-    if (!form.name.trim() || !form.phone.trim() || !form.raw_message.trim()) {
-      setError("Name, phone, and your requirement are required.");
+    if (!form.name.trim() || !form.phone.trim() || !form.email.trim() || !form.raw_message.trim()) {
+      setError("Name, WhatsApp number, email, and your requirement are required.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      setError("Please enter a valid email address.");
       return;
     }
 
@@ -115,7 +119,7 @@ export default function SubmitLeadPage() {
                   required
                 />
                 <Input
-                  label="Phone *"
+                  label="WhatsApp Number *"
                   value={form.phone}
                   onChange={set("phone")}
                   placeholder="(555) 123-4567"
@@ -124,11 +128,12 @@ export default function SubmitLeadPage() {
               </div>
 
               <Input
-                label="Email (optional)"
+                label="Email *"
                 type="email"
                 value={form.email}
                 onChange={set("email")}
                 placeholder="james@email.com"
+                required
               />
 
               <Textarea
