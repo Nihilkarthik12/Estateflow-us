@@ -131,7 +131,7 @@
           }
         },
         "specifyBody": "json",
-        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={ $('Split Into Individual Leads').item.json.phone.replace(/\\\\D/g, '') }\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.message }}\"}}"
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={{ $('Split Into Individual Leads').item.json.phone.replace(/\\\\D/g, '') }}\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.message }}\"}}"
       },
       "id": "send-recovery",
       "name": "Send Recovery WhatsApp",

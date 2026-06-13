@@ -131,7 +131,7 @@
           }
         },
         "specifyBody": "json",
-        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={ $json.tenant_phone.replace('+', '') }\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.whatsapp_message }}\"}}"
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={{ $json.tenant_phone.replace(/\\\\D/g, '') }}\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.whatsapp_message }}\"}}"
       },
       "id": "send-reminder",
       "name": "Send WhatsApp Reminder",
