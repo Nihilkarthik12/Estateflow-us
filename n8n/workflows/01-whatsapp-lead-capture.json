@@ -6,31 +6,25 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "whatsapp-lead",
-        "responseMode": "lastNode",
+        "responseMode": "onReceived",
         "options": {}
       },
       "id": "wh-trigger",
-      "name": "WATI Webhook",
+      "name": "Meta Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [
-        240,
-        300
-      ],
+      "position": [240, 300],
       "webhookId": "whatsapp-lead-capture"
     },
     {
       "parameters": {
-        "jsCode": "// Parse WATI webhook payload\nconst body = $input.first().json;\n\n// WATI sends different formats — handle both\nconst waId = body.waId || body.from || '';\nconst senderName = body.senderName || body.pushname || 'Unknown';\nconst messageText = body.text?.body || body.message || '';\nconst messageType = body.type || 'text';\n\n// Only process text messages\nif (messageType !== 'text' || !messageText.trim()) {\n  return [{ json: { skip: true, reason: 'Non-text message' } }];\n}\n\n// Format phone: ensure it starts with country code\nconst phone = waId.startsWith('+') ? waId : `+${waId}`;\n\nreturn [{\n  json: {\n    phone,\n    name: senderName,\n    raw_message: messageText.trim(),\n    whatsapp_id: waId,\n    skip: false\n  }\n}];"
+        "jsCode": "// Parse Meta Cloud API webhook payload\nconst body = $input.first().json;\n\nconst entry = body.entry?.[0];\nconst change = entry?.changes?.[0]?.value;\nconst message = change?.messages?.[0];\nconst contact = change?.contacts?.[0];\n\n// Skip status updates and non-message events\nif (!message) {\n  return [{ json: { skip: true, reason: 'Not a message event' } }];\n}\n\nconst messageType = message.type || 'text';\nconst messageText = message.text?.body || '';\nconst waId = message.from || contact?.wa_id || '';\nconst senderName = contact?.profile?.name || 'Unknown';\n\n// Only process text messages\nif (messageType !== 'text' || !messageText.trim()) {\n  return [{ json: { skip: true, reason: 'Non-text message' } }];\n}\n\n// Ensure phone starts with country code\nconst phone = waId.startsWith('+') ? waId : `+${waId}`;\n\nreturn [{\n  json: {\n    phone,\n    name: senderName,\n    raw_message: messageText.trim(),\n    whatsapp_id: waId,\n    skip: false\n  }\n}];"
       },
       "id": "parse-message",
-      "name": "Parse WATI Message",
+      "name": "Parse Meta Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        460,
-        300
-      ]
+      "position": [460, 300]
     },
     {
       "parameters": {
@@ -59,10 +53,7 @@
       "name": "Is Text Message?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [
-        680,
-        300
-      ]
+      "position": [680, 300]
     },
     {
       "parameters": {
@@ -98,7 +89,7 @@
             },
             {
               "name": "source",
-              "value": "sms"
+              "value": "whatsapp"
             },
             {
               "name": "webhook_secret",
@@ -112,23 +103,17 @@
       "name": "Save Lead to CRM",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        900,
-        200
-      ]
+      "position": [900, 200]
     },
     {
       "parameters": {
-        "jsCode": "// Build auto-reply message\nconst lead = $('Save Lead to CRM').first().json.lead;\nconst name = lead?.name?.split(' ')[0] || 'there';\nconst summary = lead?.summary || '';\nconst urgency = lead?.urgency || 'medium';\n\nlet reply = `Hi ${name}! 👋 Thank you for reaching out to us.\\n\\n`;\n\nif (summary) {\n  reply += `We've noted your requirement: ${summary}\\n\\n`;\n} \n\nif (urgency === 'high') {\n  reply += `We can see this is urgent for you. Our agent will call you within the next 30 minutes with matching properties.`;\n} else {\n  reply += `Our team will review your requirement and get back to you shortly with the best matching properties.`;\n}\n\nreply += `\\n\\nMeanwhile, you can view our available listings at: https://estateflow-us.vercel.app/listings`;\n\nreturn [{ json: { ...($input.first().json), reply_message: reply } }];"
+        "jsCode": "// Build auto-reply message\nconst lead = $('Save Lead to CRM').first().json.lead;\nconst name = lead?.name?.split(' ')[0] || 'there';\nconst summary = lead?.summary || '';\nconst urgency = lead?.urgency || 'medium';\n\nlet reply = `Hi ${name}! 👋 Thank you for reaching out to EstateFlow.\\n\\n`;\n\nif (summary) {\n  reply += `We've noted your requirement: ${summary}\\n\\n`;\n}\n\nif (urgency === 'high') {\n  reply += `We can see this is urgent for you. Our agent will call you within the next 30 minutes with matching properties.`;\n} else {\n  reply += `Our team will review your requirement and get back to you shortly with the best matching properties.`;\n}\n\nreply += `\\n\\nMeanwhile, you can view our available listings at: https://estateflow-us.vercel.app/listings`;\n\nreturn [{ json: { ...($input.first().json), reply_message: reply } }];"
       },
       "id": "build-reply",
       "name": "Build Auto-Reply",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        1120,
-        200
-      ]
+      "position": [1120, 200]
     },
     {
       "parameters": {
@@ -156,31 +141,28 @@
           }
         },
         "specifyBody": "json",
-        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={{ $('Parse WATI Message').first().json.whatsapp_id.replace(/\\D/g, '') }}\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.reply_message }}\"}}"
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={{ $('Parse Meta Message').first().json.whatsapp_id.replace(/\\D/g, '') }}\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.reply_message }}\"}}"
       },
       "id": "send-reply",
       "name": "Send WhatsApp Reply",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        1340,
-        200
-      ]
+      "position": [1340, 200]
     }
   ],
   "connections": {
-    "WATI Webhook": {
+    "Meta Webhook": {
       "main": [
         [
           {
-            "node": "Parse WATI Message",
+            "node": "Parse Meta Message",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Parse WATI Message": {
+    "Parse Meta Message": {
       "main": [
         [
           {
@@ -231,7 +213,6 @@
     "executionOrder": "v1"
   },
   "meta": {
-    "description": "Captures WhatsApp messages via WATI webhook, creates AI-analyzed lead in EstateFlow CRM, and sends an instant auto-reply.",
-    "templateCredsSetupCompleted": false
+    "description": "Captures incoming WhatsApp messages via Meta Cloud API webhook, creates AI-analyzed lead in EstateFlow CRM, and sends an instant auto-reply."
   }
 }
