@@ -146,7 +146,7 @@
           "parameters": [
             {
               "name": "to",
-              "value": "={{ $('Split Into Individual Leases').item.json.email }}"
+              "value": "={{ $('Split Into Individual Leases').item.json.tenant_email }}"
             },
             {
               "name": "subject",

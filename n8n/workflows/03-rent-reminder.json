@@ -146,11 +146,11 @@
           "parameters": [
             {
               "name": "to",
-              "value": "={{ $('Split Into Individual Tenants').item.json.email }}"
+              "value": "={{ $('Split Into Individual Tenants').item.json.tenant_email }}"
             },
             {
               "name": "subject",
-              "value": "Rent Payment Reminder — Due {{ $('Build Reminder Message').item.json.due_date }}"
+              "value": "={{ 'Rent Payment Reminder — Due ' + $('Build Reminder Message').item.json.due_date }}"
             },
             {
               "name": "body",

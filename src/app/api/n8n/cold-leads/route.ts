@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 
   const { data: leads } = await supabase
     .from("leads")
-    .select("id, name, phone, budget, location, property_type, urgency, summary, status")
+    .select("id, name, phone, email, budget, location, property_type, urgency, summary, status")
     .in("status", activeStages)
     .not("phone", "is", null)
     .lt("created_at", cutoffIso);

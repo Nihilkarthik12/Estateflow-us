@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   // Fetch active leads (not closed/lost) with phone numbers
   const { data: leads } = await supabase
     .from("leads")
-    .select("id, name, phone, budget, location, property_type, urgency, status")
+    .select("id, name, phone, email, budget, location, property_type, urgency, status")
     .not("phone", "is", null)
     .not("status", "in", '("closed","lost")');
 

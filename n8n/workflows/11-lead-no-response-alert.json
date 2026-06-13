@@ -139,7 +139,7 @@
             },
             {
               "name": "subject",
-              "value": "🚨 URGENT: {{ $('Build Agent Alert').item.json.count }} Leads Waiting for Response"
+              "value": "={{ '🚨 URGENT: ' + $('Build Agent Alert').item.json.count + ' Leads Waiting for Response' }}"
             },
             {
               "name": "body",

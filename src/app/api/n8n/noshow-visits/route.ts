@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   // Leads with a visit_date today that is 2+ hours in the past and still in "site_visit" stage
   const { data: leads } = await supabase
     .from("leads")
-    .select("id, name, phone, visit_date, location, property_type, budget")
+    .select("id, name, phone, email, visit_date, location, property_type, budget")
     .eq("status", "site_visit")
     .not("phone", "is", null)
     .not("visit_date", "is", null)

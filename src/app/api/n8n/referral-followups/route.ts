@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
 
   const { data: leads } = await supabase
     .from("leads")
-    .select("id, name, phone, location, property_type")
+    .select("id, name, phone, email, location, property_type")
     .eq("status", "closed")
     .not("phone", "is", null)
     .gte("updated_at", cutoff.toISOString());
