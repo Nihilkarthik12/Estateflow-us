@@ -108,13 +108,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ $('Split Into Individual Leads').item.json.phone.replace(/\\D/g, '') }}",
+        "url": "https://graph.facebook.com/v25.0/1221327281053499/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "=Bearer {{ $env.WATI_API_KEY }}"
+              "value": "Bearer EAAMInHE0vdABRpIWYtuTUZBxhLw7Tw98dB4YEcLTZBDA31cZBFksq1uU7O1ZAspbOW8wjyPYuIXDdR2TyzZCIAfuwRFX1nLvYbZCZBd0athXIUrevtPEJWjSTtda7oZC0l4i9lpnAn81Pz86vZAv6ZAPC9w1WYe3YZCZC5MZBsnpnfXRvVRQ8nOB04EOyVG8SQlehBtwtYRkDUrLP2CR8WmRQvyYqM4ixSrtQQXBrWg2yRZBzCZBB18LKqhwFqOFTr4uF1ZBsUaSXDnWbYdYWalLu7TwbFyi"
             },
             {
               "name": "Content-Type",
@@ -123,21 +123,15 @@
           ]
         },
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "messageText",
-              "value": "={{ $json.message }}"
-            }
-          ]
-        },
         "options": {
           "response": {
             "response": {
               "neverError": true
             }
           }
-        }
+        },
+        "specifyBody": "json",
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={ $('Split Into Individual Leads').item.json.phone.replace(/\\\\D/g, '') }\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.message }}\"}}"
       },
       "id": "send-recovery",
       "name": "Send Recovery WhatsApp",

@@ -1,4 +1,5 @@
-{"id":"d5245704-808a-4363-90ce-34510ced7d17",
+{
+  "id": "d5245704-808a-4363-90ce-34510ced7d17",
   "name": "01 - WhatsApp Lead Capture",
   "nodes": [
     {
@@ -12,7 +13,10 @@
       "name": "WATI Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [240, 300],
+      "position": [
+        240,
+        300
+      ],
       "webhookId": "whatsapp-lead-capture"
     },
     {
@@ -23,18 +27,28 @@
       "name": "Parse WATI Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [460, 300]
+      "position": [
+        460,
+        300
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
           "conditions": [
             {
               "id": "skip-check",
               "leftValue": "={{ $json.skip }}",
               "rightValue": false,
-              "operator": { "type": "boolean", "operation": "equals" }
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
             }
           ],
           "combinator": "and"
@@ -45,7 +59,10 @@
       "name": "Is Text Message?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [680, 300]
+      "position": [
+        680,
+        300
+      ]
     },
     {
       "parameters": {
@@ -54,18 +71,39 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "x-n8n-secret", "value": "estateflow-us-n8n-secret-2026" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "x-n8n-secret",
+              "value": "estateflow-us-n8n-secret-2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "name", "value": "={{ $json.name }}" },
-            { "name": "phone", "value": "={{ $json.phone }}" },
-            { "name": "raw_message", "value": "={{ $json.raw_message }}" },
-            { "name": "source", "value": "sms" },
-            { "name": "webhook_secret", "value": "=estateflow-us-webhook-2026" }
+            {
+              "name": "name",
+              "value": "={{ $json.name }}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $json.phone }}"
+            },
+            {
+              "name": "raw_message",
+              "value": "={{ $json.raw_message }}"
+            },
+            {
+              "name": "source",
+              "value": "sms"
+            },
+            {
+              "name": "webhook_secret",
+              "value": "=estateflow-us-webhook-2026"
+            }
           ]
         },
         "options": {}
@@ -74,7 +112,10 @@
       "name": "Save Lead to CRM",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [900, 200]
+      "position": [
+        900,
+        200
+      ]
     },
     {
       "parameters": {
@@ -84,56 +125,111 @@
       "name": "Build Auto-Reply",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1120, 200]
+      "position": [
+        1120,
+        200
+      ]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ $('Parse WATI Message').first().json.whatsapp_id }}",
+        "url": "https://graph.facebook.com/v25.0/1221327281053499/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAMInHE0vdABRpIWYtuTUZBxhLw7Tw98dB4YEcLTZBDA31cZBFksq1uU7O1ZAspbOW8wjyPYuIXDdR2TyzZCIAfuwRFX1nLvYbZCZBd0athXIUrevtPEJWjSTtda7oZC0l4i9lpnAn81Pz86vZAv6ZAPC9w1WYe3YZCZC5MZBsnpnfXRvVRQ8nOB04EOyVG8SQlehBtwtYRkDUrLP2CR8WmRQvyYqM4ixSrtQQXBrWg2yRZBzCZBB18LKqhwFqOFTr4uF1ZBsUaSXDnWbYdYWalLu7TwbFyi"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            { "name": "messageText", "value": "={{ $json.reply_message }}" }
-          ]
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "specifyBody": "json",
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={ $('Parse WATI Message').first().json.whatsapp_id.replace(/\\\\D/g, '') }\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.reply_message }}\"}}"
       },
       "id": "send-reply",
       "name": "Send WhatsApp Reply",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1340, 200]
+      "position": [
+        1340,
+        200
+      ]
     }
   ],
   "connections": {
     "WATI Webhook": {
-      "main": [[{ "node": "Parse WATI Message", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Parse WATI Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Parse WATI Message": {
-      "main": [[{ "node": "Is Text Message?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Is Text Message?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Is Text Message?": {
       "main": [
-        [{ "node": "Save Lead to CRM", "type": "main", "index": 0 }],
+        [
+          {
+            "node": "Save Lead to CRM",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
     "Save Lead to CRM": {
-      "main": [[{ "node": "Build Auto-Reply", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Build Auto-Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Build Auto-Reply": {
-      "main": [[{ "node": "Send WhatsApp Reply", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "meta": {
     "description": "Captures WhatsApp messages via WATI webhook, creates AI-analyzed lead in EstateFlow CRM, and sends an instant auto-reply.",
     "templateCredsSetupCompleted": false

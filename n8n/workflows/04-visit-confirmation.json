@@ -1,4 +1,5 @@
-{"id":"999e0c6b-90a4-44c6-bc75-9225fef964b0",
+{
+  "id": "999e0c6b-90a4-44c6-bc75-9225fef964b0",
   "name": "04 - Visit Booking Confirmation",
   "nodes": [
     {
@@ -12,7 +13,10 @@
       "name": "Visit Booked Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [240, 300],
+      "position": [
+        240,
+        300
+      ],
       "webhookId": "visit-confirmation"
     },
     {
@@ -23,42 +27,77 @@
       "name": "Build Confirmation Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [460, 300]
+      "position": [
+        460,
+        300
+      ]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ $json.phone }}",
+        "url": "https://graph.facebook.com/v25.0/1221327281053499/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAMInHE0vdABRpIWYtuTUZBxhLw7Tw98dB4YEcLTZBDA31cZBFksq1uU7O1ZAspbOW8wjyPYuIXDdR2TyzZCIAfuwRFX1nLvYbZCZBd0athXIUrevtPEJWjSTtda7oZC0l4i9lpnAn81Pz86vZAv6ZAPC9w1WYe3YZCZC5MZBsnpnfXRvVRQ8nOB04EOyVG8SQlehBtwtYRkDUrLP2CR8WmRQvyYqM4ixSrtQQXBrWg2yRZBzCZBB18LKqhwFqOFTr4uF1ZBsUaSXDnWbYdYWalLu7TwbFyi"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [{ "name": "messageText", "value": "={{ $json.message }}" }]
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "specifyBody": "json",
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={ $json.phone.replace(/\\\\D/g, '') }\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.message }}\"}}"
       },
       "id": "send-confirmation",
       "name": "Send WhatsApp Confirmation",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [680, 300]
+      "position": [
+        680,
+        300
+      ]
     }
   ],
   "connections": {
     "Visit Booked Webhook": {
-      "main": [[{ "node": "Build Confirmation Message", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Build Confirmation Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Build Confirmation Message": {
-      "main": [[{ "node": "Send WhatsApp Confirmation", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "meta": {
     "description": "Triggered instantly when a visit is booked. Sends WhatsApp confirmation with date, time and property details."
   }

@@ -5,14 +5,22 @@
     {
       "parameters": {
         "rule": {
-          "interval": [{ "field": "cronExpression", "expression": "*/30 * * * *" }]
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "*/30 * * * *"
+            }
+          ]
         }
       },
       "id": "schedule-trigger",
       "name": "Every 30 Minutes",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [240, 300]
+      "position": [
+        240,
+        300
+      ]
     },
     {
       "parameters": {
@@ -21,7 +29,10 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }
+            {
+              "name": "x-n8n-secret",
+              "value": "=estateflow-us-n8n-secret-2026"
+            }
           ]
         },
         "options": {}
@@ -30,18 +41,28 @@
       "name": "Get Uncontacted Leads",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [460, 300]
+      "position": [
+        460,
+        300
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
           "conditions": [
             {
               "id": "has-leads",
               "leftValue": "={{ $json.count }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
           ],
           "combinator": "and"
@@ -52,7 +73,10 @@
       "name": "Any Uncontacted Leads?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [680, 300]
+      "position": [
+        680,
+        300
+      ]
     },
     {
       "parameters": {
@@ -62,53 +86,100 @@
       "name": "Build Agent Alert",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [900, 200]
+      "position": [
+        900,
+        200
+      ]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ 917598470890 }}",
+        "url": "https://graph.facebook.com/v25.0/1221327281053499/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAMInHE0vdABRpIWYtuTUZBxhLw7Tw98dB4YEcLTZBDA31cZBFksq1uU7O1ZAspbOW8wjyPYuIXDdR2TyzZCIAfuwRFX1nLvYbZCZBd0athXIUrevtPEJWjSTtda7oZC0l4i9lpnAn81Pz86vZAv6ZAPC9w1WYe3YZCZC5MZBsnpnfXRvVRQ8nOB04EOyVG8SQlehBtwtYRkDUrLP2CR8WmRQvyYqM4ixSrtQQXBrWg2yRZBzCZBB18LKqhwFqOFTr4uF1ZBsUaSXDnWbYdYWalLu7TwbFyi"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            { "name": "messageText", "value": "={{ $json.message }}" }
-          ]
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "specifyBody": "json",
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"917598470890\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.message }}\"}}"
       },
       "id": "alert-agent",
       "name": "Alert Agent on WhatsApp",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1120, 200]
+      "position": [
+        1120,
+        200
+      ]
     }
   ],
   "connections": {
     "Every 30 Minutes": {
-      "main": [[{ "node": "Get Uncontacted Leads", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Get Uncontacted Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Get Uncontacted Leads": {
-      "main": [[{ "node": "Any Uncontacted Leads?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Any Uncontacted Leads?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Any Uncontacted Leads?": {
       "main": [
-        [{ "node": "Build Agent Alert", "type": "main", "index": 0 }],
+        [
+          {
+            "node": "Build Agent Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
     "Build Agent Alert": {
-      "main": [[{ "node": "Alert Agent on WhatsApp", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Alert Agent on WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "meta": {
     "description": "Runs every 30 minutes. Finds new leads that came in 1-3 hours ago with zero outbound contact. Sends an urgent WhatsApp alert to the agent listing those leads so they can respond immediately."
   }

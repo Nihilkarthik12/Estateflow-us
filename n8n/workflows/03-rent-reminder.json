@@ -1,17 +1,26 @@
-{"id":"a5dddecd-e5b1-4513-9a4a-3c728b104b36",
+{
+  "id": "a5dddecd-e5b1-4513-9a4a-3c728b104b36",
   "name": "03 - Rent Reminder",
   "nodes": [
     {
       "parameters": {
         "rule": {
-          "interval": [{ "field": "cronExpression", "expression": "0 10 * * *" }]
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 10 * * *"
+            }
+          ]
         }
       },
       "id": "schedule-trigger",
       "name": "Daily 10AM",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [240, 300]
+      "position": [
+        240,
+        300
+      ]
     },
     {
       "parameters": {
@@ -20,7 +29,10 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }
+            {
+              "name": "x-n8n-secret",
+              "value": "=estateflow-us-n8n-secret-2026"
+            }
           ]
         },
         "options": {}
@@ -29,18 +41,28 @@
       "name": "Get Tenants With Rent Due",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [460, 300]
+      "position": [
+        460,
+        300
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
           "conditions": [
             {
               "id": "has-reminders",
               "leftValue": "={{ $json.count }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
           ],
           "combinator": "and"
@@ -51,7 +73,10 @@
       "name": "Any Rent Due?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [680, 300]
+      "position": [
+        680,
+        300
+      ]
     },
     {
       "parameters": {
@@ -62,7 +87,10 @@
       "name": "Split Into Individual Tenants",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [900, 200]
+      "position": [
+        900,
+        200
+      ]
     },
     {
       "parameters": {
@@ -72,56 +100,111 @@
       "name": "Build Reminder Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1120, 200]
+      "position": [
+        1120,
+        200
+      ]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://live-mt-server.wati.io/{{ $env.WATI_ACCOUNT_ID }}/api/v1/sendSessionMessage/{{ $json.tenant_phone.replace('+', '') }}",
+        "url": "https://graph.facebook.com/v25.0/1221327281053499/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAMInHE0vdABRpIWYtuTUZBxhLw7Tw98dB4YEcLTZBDA31cZBFksq1uU7O1ZAspbOW8wjyPYuIXDdR2TyzZCIAfuwRFX1nLvYbZCZBd0athXIUrevtPEJWjSTtda7oZC0l4i9lpnAn81Pz86vZAv6ZAPC9w1WYe3YZCZC5MZBsnpnfXRvVRQ8nOB04EOyVG8SQlehBtwtYRkDUrLP2CR8WmRQvyYqM4ixSrtQQXBrWg2yRZBzCZBB18LKqhwFqOFTr4uF1ZBsUaSXDnWbYdYWalLu7TwbFyi"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            { "name": "messageText", "value": "={{ $json.whatsapp_message }}" }
-          ]
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "specifyBody": "json",
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={ $json.tenant_phone.replace('+', '') }\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.whatsapp_message }}\"}}"
       },
       "id": "send-reminder",
       "name": "Send WhatsApp Reminder",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1340, 200]
+      "position": [
+        1340,
+        200
+      ]
     }
   ],
   "connections": {
     "Daily 10AM": {
-      "main": [[{ "node": "Get Tenants With Rent Due", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Get Tenants With Rent Due",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Get Tenants With Rent Due": {
-      "main": [[{ "node": "Any Rent Due?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Any Rent Due?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Any Rent Due?": {
       "main": [
-        [{ "node": "Split Into Individual Tenants", "type": "main", "index": 0 }],
+        [
+          {
+            "node": "Split Into Individual Tenants",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
     "Split Into Individual Tenants": {
-      "main": [[{ "node": "Build Reminder Message", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Build Reminder Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Build Reminder Message": {
-      "main": [[{ "node": "Send WhatsApp Reminder", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "meta": {
     "description": "Runs every day at 10 AM. Checks for tenants whose rent is due in 3 days and sends them a WhatsApp reminder with the amount and due date."
   }
