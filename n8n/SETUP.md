@@ -1,123 +1,85 @@
-# EstateFlow n8n Automation Setup
+# EstateFlow US — n8n Automation Setup
 
 ## What These Workflows Do
 
 | Workflow | Trigger | What It Does |
 |---|---|---|
-| 01 - WhatsApp Lead Capture | WATI sends webhook | Captures WhatsApp message → AI analyzes → saves lead in CRM → sends auto-reply |
-| 02 - Follow-up Sequence | Daily 9 AM Mon-Sat | Finds leads needing follow-up → generates AI message → sends via WhatsApp → logs in CRM |
-| 03 - Rent Reminder | Daily 10 AM | Finds tenants with rent due in 3 days → sends WhatsApp reminder with amount + date |
+| 01 - WhatsApp Lead Capture | Meta sends webhook | Captures WhatsApp message → AI analyzes → saves lead in CRM → sends auto-reply |
+| 02 - Follow-up Sequence | Daily 9 AM Mon-Sat | Finds leads needing follow-up → generates AI message → sends via WhatsApp + Email |
+| 03 - Rent Reminder | Daily 10 AM | Finds tenants with rent due in 3 days → sends WhatsApp reminder |
+| 04 - Visit Confirmation | Webhook trigger | Sends WhatsApp confirmation when visit is booked |
+| 05 - Visit Reminder | Daily 8 AM | Sends WhatsApp reminder 1 day before visit |
+| 07 - Lease Renewal Alert | Daily 9 AM | Alerts tenants 60 days before lease expires |
+| 08 - Lead Re-engagement | Daily 10 AM | Re-engages leads inactive for 4+ days via WhatsApp + Email |
+| 09 - Post-Sale Referral | Daily 10 AM | Asks satisfied buyers for referrals via WhatsApp + Email |
+| 10 - New Property Matching | Webhook trigger | Matches new listings to leads and notifies via WhatsApp + Email |
+| 11 - No-Response Alert | Hourly | Alerts agent on WhatsApp if new lead has no response in 1 hour |
+| 12 - Visit No-Show Recovery | Daily 11 AM | Follows up with leads who missed their visit |
 
 ---
 
-## Step 1 — Set Up WATI (WhatsApp Business API)
+## WhatsApp Provider — Meta Cloud API (Free)
 
-1. Go to https://www.wati.io → Sign up (free trial available)
-2. Connect your WhatsApp Business number
-3. Get your **Account ID** and **API Key** from WATI dashboard → Settings → API
-4. In WATI → Settings → Webhooks → add your n8n webhook URL (you get this in Step 3)
+This project uses **Meta WhatsApp Cloud API** (NOT WATI). It is completely free for up to 1,000 conversations/month.
 
----
+**Credentials (already hardcoded in all workflow JSONs):**
+- Phone Number ID: `1221327281053499`
+- Test number: `+1 (555) 649-4634`
+- Access token: regenerate at developers.facebook.com → Estateflow app → Use cases → Step 1
 
-## Step 2 — Add Environment Variables to Vercel
-
-Go to your Vercel project → Settings → Environment Variables → add these:
-
-```
-N8N_SECRET          = any_random_secret_string_you_choose   (e.g. "estateflow-n8n-2024")
-WATI_API_KEY        = your_wati_api_key_from_wati_dashboard
-WATI_ACCOUNT_ID     = your_wati_account_id_from_wati_dashboard
-WEBHOOK_SECRET      = estateflow-secret-2024   (already set, keep same)
-```
-
-After adding, redeploy Vercel (it will redeploy automatically).
+> **Important:** The access token expires every 24 hours in test mode. Regenerate before each demo session.
 
 ---
 
-## Step 3 — Set Up n8n
+## Step 1 — Add Environment Variables to Vercel
 
-### Option A: n8n Cloud (Easiest)
-1. Go to https://n8n.io → Start for free
-2. Create an account
+Go to Vercel project → Settings → Environment Variables → add:
 
-### Option B: Hostinger (Self-host)
-1. Go to Hostinger → buy a VPS (minimum 2GB RAM)
-2. SSH into server
-3. Run:
-```bash
-npm install -g n8n
-n8n start
 ```
-Or use Docker:
-```bash
-docker run -it --rm --name n8n -p 5678:5678 n8nio/n8n
+N8N_SECRET           = estateflow-us-n8n-secret-2026
+WEBHOOK_SECRET       = estateflow-us-webhook-2026
+RESEND_API_KEY       = re_LMtoUbFB_JLkrBDNyKAbKxqP8qBHkNtbp
+RESEND_FROM          = EstateFlow <noreply@leadgen.sbs>
+NEXT_PUBLIC_APP_URL  = https://estateflow-us.vercel.app
 ```
 
 ---
 
-## Step 4 — Add Environment Variables in n8n
+## Step 2 — Set Up n8n on Render
 
-In n8n → Settings → Variables → add:
+n8n is hosted at: `https://n8n-ymr9.onrender.com`
 
-| Variable Name | Value |
-|---|---|
-| ESTATEFLOW_URL | https://your-vercel-app.vercel.app |
-| WEBHOOK_SECRET | estateflow-secret-2024 |
-| N8N_SECRET | same value you set in Vercel above |
-| WATI_API_KEY | your WATI API key |
-| WATI_ACCOUNT_ID | your WATI account ID |
-| NEXT_PUBLIC_SB_URL | your Supabase project URL |
-| SUPABASE_SERVICE_ROLE_KEY | your Supabase service role key |
+In n8n → Settings → Variables, no WATI variables needed. All Meta API credentials are hardcoded in the workflow JSONs.
 
 ---
 
-## Step 5 — Import Workflows into n8n
+## Step 3 — Import All 11 Workflows into n8n
 
 1. In n8n → click **+** → **Import from File**
-2. Import in order:
-   - `n8n/workflows/01-whatsapp-lead-capture.json`
-   - `n8n/workflows/02-followup-sequence.json`
-   - `n8n/workflows/03-rent-reminder.json`
+2. Import all files from `n8n/workflows/` folder
+3. After importing each, flip the **Active** toggle ON
 
 ---
 
-## Step 6 — Configure Workflow 01 (WhatsApp Capture)
+## Step 4 — Test
 
-1. Open **01 - WhatsApp Lead Capture**
-2. Click on **WATI Webhook** node → copy the webhook URL shown
-3. Go to WATI → Settings → Webhooks → paste that URL
-4. Click **Activate** (toggle at top of workflow)
+### Test WhatsApp (Meta API):
+- Go to developers.facebook.com → Estateflow app → Use cases → Step 1
+- Add your WhatsApp number as recipient
+- Trigger a workflow manually in n8n → you receive WhatsApp message
 
----
-
-## Step 7 — Activate All Workflows
-
-1. Open each workflow
-2. Toggle **Active** switch at the top
-3. All 3 workflows are now live
+### Test Email:
+- Submit a lead via the chat widget on estateflow-us.vercel.app
+- Check your inbox for automated email from `noreply@leadgen.sbs`
 
 ---
 
-## Testing
-
-### Test WhatsApp Lead Capture:
-Send a WhatsApp message to your business number. Within seconds:
-- Lead should appear in EstateFlow → Leads
-- You should receive an auto-reply on WhatsApp
-
-### Test Follow-up Manually:
-In n8n → open Workflow 02 → click **Test Workflow** → it will run immediately
-
-### Test Rent Reminder Manually:
-In n8n → open Workflow 03 → click **Test Workflow** → check console for output
-
----
-
-## Total Cost Estimate
+## Total Cost
 
 | Service | Cost |
 |---|---|
-| WATI | ~$40/month (or free trial) |
-| n8n Cloud | Free (up to 5 workflows) |
-| n8n Self-host on Hostinger VPS | ~₹800/month |
-| Everything else | Already paid (Vercel, Supabase) |
+| Meta WhatsApp Cloud API | **Free** (1,000 conversations/month) |
+| n8n on Render | **Free** (free tier) |
+| Resend Email | **Free** (3,000 emails/month) |
+| Vercel | **Free** |
+| Supabase | **Free** |

@@ -156,7 +156,7 @@
           }
         },
         "specifyBody": "json",
-        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={ $('Parse WATI Message').first().json.whatsapp_id.replace(/\\\\D/g, '') }\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.reply_message }}\"}}"
+        "jsonBody": "{\"messaging_product\": \"whatsapp\", \"to\": \"={{ $('Parse WATI Message').first().json.whatsapp_id.replace(/\\D/g, '') }}\", \"type\": \"text\", \"text\": {\"body\": \"={{ $json.reply_message }}\"}}"
       },
       "id": "send-reply",
       "name": "Send WhatsApp Reply",

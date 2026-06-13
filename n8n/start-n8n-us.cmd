@@ -14,7 +14,7 @@ set N8N_BLOCK_ENV_ACCESS_IN_NODE=false
 
 REM Point at the US app (local dev server). Change to your Vercel
 REM URL when the US site is deployed.
-set ESTATEFLOW_URL=http://localhost:3000
+set ESTATEFLOW_URL=https://estateflow-us.vercel.app
 
 set N8N_SECRET=estateflow-us-n8n-secret-2026
 set WEBHOOK_SECRET=estateflow-us-webhook-2026
@@ -23,8 +23,11 @@ REM US Supabase project (mishbyycoknjwtrmrpkn) — separate from UAE
 set NEXT_PUBLIC_SB_URL=https://mishbyycoknjwtrmrpkn.supabase.co
 set SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg
 
-set WATI_API_KEY=skip-for-now
-set WATI_ACCOUNT_ID=skip-for-now
+REM set OPENAI_API_KEY=get_from_vercel_env
+
+REM Meta WhatsApp Cloud API (replaces WATI — free tier)
+set META_WA_PHONE_ID=1221327281053499
+set META_WA_TOKEN=EAAMInHE0vdABRpIWYtuTUZBxhLw7Tw98dB4YEcLTZBDA31cZBFksq1uU7O1ZAspbOW8wjyPYuIXDdR2TyzZCIAfuwRFX1nLvYbZCZBd0athXIUrevtPEJWjSTtda7oZC0l4i9lpnAn81Pz86vZAv6ZAPC9w1WYe3YZCZC5MZBsnpnfXRvVRQ8nOB04EOyVG8SQlehBtwtYRkDUrLP2CR8WmRQvyYqM4ixSrtQQXBrWg2yRZBzCZBB18LKqhwFqOFTr4uF1ZBsUaSXDnWbYdYWalLu7TwbFyi
 
 echo Starting US n8n... open http://localhost:5679 in your browser
 echo (UAE n8n stays on http://localhost:5678 - both can run together)
