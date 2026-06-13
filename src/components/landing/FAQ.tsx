@@ -61,7 +61,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         className="w-full flex items-center justify-between gap-4 py-5 text-left group"
         aria-expanded={open}
       >
-        <span className={`text-[14px] font-semibold leading-relaxed transition-colors ${open ? "text-slate-900" : "text-slate-600 group-hover:text-slate-900"}`}>
+        <span className={`text-[14px] font-semibold leading-relaxed transition-colors ${open ? "text-slate-900" : "text-slate-800 group-hover:text-slate-900"}`}>
           {q}
         </span>
         <span className={`shrink-0 w-7 h-7 rounded-lg flex items-center justify-center border transition-all ${open ? "bg-blue-50 border-blue-200 text-blue-600" : "bg-slate-100 border-slate-200 text-slate-400"}`}>
@@ -91,7 +91,8 @@ export default function FAQ() {
   return (
     <section id="faq" className="relative py-20 sm:py-28 px-5 sm:px-8 border-y border-slate-100 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <Image src={FAQ_BG} alt="" fill className="object-cover object-center opacity-[0.30]" sizes="100vw" />
+        <Image src={FAQ_BG} alt="" fill className="object-cover object-center opacity-[0.10]" sizes="100vw" />
+        <div className="absolute inset-0 bg-white/70" />
       </div>
       <div className="relative max-w-7xl mx-auto">
 
