@@ -17,10 +17,7 @@
       "name": "Daily 10AM",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [
-        240,
-        300
-      ]
+      "position": [240, 300]
     },
     {
       "parameters": {
@@ -41,10 +38,7 @@
       "name": "Get Tenants With Rent Due",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        460,
-        300
-      ]
+      "position": [460, 300]
     },
     {
       "parameters": {
@@ -73,10 +67,7 @@
       "name": "Any Rent Due?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [
-        680,
-        300
-      ]
+      "position": [680, 300]
     },
     {
       "parameters": {
@@ -87,10 +78,7 @@
       "name": "Split Into Individual Tenants",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [
-        900,
-        200
-      ]
+      "position": [900, 200]
     },
     {
       "parameters": {
@@ -100,10 +88,7 @@
       "name": "Build Reminder Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        1120,
-        200
-      ]
+      "position": [1120, 200]
     },
     {
       "parameters": {
@@ -137,10 +122,55 @@
       "name": "Send WhatsApp Reminder",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        1340,
-        200
-      ]
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://estateflow-us.vercel.app/api/n8n/send-email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "estateflow-us-n8n-secret-2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $('Split Into Individual Tenants').item.json.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "Rent Payment Reminder — Due {{ $('Build Reminder Message').item.json.due_date }}"
+            },
+            {
+              "name": "body",
+              "value": "={{ $('Build Reminder Message').item.json.whatsapp_message }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "send-email-reminder",
+      "name": "Send Email Reminder",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 380]
     }
   ],
   "connections": {
@@ -196,6 +226,11 @@
             "node": "Send WhatsApp Reminder",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Send Email Reminder",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -206,6 +241,6 @@
     "executionOrder": "v1"
   },
   "meta": {
-    "description": "Runs every day at 10 AM. Checks for tenants whose rent is due in 3 days and sends them a WhatsApp reminder with the amount and due date."
+    "description": "Runs every day at 10 AM. Checks for tenants whose rent is due in 3 days and sends them a WhatsApp reminder and email with the amount and due date."
   }
 }

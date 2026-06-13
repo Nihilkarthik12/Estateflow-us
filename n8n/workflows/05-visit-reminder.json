@@ -17,10 +17,7 @@
       "name": "Daily 8AM",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [
-        240,
-        300
-      ]
+      "position": [240, 300]
     },
     {
       "parameters": {
@@ -41,10 +38,7 @@
       "name": "Get Tomorrows Visits",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        460,
-        300
-      ]
+      "position": [460, 300]
     },
     {
       "parameters": {
@@ -71,10 +65,7 @@
       "name": "Any Visits Tomorrow?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [
-        680,
-        300
-      ]
+      "position": [680, 300]
     },
     {
       "parameters": {
@@ -85,10 +76,7 @@
       "name": "Split Visits",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [
-        900,
-        200
-      ]
+      "position": [900, 200]
     },
     {
       "parameters": {
@@ -98,10 +86,7 @@
       "name": "Build Reminder Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        1120,
-        200
-      ]
+      "position": [1120, 200]
     },
     {
       "parameters": {
@@ -135,10 +120,55 @@
       "name": "Send Reminder",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        1340,
-        200
-      ]
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://estateflow-us.vercel.app/api/n8n/send-email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "estateflow-us-n8n-secret-2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $('Split Visits').item.json.visitor_email }}"
+            },
+            {
+              "name": "subject",
+              "value": "🔔 Reminder: Your Property Showing is Tomorrow"
+            },
+            {
+              "name": "body",
+              "value": "={{ $('Build Reminder Message').item.json.message }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "send-email-reminder",
+      "name": "Send Email Reminder",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 380]
     }
   ],
   "connections": {
@@ -194,6 +224,11 @@
             "node": "Send Reminder",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Send Email Reminder",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -204,6 +239,6 @@
     "executionOrder": "v1"
   },
   "meta": {
-    "description": "Runs every morning at 8 AM. Sends WhatsApp reminder to every visitor whose site visit is scheduled for tomorrow."
+    "description": "Runs every morning at 8 AM. Sends WhatsApp and email reminder to every visitor whose site visit is scheduled for tomorrow."
   }
 }

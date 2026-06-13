@@ -13,10 +13,7 @@
       "name": "Visit Booked Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [
-        240,
-        300
-      ],
+      "position": [240, 300],
       "webhookId": "visit-confirmation"
     },
     {
@@ -27,10 +24,7 @@
       "name": "Build Confirmation Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        460,
-        300
-      ]
+      "position": [460, 300]
     },
     {
       "parameters": {
@@ -64,10 +58,55 @@
       "name": "Send WhatsApp Confirmation",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [
-        680,
-        300
-      ]
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://estateflow-us.vercel.app/api/n8n/send-email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "estateflow-us-n8n-secret-2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $('Build Confirmation Message').item.json.visitor_email }}"
+            },
+            {
+              "name": "subject",
+              "value": "Your Property Showing is Confirmed ✅"
+            },
+            {
+              "name": "body",
+              "value": "={{ $('Build Confirmation Message').item.json.message }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "send-email-confirmation",
+      "name": "Send Email Confirmation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 400]
     }
   ],
   "connections": {
@@ -89,6 +128,11 @@
             "node": "Send WhatsApp Confirmation",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Send Email Confirmation",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -99,6 +143,6 @@
     "executionOrder": "v1"
   },
   "meta": {
-    "description": "Triggered instantly when a visit is booked. Sends WhatsApp confirmation with date, time and property details."
+    "description": "Triggered instantly when a visit is booked. Sends WhatsApp and email confirmation with date, time and property details."
   }
 }
