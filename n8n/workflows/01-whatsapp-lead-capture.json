@@ -53,7 +53,10 @@
         "url": "=https://estateflow-us.vercel.app/api/lead-webhook",
         "sendHeaders": true,
         "headerParameters": {
-          "parameters": [{ "name": "Content-Type", "value": "application/json" }]
+          "parameters": [
+            { "name": "x-n8n-secret", "value": "estateflow-us-n8n-secret-2026" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
         },
         "sendBody": true,
         "bodyParameters": {
@@ -75,7 +78,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Build auto-reply message\nconst lead = $('Save Lead to CRM').first().json.lead;\nconst name = lead?.name?.split(' ')[0] || 'there';\nconst summary = lead?.summary || '';\nconst urgency = lead?.urgency || 'medium';\n\nlet reply = `Hi ${name}! 👋 Thank you for reaching out to us.\\n\\n`;\n\nif (summary) {\n  reply += `We've noted your requirement: ${summary}\\n\\n`;\n} \n\nif (urgency === 'high') {\n  reply += `We can see this is urgent for you. Our agent will call you within the next 30 minutes with matching properties.`;\n} else {\n  reply += `Our team will review your requirement and get back to you shortly with the best matching properties.`;\n}\n\nreply += `\\n\\nMeanwhile, you can view our available listings at: ${https://estateflow-us.vercel.app}/listings`;\n\nreturn [{ json: { ...($input.first().json), reply_message: reply } }];"
+        "jsCode": "// Build auto-reply message\nconst lead = $('Save Lead to CRM').first().json.lead;\nconst name = lead?.name?.split(' ')[0] || 'there';\nconst summary = lead?.summary || '';\nconst urgency = lead?.urgency || 'medium';\n\nlet reply = `Hi ${name}! 👋 Thank you for reaching out to us.\\n\\n`;\n\nif (summary) {\n  reply += `We've noted your requirement: ${summary}\\n\\n`;\n} \n\nif (urgency === 'high') {\n  reply += `We can see this is urgent for you. Our agent will call you within the next 30 minutes with matching properties.`;\n} else {\n  reply += `Our team will review your requirement and get back to you shortly with the best matching properties.`;\n}\n\nreply += `\\n\\nMeanwhile, you can view our available listings at: https://estateflow-us.vercel.app/listings`;\n\nreturn [{ json: { ...($input.first().json), reply_message: reply } }];"
       },
       "id": "build-reply",
       "name": "Build Auto-Reply",

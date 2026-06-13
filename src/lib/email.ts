@@ -68,7 +68,7 @@ export async function sendLeadNotificationEmail(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "EstateFlow <onboarding@resend.dev>",
+        from: RESEND_FROM,
         to: agentEmail,
         subject: `New lead: ${leadName}`,
         html,

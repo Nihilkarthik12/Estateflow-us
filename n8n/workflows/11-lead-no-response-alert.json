@@ -56,7 +56,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const data = $input.first().json;\nconst leads = data.leads || [];\nconst count = data.count || 0;\n\n// Build a summary for the agent\nconst leadList = leads.slice(0, 5).map(l => {\n  const age = Math.round((Date.now() - new Date(l.created_at).getTime()) / 60000);\n  return `• ${l.name} (${l.source || 'website'}) — ${age} min ago`;\n}).join('\\n');\n\nconst more = count > 5 ? `\\n...and ${count - 5} more` : '';\n\nconst message = `🚨 *URGENT: ${count} New Lead${count > 1 ? 's' : ''} Waiting*\\n\\nThe following lead${count > 1 ? 's have' : ' has'} not been contacted for over 1 hour:\\n\\n${leadList}${more}\\n\\n⚡ Speed matters — reply within the next 30 min to maximize conversion!\\n\\n👉 Open CRM: ${https://estateflow-us.vercel.app}/dashboard/leads`;\n\nreturn [{ json: { message, count } }];"
+        "jsCode": "const data = $input.first().json;\nconst leads = data.leads || [];\nconst count = data.count || 0;\n\n// Build a summary for the agent\nconst leadList = leads.slice(0, 5).map(l => {\n  const age = Math.round((Date.now() - new Date(l.created_at).getTime()) / 60000);\n  return `• ${l.name} (${l.source || 'website'}) — ${age} min ago`;\n}).join('\\n');\n\nconst more = count > 5 ? `\\n...and ${count - 5} more` : '';\n\nconst message = `🚨 *URGENT: ${count} New Lead${count > 1 ? 's' : ''} Waiting*\\n\\nThe following lead${count > 1 ? 's have' : ' has'} not been contacted for over 1 hour:\\n\\n${leadList}${more}\\n\\n⚡ Speed matters — reply within the next 30 min to maximize conversion!\\n\\n👉 Open CRM: https://estateflow-us.vercel.app/dashboard/leads`;\n\nreturn [{ json: { message, count } }];"
       },
       "id": "build-alert",
       "name": "Build Agent Alert",
