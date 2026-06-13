@@ -1,18 +1,26 @@
-﻿{
+{
   "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
   "name": "12 - Visit No-Show Recovery",
   "nodes": [
     {
       "parameters": {
         "rule": {
-          "interval": [{ "field": "cronExpression", "expression": "0 14,19 * * *" }]
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 14,19 * * *"
+            }
+          ]
         }
       },
       "id": "schedule-trigger",
       "name": "Daily 2PM and 7PM",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [240, 300]
+      "position": [
+        240,
+        300
+      ]
     },
     {
       "parameters": {
@@ -21,7 +29,10 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }
+            {
+              "name": "x-n8n-secret",
+              "value": "=estateflow-us-n8n-secret-2026"
+            }
           ]
         },
         "options": {}
@@ -30,18 +41,28 @@
       "name": "Get No-Show Visits",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [460, 300]
+      "position": [
+        460,
+        300
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
           "conditions": [
             {
               "id": "has-noshows",
               "leftValue": "={{ $json.count }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
           ],
           "combinator": "and"
@@ -52,7 +73,10 @@
       "name": "Any No-Shows?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [680, 300]
+      "position": [
+        680,
+        300
+      ]
     },
     {
       "parameters": {
@@ -63,7 +87,10 @@
       "name": "Split Into Individual Leads",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [900, 200]
+      "position": [
+        900,
+        200
+      ]
     },
     {
       "parameters": {
@@ -73,7 +100,10 @@
       "name": "Build Recovery Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1120, 200]
+      "position": [
+        1120,
+        200
+      ]
     },
     {
       "parameters": {
@@ -82,23 +112,41 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WATI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "messageText", "value": "={{ $json.message }}" }
+            {
+              "name": "messageText",
+              "value": "={{ $json.message }}"
+            }
           ]
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "send-recovery",
       "name": "Send Recovery WhatsApp",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1340, 200]
+      "position": [
+        1340,
+        200
+      ]
     },
     {
       "parameters": {
@@ -107,55 +155,196 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "apikey", "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
-            { "name": "Authorization", "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
-            { "name": "Content-Type", "value": "application/json" },
-            { "name": "Prefer", "value": "return=minimal" }
+            {
+              "name": "apikey",
+              "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "lead_id", "value": "={{ $('Split Into Individual Leads').item.json.id }}" },
-            { "name": "message", "value": "={{ $('Build Recovery Message').item.json.message }}" },
-            { "name": "direction", "value": "outbound" },
-            { "name": "channel", "value": "whatsapp" }
+            {
+              "name": "lead_id",
+              "value": "={{ $('Split Into Individual Leads').item.json.id }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $('Build Recovery Message').item.json.message }}"
+            },
+            {
+              "name": "direction",
+              "value": "outbound"
+            },
+            {
+              "name": "channel",
+              "value": "whatsapp"
+            }
           ]
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "log-crm",
       "name": "Log in CRM",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1560, 200]
+      "position": [
+        1560,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://estateflow-us.vercel.app/api/n8n/send-email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "estateflow-us-n8n-secret-2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $('Split Into Individual Leads').item.json.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "We missed you — let's reschedule your viewing"
+            },
+            {
+              "name": "body",
+              "value": "={{ $('Build Recovery Message').item.json.message }}"
+            },
+            {
+              "name": "lead_id",
+              "value": "={{ $('Split Into Individual Leads').item.json.id }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "send-email-recovery",
+      "name": "Send Email No-Show Recovery",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        380
+      ]
     }
   ],
   "connections": {
     "Daily 2PM and 7PM": {
-      "main": [[{ "node": "Get No-Show Visits", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Get No-Show Visits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Get No-Show Visits": {
-      "main": [[{ "node": "Any No-Shows?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Any No-Shows?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Any No-Shows?": {
       "main": [
-        [{ "node": "Split Into Individual Leads", "type": "main", "index": 0 }],
+        [
+          {
+            "node": "Split Into Individual Leads",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
     "Split Into Individual Leads": {
-      "main": [[{ "node": "Build Recovery Message", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Build Recovery Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Build Recovery Message": {
-      "main": [[{ "node": "Send Recovery WhatsApp", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Send Recovery WhatsApp",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email No-Show Recovery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Send Recovery WhatsApp": {
-      "main": [[{ "node": "Log in CRM", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Log in CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "meta": {
     "description": "Runs at 2PM and 7PM daily. Finds leads who had a property viewing scheduled today but are still in site_visit stage 2+ hours after their slot (likely no-show). Sends a friendly WhatsApp to reschedule."
   }

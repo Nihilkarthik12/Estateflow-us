@@ -1,17 +1,26 @@
-﻿{"id":"e2dce49c-600d-4312-97c0-f07f6562c257",
+{
+  "id": "e2dce49c-600d-4312-97c0-f07f6562c257",
   "name": "02 - Automated Follow-up Sequence",
   "nodes": [
     {
       "parameters": {
         "rule": {
-          "interval": [{ "field": "cronExpression", "expression": "0 9 * * 1-6" }]
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 1-6"
+            }
+          ]
         }
       },
       "id": "schedule-trigger",
       "name": "Daily 9AM (Mon-Sat)",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [240, 300]
+      "position": [
+        240,
+        300
+      ]
     },
     {
       "parameters": {
@@ -20,7 +29,10 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }
+            {
+              "name": "x-n8n-secret",
+              "value": "=estateflow-us-n8n-secret-2026"
+            }
           ]
         },
         "options": {}
@@ -29,18 +41,28 @@
       "name": "Get Leads Needing Follow-up",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [460, 300]
+      "position": [
+        460,
+        300
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
           "conditions": [
             {
               "id": "has-leads",
               "leftValue": "={{ $json.count }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
           ],
           "combinator": "and"
@@ -51,7 +73,10 @@
       "name": "Any Leads to Follow Up?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [680, 300]
+      "position": [
+        680,
+        300
+      ]
     },
     {
       "parameters": {
@@ -62,7 +87,10 @@
       "name": "Split Into Individual Leads",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [900, 200]
+      "position": [
+        900,
+        200
+      ]
     },
     {
       "parameters": {
@@ -70,12 +98,20 @@
         "url": "=https://estateflow-us.vercel.app/api/generate-followup",
         "sendHeaders": true,
         "headerParameters": {
-          "parameters": [{ "name": "Content-Type", "value": "application/json" }]
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
         },
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "leadId", "value": "={{ $json.id }}" }
+            {
+              "name": "leadId",
+              "value": "={{ $json.id }}"
+            }
           ]
         },
         "options": {}
@@ -84,7 +120,10 @@
       "name": "Generate AI Follow-up Message",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1120, 200]
+      "position": [
+        1120,
+        200
+      ]
     },
     {
       "parameters": {
@@ -93,23 +132,41 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WATI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "messageText", "value": "={{ $json.message }}" }
+            {
+              "name": "messageText",
+              "value": "={{ $json.message }}"
+            }
           ]
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "send-followup",
       "name": "Send WhatsApp Follow-up",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1340, 200]
+      "position": [
+        1340,
+        200
+      ]
     },
     {
       "parameters": {
@@ -118,54 +175,192 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "apikey", "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
-            { "name": "Authorization", "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
-            { "name": "Content-Type", "value": "application/json" },
-            { "name": "Prefer", "value": "return=minimal" }
+            {
+              "name": "apikey",
+              "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "lead_id", "value": "={{ $('Split Into Individual Leads').item.json.id }}" },
-            { "name": "message", "value": "={{ $('Generate AI Follow-up Message').item.json.message }}" },
-            { "name": "direction", "value": "outbound" }
+            {
+              "name": "lead_id",
+              "value": "={{ $('Split Into Individual Leads').item.json.id }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $('Generate AI Follow-up Message').item.json.message }}"
+            },
+            {
+              "name": "direction",
+              "value": "outbound"
+            }
           ]
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "log-conversation",
       "name": "Log Follow-up in CRM",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1560, 200]
+      "position": [
+        1560,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://estateflow-us.vercel.app/api/n8n/send-email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "estateflow-us-n8n-secret-2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $('Split Into Individual Leads').item.json.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "Following up on your property search"
+            },
+            {
+              "name": "body",
+              "value": "={{ $('Generate AI Follow-up Message').item.json.message }}"
+            },
+            {
+              "name": "lead_id",
+              "value": "={{ $('Split Into Individual Leads').item.json.id }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "send-email-followup",
+      "name": "Send Email Follow-up",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        380
+      ]
     }
   ],
   "connections": {
     "Daily 9AM (Mon-Sat)": {
-      "main": [[{ "node": "Get Leads Needing Follow-up", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Get Leads Needing Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Get Leads Needing Follow-up": {
-      "main": [[{ "node": "Any Leads to Follow Up?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Any Leads to Follow Up?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Any Leads to Follow Up?": {
       "main": [
-        [{ "node": "Split Into Individual Leads", "type": "main", "index": 0 }],
+        [
+          {
+            "node": "Split Into Individual Leads",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
     "Split Into Individual Leads": {
-      "main": [[{ "node": "Generate AI Follow-up Message", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Generate AI Follow-up Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Generate AI Follow-up Message": {
-      "main": [[{ "node": "Send WhatsApp Follow-up", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Follow-up",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Send WhatsApp Follow-up": {
-      "main": [[{ "node": "Log Follow-up in CRM", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Log Follow-up in CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "meta": {
     "description": "Runs every morning Mon-Sat at 9 AM. Fetches leads that need follow-up based on their pipeline stage, generates a personalized AI message, sends it via WhatsApp, and logs it in the CRM."
   }

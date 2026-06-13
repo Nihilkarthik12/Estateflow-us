@@ -1,15 +1,26 @@
-﻿{"id":"8b7d8ea1-76b7-4182-ae23-d5ff18ed6b21",
+{
+  "id": "8b7d8ea1-76b7-4182-ae23-d5ff18ed6b21",
   "name": "08 - Lead Re-engagement Campaign",
   "nodes": [
     {
       "parameters": {
-        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 10 * * 1" }] }
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 10 * * 1"
+            }
+          ]
+        }
       },
       "id": "schedule-trigger",
       "name": "Weekly Monday 10AM",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [240, 300]
+      "position": [
+        240,
+        300
+      ]
     },
     {
       "parameters": {
@@ -17,7 +28,12 @@
         "url": "=https://estateflow-us.vercel.app/api/n8n/cold-leads",
         "sendHeaders": true,
         "headerParameters": {
-          "parameters": [{ "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }]
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "=estateflow-us-n8n-secret-2026"
+            }
+          ]
         },
         "options": {}
       },
@@ -25,18 +41,28 @@
       "name": "Get Cold Leads (60+ Days)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [460, 300]
+      "position": [
+        460,
+        300
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
           "conditions": [
             {
               "id": "has-cold-leads",
               "leftValue": "={{ $json.count }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
           ],
           "combinator": "and"
@@ -47,15 +73,24 @@
       "name": "Any Cold Leads?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [680, 300]
+      "position": [
+        680,
+        300
+      ]
     },
     {
-      "parameters": { "fieldToSplitOut": "leads", "options": {} },
+      "parameters": {
+        "fieldToSplitOut": "leads",
+        "options": {}
+      },
       "id": "split-leads",
       "name": "Split Into Individual Leads",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [900, 200]
+      "position": [
+        900,
+        200
+      ]
     },
     {
       "parameters": {
@@ -65,7 +100,10 @@
       "name": "Build Re-engagement Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1120, 200]
+      "position": [
+        1120,
+        200
+      ]
     },
     {
       "parameters": {
@@ -74,21 +112,41 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WATI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
-          "parameters": [{ "name": "messageText", "value": "={{ $json.message }}" }]
+          "parameters": [
+            {
+              "name": "messageText",
+              "value": "={{ $json.message }}"
+            }
+          ]
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "send-message",
       "name": "Send WhatsApp Re-engagement",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1340, 200]
+      "position": [
+        1340,
+        200
+      ]
     },
     {
       "parameters": {
@@ -97,39 +155,192 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "apikey", "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
-            { "name": "Authorization", "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
-            { "name": "Content-Type", "value": "application/json" },
-            { "name": "Prefer", "value": "return=minimal" }
+            {
+              "name": "apikey",
+              "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "lead_id", "value": "={{ $('Split Into Individual Leads').item.json.id }}" },
-            { "name": "message", "value": "={{ $('Build Re-engagement Message').item.json.message }}" },
-            { "name": "direction", "value": "outbound" }
+            {
+              "name": "lead_id",
+              "value": "={{ $('Split Into Individual Leads').item.json.id }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $('Build Re-engagement Message').item.json.message }}"
+            },
+            {
+              "name": "direction",
+              "value": "outbound"
+            }
           ]
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "log-conversation",
       "name": "Log Re-engagement In CRM",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1560, 200]
+      "position": [
+        1560,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://estateflow-us.vercel.app/api/n8n/send-email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "estateflow-us-n8n-secret-2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $('Split Into Individual Leads').item.json.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "We'd love to reconnect — new properties just listed"
+            },
+            {
+              "name": "body",
+              "value": "={{ $('Build Re-engagement Message').item.json.message }}"
+            },
+            {
+              "name": "lead_id",
+              "value": "={{ $('Split Into Individual Leads').item.json.id }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "send-email-reengagement",
+      "name": "Send Email Re-engagement",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        380
+      ]
     }
   ],
   "connections": {
-    "Weekly Monday 10AM": { "main": [[{ "node": "Get Cold Leads (60+ Days)", "type": "main", "index": 0 }]] },
-    "Get Cold Leads (60+ Days)": { "main": [[{ "node": "Any Cold Leads?", "type": "main", "index": 0 }]] },
-    "Any Cold Leads?": { "main": [[{ "node": "Split Into Individual Leads", "type": "main", "index": 0 }], []] },
-    "Split Into Individual Leads": { "main": [[{ "node": "Build Re-engagement Message", "type": "main", "index": 0 }]] },
-    "Build Re-engagement Message": { "main": [[{ "node": "Send WhatsApp Re-engagement", "type": "main", "index": 0 }]] },
-    "Send WhatsApp Re-engagement": { "main": [[{ "node": "Log Re-engagement In CRM", "type": "main", "index": 0 }]] }
+    "Weekly Monday 10AM": {
+      "main": [
+        [
+          {
+            "node": "Get Cold Leads (60+ Days)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Cold Leads (60+ Days)": {
+      "main": [
+        [
+          {
+            "node": "Any Cold Leads?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Cold Leads?": {
+      "main": [
+        [
+          {
+            "node": "Split Into Individual Leads",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Split Into Individual Leads": {
+      "main": [
+        [
+          {
+            "node": "Build Re-engagement Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Re-engagement Message": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Re-engagement",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email Re-engagement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp Re-engagement": {
+      "main": [
+        [
+          {
+            "node": "Log Re-engagement In CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "meta": {
     "description": "Runs every Monday at 10 AM. Finds leads inactive for 60+ days that are still in an active stage, sends a WhatsApp re-engagement message referencing their original requirement, and logs it in the CRM (which also resets their cold timer)."
   }

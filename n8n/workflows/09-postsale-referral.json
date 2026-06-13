@@ -1,15 +1,26 @@
-﻿{"id":"9b7f3624-bad5-4a39-824f-f9c7fe19ddae",
+{
+  "id": "9b7f3624-bad5-4a39-824f-f9c7fe19ddae",
   "name": "09 - Post-Sale Referral Follow-up",
   "nodes": [
     {
       "parameters": {
-        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 11 * * *" }] }
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 11 * * *"
+            }
+          ]
+        }
       },
       "id": "schedule-trigger",
       "name": "Daily 11AM",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [240, 300]
+      "position": [
+        240,
+        300
+      ]
     },
     {
       "parameters": {
@@ -17,7 +28,12 @@
         "url": "=https://estateflow-us.vercel.app/api/n8n/referral-followups",
         "sendHeaders": true,
         "headerParameters": {
-          "parameters": [{ "name": "x-n8n-secret", "value": "=estateflow-us-n8n-secret-2026" }]
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "=estateflow-us-n8n-secret-2026"
+            }
+          ]
         },
         "options": {}
       },
@@ -25,18 +41,28 @@
       "name": "Get Clients Closed 30 Days Ago",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [460, 300]
+      "position": [
+        460,
+        300
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
           "conditions": [
             {
               "id": "has-referrals",
               "leftValue": "={{ $json.count }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
           ],
           "combinator": "and"
@@ -47,15 +73,24 @@
       "name": "Any Clients To Ask?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [680, 300]
+      "position": [
+        680,
+        300
+      ]
     },
     {
-      "parameters": { "fieldToSplitOut": "leads", "options": {} },
+      "parameters": {
+        "fieldToSplitOut": "leads",
+        "options": {}
+      },
       "id": "split-leads",
       "name": "Split Into Individual Clients",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [900, 200]
+      "position": [
+        900,
+        200
+      ]
     },
     {
       "parameters": {
@@ -65,7 +100,10 @@
       "name": "Build Referral Message",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1120, 200]
+      "position": [
+        1120,
+        200
+      ]
     },
     {
       "parameters": {
@@ -74,21 +112,41 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $env.WATI_API_KEY }}" },
-            { "name": "Content-Type", "value": "application/json" }
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WATI_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
-          "parameters": [{ "name": "messageText", "value": "={{ $json.message }}" }]
+          "parameters": [
+            {
+              "name": "messageText",
+              "value": "={{ $json.message }}"
+            }
+          ]
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "send-message",
       "name": "Send WhatsApp Referral Ask",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1340, 200]
+      "position": [
+        1340,
+        200
+      ]
     },
     {
       "parameters": {
@@ -97,37 +155,184 @@
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "apikey", "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
-            { "name": "Authorization", "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}" },
-            { "name": "Content-Type", "value": "application/json" },
-            { "name": "Prefer", "value": "return=minimal" }
+            {
+              "name": "apikey",
+              "value": "={{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2hieXljb2tuand0cm1ycGtuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTA1NjY1MywiZXhwIjoyMDk2NjMyNjUzfQ.udK47V1WlPx89AEROS0hgh7R7ldmBLNAE8_HE4qq-sg }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
           ]
         },
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
-            { "name": "referral_followup_sent_at", "value": "={{ $now.toISO() }}" }
+            {
+              "name": "referral_followup_sent_at",
+              "value": "={{ $now.toISO() }}"
+            }
           ]
         },
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "mark-sent",
       "name": "Mark Referral Ask Sent",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1560, 200]
+      "position": [
+        1560,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://estateflow-us.vercel.app/api/n8n/send-email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-n8n-secret",
+              "value": "estateflow-us-n8n-secret-2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "to",
+              "value": "={{ $('Split Into Individual Clients').item.json.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "Settling in well? We'd love an introduction"
+            },
+            {
+              "name": "body",
+              "value": "={{ $('Build Referral Message').item.json.message }}"
+            },
+            {
+              "name": "lead_id",
+              "value": "={{ $('Split Into Individual Clients').item.json.id }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "send-email-referral",
+      "name": "Send Email Referral Ask",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        380
+      ]
     }
   ],
   "connections": {
-    "Daily 11AM": { "main": [[{ "node": "Get Clients Closed 30 Days Ago", "type": "main", "index": 0 }]] },
-    "Get Clients Closed 30 Days Ago": { "main": [[{ "node": "Any Clients To Ask?", "type": "main", "index": 0 }]] },
-    "Any Clients To Ask?": { "main": [[{ "node": "Split Into Individual Clients", "type": "main", "index": 0 }], []] },
-    "Split Into Individual Clients": { "main": [[{ "node": "Build Referral Message", "type": "main", "index": 0 }]] },
-    "Build Referral Message": { "main": [[{ "node": "Send WhatsApp Referral Ask", "type": "main", "index": 0 }]] },
-    "Send WhatsApp Referral Ask": { "main": [[{ "node": "Mark Referral Ask Sent", "type": "main", "index": 0 }]] }
+    "Daily 11AM": {
+      "main": [
+        [
+          {
+            "node": "Get Clients Closed 30 Days Ago",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Clients Closed 30 Days Ago": {
+      "main": [
+        [
+          {
+            "node": "Any Clients To Ask?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Clients To Ask?": {
+      "main": [
+        [
+          {
+            "node": "Split Into Individual Clients",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Split Into Individual Clients": {
+      "main": [
+        [
+          {
+            "node": "Build Referral Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Referral Message": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Referral Ask",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email Referral Ask",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp Referral Ask": {
+      "main": [
+        [
+          {
+            "node": "Mark Referral Ask Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "meta": {
     "description": "Runs every day at 11 AM. Finds leads that closed exactly 30 days ago, sends a warm WhatsApp asking for referrals, and stamps referral_followup_sent_at so each client is only asked once."
   }
