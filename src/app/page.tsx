@@ -8,6 +8,7 @@ import AIWorkflow     from "@/components/landing/AIWorkflow";
 import Automations    from "@/components/landing/Automations";
 import DayInLife      from "@/components/landing/DayInLife";
 import Testimonials   from "@/components/landing/Testimonials";
+import Integrations   from "@/components/landing/Integrations";
 import Comparison     from "@/components/landing/Comparison";
 import FAQ            from "@/components/landing/FAQ";
 import Contact        from "@/components/landing/Contact";
@@ -25,6 +26,7 @@ export default function LandingPage() {
       <main>
         <Hero />
         <Pain />
+        <Integrations />
         <Features />
         <DashboardPreview />
         <AIWorkflow />
